@@ -14,8 +14,10 @@
             <ItemsMenu />
             <template #footer>
                 <div class="flex items-center gap-2">
-                    <Button label="Account" icon="pi pi-user" class="flex-auto" outlined></Button>
-                    <Button label="Logout" icon="pi pi-sign-out" class="flex-auto" severity="danger" text></Button>
+                    <Button label="Account" icon="pi pi-user" class="flex-auto" outlined />
+                    <RouterLink to="login">
+                        <Button label="Logout" icon="pi pi-sign-out" class="flex-auto" severity="danger" text />
+                    </RouterLink>
                 </div>
             </template>
         </Drawer>

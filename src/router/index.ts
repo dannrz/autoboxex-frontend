@@ -1,14 +1,26 @@
+import LoginView from '@/layout/login/views/LoginView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
-// import HomeView from '../views/HomeView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    /* {
+    {
       path: '/',
-      name: 'home',
-      component: HomeView,
+      redirect: '/login',
+      name: 'main',
     },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView,
+    },
+    {
+      path: '/home',
+      name: 'home',
+      component: () => import('@/layout/menu/views/MainPage.vue'),
+    }
+    /*
     {
       path: '/about',
       name: 'about',
