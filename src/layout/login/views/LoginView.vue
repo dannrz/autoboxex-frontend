@@ -1,78 +1,93 @@
 <template>
-    <Card style="width: 25rem; overflow: hidden;" class="mx-auto my-8">
+    <Card id="card" class="overflow-hidden mx-auto my-8 w-25rem">
         <template #header>
             <img alt="Autoboxex" class="img-fluid w-full" src="../../../assets/autoboxex.jpg" />
         </template>
         <template #title>Autoboxex</template>
         <template #subtitle>Admin system</template>
         <template #content>
-            <FloatLabel variant="on" class="my-4">
-                <InputText id="username" class="w-full" v-model="loginVars.username" />
-                <label for="username">Usuario</label>
-            </FloatLabel>
-            <Message v-if="true" severity="error" size="small" variant="simple">
-                password incorrecto
-            </Message>
-
-            <FloatLabel variant="on">
-                <InputText id="password" type="password" class="w-full" v-model="loginVars.password" fluid />
-                <label for="password">Contraseña</label>
-            </FloatLabel>
+            <InputFormLogin type="username" class="mb-4" v-model:login-form="loginVars"
+                :validation="validateLoginForm[0]" />
+            <InputFormLogin type="password" v-model:login-form="loginVars" :validation="validateLoginForm[1]" />
         </template>
         <template #footer>
             <div class="px-8 py-3">
-                <Button label="Ingresar" icon="pi pi-user" class="w-full" outlined @click="onLogin" />
+                <Button type="submit" label="Ingresar" icon="pi pi-user" class="w-full" @click="onLogin" outlined />
             </div>
         </template>
     </Card>
-    <div style="width: 25rem;" class="mx-auto">
+    <div class="mx-auto w-25rem">
         <Divider layout="horizontal" align="center" type="dashed"><b class="text-gray-400">O bien</b></Divider>
     </div>
-    <RouterLink to="home" style="width: 25rem;" class="mx-auto flex justify-content-between">
+    <RouterLink to="home" class="mx-auto w-25rem flex justify-content-between">
         <Button severity="info" label="Registrate" icon="pi pi-plus" class="w-full" outlined />
     </RouterLink>
 </template>
 
 <script setup lang="ts">
 import { ref, type Ref } from 'vue';
-import { Form } from '@primevue/forms';
-import { z } from 'zod';
-import { zodResolver } from '@primevue/forms/resolvers/zod';
+import { z, ZodError } from 'zod';
 import Card from 'primevue/card';
-import Divider from 'primevue/divider';
-import FloatLabel from 'primevue/floatlabel';
-import Message from 'primevue/message';
-import Toast from 'primevue/toast';
+import type { ValidateLoginForm, LoginUser } from '../interfaces';
 import { loginService } from '../services/login';
-import type { LoginUser } from '../interfaces/loginUser.interface';
+import InputFormLogin from '../components/InputFormLogin.vue';
 
 const loginVars: Ref<LoginUser> = ref<LoginUser>({
     username: '',
     password: ''
 });
 
-const resolver = ref(zodResolver(
-    z.object({
-        username: z.string().min(1, { message: 'Username is required via Zod.' })
-    })
-));
+const validateLoginForm: Ref<ValidateLoginForm[]> = ref<Array<ValidateLoginForm>>([
+    {
+        showMessageError: false,
+        messageError: ''
+    },
+    {
+        showMessageError: false,
+        messageError: ''
+    }
+])
+
+const loginSchema = z.object({
+    username: z.string().min(1, 'El usuario es requerido'),
+    password: z.string().min(1, 'La contraseña es requerida')
+});
 
 const onLogin = async (): Promise<void> => {
-    if (!loginVars.value.username || !loginVars.value.password) {
-        console.warn('Username and password are required');
-        return;
-    }
-    console.log(loginVars.value)
-    /* const login = await loginService.login(loginVars.value)
+    loginSchema.parseAsync(loginVars.value)
+        .then(async (data) => {
+            console.log(data);
+            /* const login = await loginService.login(loginVars.value)
+            console.log(login) */
+        })
+        .catch((error: ZodError) => {
+            error.issues.forEach(issue => {
+                if (issue.path.includes('username')) {
+                    validateLoginForm.value[0].messageError = issue.message;
+                    validateLoginForm.value[0].showMessageError = true;
+                } else if (issue.path.includes('password')) {
+                    validateLoginForm.value[1].messageError = issue.message;
+                    validateLoginForm.value[1].showMessageError = true;
+                }
+            });
 
-    console.log(login) */
+            setTimeout(() => {
+                validateLoginForm.value[0].showMessageError = false;
+                validateLoginForm.value[1].showMessageError = false;
+            }, 3500);
+        });
 }
 </script>
 
-<style>
+<style scoped>
 :root {
     --p-card-color: red;
     --card-border-radius: 25rem;
     --p-card-title-font-size: 1.25rem;
+}
+
+#card {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    margin-top: 10rem !important;
 }
 </style>

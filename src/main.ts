@@ -11,6 +11,9 @@ import Button from "primevue/button"
 import InputText from 'primevue/inputtext';
 import Avatar from 'primevue/avatar';
 import Badge from 'primevue/badge';
+import Divider from 'primevue/divider';
+import Toast from 'primevue/toast';
+import { Form } from '@primevue/forms';
 
 import App from './App.vue'
 import router from './router'
@@ -22,8 +25,8 @@ createApp(App)
         theme: {
             preset: Aura,
             options: {
-                // darkModeSelector: '.my-app-dark',
-                darkModeSelector: 'system',
+                darkModeSelector: '.my-app-dark',
+                // darkModeSelector: 'system',
             }
         },
         ripple: true
@@ -34,4 +37,7 @@ createApp(App)
     .component('InputText', InputText)
     .component('Avatar', Avatar)
     .component('Badge', Badge)
+    .component('Divider', Divider)
+    .component('Toast', Toast)
+    .component('Form', Form)
     .mount('#app')
