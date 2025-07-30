@@ -1,12 +1,15 @@
 import { laravel } from "@/api/baseApi";
 import type { LoginUser } from "../interfaces/loginUser.interface";
+import axios, { type AxiosResponse } from "axios";
 
 
 export const loginService = {
-    async login(userData: LoginUser) {
+    async getCsrf() {
+        return await axios.get('http://localhost/sanctum/csrf-cookie');
+    },
+    async login(userData: LoginUser): Promise<AxiosResponse> {
         try {
-            const response = await laravel.post("/auth/login", userData);
-            return response;
+            return await laravel.post("/auth/login", userData);
         } catch (error) {
             throw error;
         }

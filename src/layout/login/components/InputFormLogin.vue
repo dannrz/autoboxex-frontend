@@ -1,5 +1,5 @@
 <template>
-    <Message v-if="validation?.showMessageError" severity="error" size="size" variant="simple" closable>
+    <Message v-if="validation?.showMessageError" severity="error" size="small" variant="simple" closable>
         {{ validation?.messageError }}
     </Message>
     <FloatLabel variant="on" :class="class" v-if="type === 'username'">
@@ -7,21 +7,19 @@
         <label for="username">Usuario</label>
     </FloatLabel>
     <FloatLabel variant="on" :class="class" v-else>
-        <InputText id="password" type="password" class="w-full" v-model="model.password" fluid />
+        <Password type="text" id="password" v-model="model.password" :feedback="false" toggleMask fluid />
         <label for="password">Contraseña</label>
     </FloatLabel>
 </template>
 
 <script setup lang="ts">
-import FloatLabel from 'primevue/floatlabel';
-import Message from 'primevue/message';
+import Password from 'primevue/password';
 import type { LoginUser, ValidateLoginForm } from '../interfaces';
 
-defineProps<{
+const props = defineProps<{
     type?: 'username' | 'password';
     messageError?: string;
     class?: string;
-    error?: boolean;
     validation?: ValidateLoginForm;
 }>()
 
