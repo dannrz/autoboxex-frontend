@@ -5,6 +5,7 @@ import { loginService } from "../services/login";
 import router from "@/router";
 import { AxiosError } from "axios";
 import { useToast } from "primevue/usetoast";
+import { api } from "@/api/baseApi";
 
 export const useLogin = () => {
     const loginVars: Ref<LoginUser> = ref<LoginUser>({
@@ -32,18 +33,27 @@ export const useLogin = () => {
             .then(async (data: LoginUser): Promise<void> => {
                 isLoading.value = true;
                 loginService.login(data)
-                    .then(response => {
-                        console.log(response.data)
+                    .then(({ data }) => {
+                        // console.log(data)
+                        api.interceptors.request.use(config => {
+                            const { access_token } = data
+                            if (access_token) {
+                                localStorage.setItem("access_token", access_token)
+                                config.headers.Authorization = `Bearer ${access_token}`
+                            }
+                            return config
+                        })
                         router.push({ name: 'home' });
                     })
                     .catch(({ response }: AxiosError<ErrorResponse>) => {
+                        console.log(response)
                         isLoading.value = false;
                         validateLoginForm.value.push({
                             showMessageError: true,
                             messageError: response?.data.message || 'Error al iniciar sesión',
                             path: response?.data.mismatch!
                         });
-                        toast.add({ severity: 'error', summary: 'Error de inicio de sesión', detail: response?.data.message || 'Error al iniciar sesión', life: 3000 });
+                        toast.add({ severity: 'error', summary: 'Error de inicio de sesión', detail: response?.data.message!, life: 3000 });
                         setTimeout((): void => {
                             validateLoginForm.value = []
                         }, 3500)
@@ -65,10 +75,22 @@ export const useLogin = () => {
             });
     }
 
+    const onLogout = async (): Promise<void> => {
+        loginService.logout()
+            .then(() => {
+                localStorage.removeItem("access_token");
+                router.push({ name: "login" });
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }
+
     return {
         loginVars,
         validateLoginForm,
         isLoading,
-        onLogin
+        onLogin,
+        onLogout
     }
 }

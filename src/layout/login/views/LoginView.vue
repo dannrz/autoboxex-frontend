@@ -14,7 +14,7 @@
         </template>
         <template #footer>
             <div class="px-8 py-3">
-                <Button label="Ingresar" icon="pi pi-user" class="w-full" v-if="!isLoading" @click="onLogin" outlined />
+                <Button label="Ingresar" icon="pi pi-sign-in" class="w-full" v-if="!isLoading" @click="onLogin" outlined />
                 <Button class="w-full" v-else disabled outlined>
                     <ProgressSpinner id="spinner" />
                 </Button>
@@ -22,11 +22,13 @@
         </template>
     </Card>
     <div class="mx-auto w-25rem">
-        <Divider layout="horizontal" align="center" type="dashed"><b class="text-gray-400">O bien</b></Divider>
+        <Divider layout="horizontal" align="center" type="dashed">
+            <b class="text-gray-400">O si olvidaste tu contraseña</b>
+        </Divider>
     </div>
-    <RouterLink to="home" class="mx-auto w-25rem flex justify-content-between">
-        <Button severity="info" label="Registrate" icon="pi pi-plus" class="w-full" outlined />
-    </RouterLink>
+    <div class="mx-auto w-25rem flex justify-content-between">
+        <Button severity="info" label="Cambiar contraseña" icon="pi pi-sync" class="w-full" outlined />
+    </div>
 </template>
 
 <script setup lang="ts">

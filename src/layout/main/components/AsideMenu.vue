@@ -8,16 +8,16 @@
                             shape="circle" />
                         <span class="font-bold">Amy Elsner</span>
                     </div>
-                    <Button type="button" @click="changeVisibility" icon="pi pi-times" rounded outlined severity="danger" />
+                    <Button type="button" @click="changeVisibility" icon="pi pi-times" severity="danger" rounded
+                        outlined />
                 </div>
             </template>
             <ItemsMenu />
             <template #footer>
                 <div class="flex items-center gap-2">
                     <Button label="Account" icon="pi pi-user" class="flex-auto" outlined />
-                    <RouterLink to="login">
-                        <Button label="Logout" icon="pi pi-sign-out" class="flex-auto" severity="danger" text />
-                    </RouterLink>
+                    <Button label="Logout" icon="pi pi-sign-out" class="flex-auto" severity="danger" text
+                        @click="onLogout" />
                 </div>
             </template>
         </Drawer>
@@ -27,7 +27,10 @@
 <script setup lang="ts">
 import Drawer from 'primevue/drawer';
 import Avatar from 'primevue/avatar';
-import ItemsMenu from '@/layout/menu/components/ItemsMenu.vue';
+import ItemsMenu from '@/layout/main/components/ItemsMenu.vue';
+import { useLogin } from '@/layout/login/composables/useLogin';
+
+const { onLogout } = useLogin()
 
 const props = defineProps<{
     visible: boolean | undefined;
