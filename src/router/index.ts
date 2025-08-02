@@ -1,3 +1,4 @@
+import { useLogin } from '@/layout/login/composables/useLogin';
 import LoginView from '@/layout/login/views/LoginView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -15,14 +16,6 @@ const router = createRouter({
       component: LoginView,
       meta: {
         requiresAuth: false
-      },
-      beforeEnter: (to, from, next) => {
-        const accessToken = localStorage.getItem("access_token");
-        if (accessToken && to.name === 'login') {
-          next({ name: 'home' });
-        } else {
-          next();
-        }
       }
     },
     {
@@ -30,25 +23,36 @@ const router = createRouter({
       name: 'home',
       component: () => import('@/layout/main/views/MainPage.vue'),
       children: [
-        
+
       ],
       meta: {
-        requiresAuth: true
-      },
-    
+        requiresAuth: true,
+      }
     }
   ],
 })
 
-/* router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  const accessToken = localStorage.getItem("access_token");
+router.beforeEach((to, from, next) => {
+  const requiresAuth: boolean = to.matched.some(record => record.meta.requiresAuth);
+  const token = localStorage.getItem("access_token");
+  const expiresAt = localStorage.getItem("expires_at");
 
-  if (requiresAuth && !accessToken) {
+  const now = new Date();
+  const expiresAtDate = expiresAt ? new Date(expiresAt) : ''
+
+  console.log('ahora: ', now);
+  console.log('expira: ', expiresAtDate);
+
+  if (!token && requiresAuth) {
     next({ name: 'login' });
-  } else {
-    next();
+  } else if (requiresAuth && expiresAtDate <= now) {
+    const { onLogout } = useLogin();
+
+    console.warn('Session expired, logging out...');
+    onLogout();
+    return;
   }
-}); */
+  next();
+})
 
 export default router

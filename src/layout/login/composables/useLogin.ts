@@ -32,28 +32,34 @@ export const useLogin = () => {
         loginSchema.parseAsync(loginVars.value)
             .then(async (data: LoginUser): Promise<void> => {
                 isLoading.value = true;
+
                 loginService.login(data)
                     .then(({ data }) => {
-                        // console.log(data)
+                        const { access_token, expires_at } = data;
+
+                        localStorage.setItem("access_token", access_token)
+                        localStorage.setItem("expires_at", expires_at.toString())
+
                         api.interceptors.request.use(config => {
-                            const { access_token } = data
                             if (access_token) {
-                                localStorage.setItem("access_token", access_token)
                                 config.headers.Authorization = `Bearer ${access_token}`
                             }
                             return config
                         })
+
                         router.push({ name: 'home' });
                     })
                     .catch(({ response }: AxiosError<ErrorResponse>) => {
-                        console.log(response)
                         isLoading.value = false;
+
                         validateLoginForm.value.push({
                             showMessageError: true,
                             messageError: response?.data.message || 'Error al iniciar sesión',
                             path: response?.data.mismatch!
                         });
+
                         toast.add({ severity: 'error', summary: 'Error de inicio de sesión', detail: response?.data.message!, life: 3000 });
+
                         setTimeout((): void => {
                             validateLoginForm.value = []
                         }, 3500)
@@ -62,6 +68,7 @@ export const useLogin = () => {
             .catch((error: ZodError) => {
                 error.issues.forEach(issue => {
                     isLoading.value = false;
+
                     validateLoginForm.value.push({
                         showMessageError: true,
                         messageError: issue.message,
@@ -79,6 +86,7 @@ export const useLogin = () => {
         loginService.logout()
             .then(() => {
                 localStorage.removeItem("access_token");
+                localStorage.removeItem("expires_at");
                 router.push({ name: "login" });
             })
             .catch((error) => {
