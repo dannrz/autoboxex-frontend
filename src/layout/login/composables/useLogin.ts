@@ -1,11 +1,11 @@
+import { AxiosError } from "axios";
 import { ref, type Ref } from "vue";
+import { useToast } from "primevue/usetoast";
 import z, { ZodError } from "zod";
-import type { ErrorResponse, LoginUser, ValidateLoginForm } from "../interfaces";
+import { api } from "@/api/baseApi";
 import { loginService } from "../services/login";
 import router from "@/router";
-import { AxiosError } from "axios";
-import { useToast } from "primevue/usetoast";
-import { api } from "@/api/baseApi";
+import type { ErrorResponse, LoginUser, ValidateLoginForm } from "../interfaces";
 
 export const useLogin = () => {
     const loginVars: Ref<LoginUser> = ref<LoginUser>({
@@ -35,10 +35,11 @@ export const useLogin = () => {
 
                 loginService.login(data)
                     .then(({ data }) => {
-                        const { access_token, expires_at } = data;
+                        const { access_token, user, expires_at } = data;
 
                         localStorage.setItem("access_token", access_token)
                         localStorage.setItem("expires_at", expires_at.toString())
+                        localStorage.setItem("user", JSON.stringify(user))
 
                         api.interceptors.request.use(config => {
                             if (access_token) {
@@ -58,7 +59,7 @@ export const useLogin = () => {
                             path: response?.data.mismatch!
                         });
 
-                        toast.add({ severity: 'error', summary: 'Error de inicio de sesión', detail: response?.data.message!, life: 3000 });
+                        toast.add({ severity: 'error', summary: 'Error de inicio de sesión', detail: response?.data.message!, life: import.meta.env.VITE_TOAST_LIFETIME });
 
                         setTimeout((): void => {
                             validateLoginForm.value = []
@@ -83,15 +84,41 @@ export const useLogin = () => {
     }
 
     const onLogout = async (): Promise<void> => {
+        const closeEverything = () => {
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("expires_at");
+
+            router.push({ name: "login" });
+        }
         loginService.logout()
             .then(() => {
-                localStorage.removeItem("access_token");
-                localStorage.removeItem("expires_at");
-                router.push({ name: "login" });
+                closeEverything();
             })
-            .catch((error) => {
-                console.error("Error:", error);
+            .catch(() => {
+                closeEverything();
             });
+    }
+
+    const onExpiredSession = (): void => {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("expires_at");
+        toast.add({ severity: 'warn', summary: 'La sesión ha expirado', detail: 'Por favor, inicie sesión nuevamente', life: import.meta.env.VITE_TOAST_LIFETIME });
+
+        router.push({ name: "login" });
+    }
+
+    const onCloseSession = (): void => {
+        const expiresAt = localStorage.getItem("expires_at");
+
+        const now = new Date();
+        const expiresAtDate = expiresAt ? new Date(expiresAt) : ''
+
+        if (expiresAtDate <= now) {
+            onExpiredSession();
+        } else {
+            onLogout();
+        }
+
     }
 
     return {
@@ -99,6 +126,8 @@ export const useLogin = () => {
         validateLoginForm,
         isLoading,
         onLogin,
-        onLogout
+        onLogout,
+        onExpiredSession,
+        onCloseSession
     }
 }

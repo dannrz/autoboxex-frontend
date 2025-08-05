@@ -1,4 +1,4 @@
-import { useLogin } from '@/layout/login/composables/useLogin';
+import { useLoginGuard } from '@/guards/useLoginGuard';
 import LoginView from '@/layout/login/views/LoginView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -16,7 +16,16 @@ const router = createRouter({
       component: LoginView,
       meta: {
         requiresAuth: false
-      }
+      },
+      /* beforeEnter: (to, from, next) => {
+        const comesFrom = from.name
+
+        if (comesFrom !== '/' && comesFrom !== 'login') {
+          next({ name: comesFrom });
+        }
+
+        next();
+      } */
     },
     {
       path: '/home',
@@ -32,27 +41,6 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach((to, from, next) => {
-  const requiresAuth: boolean = to.matched.some(record => record.meta.requiresAuth);
-  const token = localStorage.getItem("access_token");
-  const expiresAt = localStorage.getItem("expires_at");
-
-  const now = new Date();
-  const expiresAtDate = expiresAt ? new Date(expiresAt) : ''
-
-  console.log('ahora: ', now);
-  console.log('expira: ', expiresAtDate);
-
-  if (!token && requiresAuth) {
-    next({ name: 'login' });
-  } else if (requiresAuth && expiresAtDate <= now) {
-    const { onLogout } = useLogin();
-
-    console.warn('Session expired, logging out...');
-    onLogout();
-    return;
-  }
-  next();
-})
+useLoginGuard(router);
 
 export default router
