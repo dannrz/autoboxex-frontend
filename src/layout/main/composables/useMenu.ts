@@ -1,5 +1,6 @@
 import { ref, type Ref } from "vue";
 import type { MenuItem } from "../interfaces";
+import type { User } from "@/layout/login/interfaces";
 
 export const useMenu = () => {
     const items: Ref<Array<MenuItem>> = ref<Array<MenuItem>>([
@@ -112,7 +113,6 @@ export const useMenu = () => {
             ]
         }
     ]);
-
 
     return {
         items,

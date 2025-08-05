@@ -12,6 +12,9 @@ export const useLoginGuard = (router: Router): void => {
         const now = new Date();
         const expiresAtDate = expiresAt ? new Date(expiresAt) : ''
 
+        console.log('ahora: ', now)
+        console.log('expira: ', expiresAtDate)
+
         if (!token && requiresAuth) {
             next({ name: 'login' });
         }

@@ -6,10 +6,10 @@
                     <div class="flex align-items-center gap-3">
                         <div class="flex align-items-center gap-1">
                             <Avatar :label="avatarLabel" id="avatar" shape="circle" />
-                            <span class="font-bold">{{ user.name }}</span>
+                            <span class="font-bold">{{ user?.name }}</span>
                         </div>
                         <span class="text-sm text-gray-500">
-                            {{ user.permission }}
+                            {{ user?.permission }}
                         </span>
                     </div>
                     <Button type="button" @click="changeVisibility" icon="pi pi-times" severity="danger" rounded
@@ -37,14 +37,10 @@ import type { User } from '@/layout/login/interfaces';
 
 const { onCloseSession } = useLogin()
 
-const user: User = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {};
-const initialAvatar = user?.name?.charAt(0).toUpperCase() || '';
-const lastNameInitial = user?.name?.split(' ').slice(-1)[0].charAt(0) || '';
-
-const avatarLabel = initialAvatar + lastNameInitial;
-
 const props = defineProps<{
     visible: boolean | undefined;
+    avatarLabel?: string;
+    user?: User;
 }>();
 
 const emits = defineEmits<{

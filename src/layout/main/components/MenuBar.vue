@@ -17,7 +17,7 @@
         <template #end>
             <div class="flex items-center gap-2">
                 <InputText placeholder="Search" type="text" class="w-32 sm:w-auto" />
-                <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" shape="circle" />
+                <Avatar id="avatar" :label="avatarLabel" shape="circle" />
             </div>
         </template>
     </Menubar>
@@ -30,6 +30,7 @@ import type { MenuItem } from '../interfaces';
 defineProps<{
     visible: boolean;
     items: Array<MenuItem>;
+    avatarLabel?: string;
 }>();
 
 const emit = defineEmits<{
@@ -37,3 +38,12 @@ const emit = defineEmits<{
 }>();
 
 </script>
+
+<style scoped>
+#avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: #ece9fc;
+    color: #2a1261;
+}
+</style>
