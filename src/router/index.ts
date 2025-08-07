@@ -1,23 +1,54 @@
+import { useLoginGuard } from '@/guards/useLoginGuard';
+import LoginView from '@/layout/login/views/LoginView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
-// import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    /* {
+    {
       path: '/',
-      name: 'home',
-      component: HomeView,
+      redirect: '/login',
+      name: 'main',
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
-    }, */
+      path: '/login',
+      name: 'login',
+      component: LoginView,
+      meta: {
+        requiresAuth: false
+      },
+      /* beforeEnter: (to, from, next) => {
+        const comesFrom = from.name
+
+        if (comesFrom !== '/' && comesFrom !== 'login') {
+          next({ name: comesFrom });
+        }
+
+        next();
+      } */
+    },
+    {
+      path: '/home',
+      name: 'home',
+      component: () => import('@/layout/main/views/MainPage.vue'),
+      children: [
+        {
+          path: 'profile',
+          name: 'profile',
+          component: () => import('@/layout/main/views/MainPage.vue'),
+          meta:{
+            requiresAuth: true,
+            role: 'admin',
+          }
+        }
+      ],
+      meta: {
+        requiresAuth: true,
+      }
+    }
   ],
 })
+
+useLoginGuard(router);
 
 export default router
