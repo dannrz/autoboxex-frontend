@@ -1,5 +1,6 @@
 <template>
   <Menu />
+  <FormRegister />
 </template>
 
 <script setup lang="ts">
