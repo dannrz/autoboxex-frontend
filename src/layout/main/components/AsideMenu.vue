@@ -9,7 +9,7 @@
                             <span class="font-bold">{{ user?.name }}</span>
                         </div>
                         <span class="text-sm text-gray-500">
-                            {{ user?.permission }}
+                            {{ user?.role }}
                         </span>
                     </div>
                     <Button type="button" @click="changeVisibility" icon="pi pi-times" severity="danger" rounded

@@ -32,7 +32,15 @@ const router = createRouter({
       name: 'home',
       component: () => import('@/layout/main/views/MainPage.vue'),
       children: [
-
+        {
+          path: 'profile',
+          name: 'profile',
+          component: () => import('@/layout/main/views/MainPage.vue'),
+          meta:{
+            requiresAuth: true,
+            role: 'admin',
+          }
+        }
       ],
       meta: {
         requiresAuth: true,

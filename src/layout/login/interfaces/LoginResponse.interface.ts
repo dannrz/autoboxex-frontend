@@ -13,5 +13,5 @@ export interface User {
     email_verified_at: null;
     created_at: Date;
     updated_at: Date;
-    permission: string;
+    role: string;
 }
