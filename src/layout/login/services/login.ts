@@ -6,7 +6,7 @@ import axios from "axios";
 export const loginService = {
     async login(userData: LoginUser): Promise<AxiosResponse<LoginResponse>> {
         try {
-            await axios.get(import.meta.env.VITE_SACTUM_URL);
+            await axios.get(import.meta.env.VITE_SANCTUM_URL);
 
             return await api.post<LoginResponse>("/auth/login", userData);
         } catch (error) {
