@@ -4,7 +4,7 @@
             <Button icon="pi pi-bars" @click="emit('visibility', !visible)" severity="contrast" />
         </template>
         <template #item="{ item, props, hasSubmenu }">
-            <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
+            <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" active-class="bg-blue-500" custom>
                 <a v-ripple :href="href" v-bind="props.action" @click="navigate">
                     <span :class="item.icon" />
                     <span>{{ item.label }}</span>

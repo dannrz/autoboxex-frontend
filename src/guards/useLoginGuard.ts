@@ -7,7 +7,7 @@ export const useLoginGuard = (router: Router): void => {
         const { onExpiredSession } = useLogin();
 
         const requiresAuth: boolean = to.matched.some(record => record.meta.requiresAuth);
-        const role: string | undefined = to.meta.role as string;
+        const role: string | undefined = to.meta.role as string | undefined;
         const token = localStorage.getItem("access_token");
         const expiresAt = localStorage.getItem("expires_at");
         const user: User | null = JSON.parse(localStorage.getItem("user") || "null");
@@ -17,16 +17,22 @@ export const useLoginGuard = (router: Router): void => {
 
         if (!token && requiresAuth) {
             next({ name: 'login' });
+            return
+        }
+
+        if (!requiresAuth && token) {
+            next({ name: 'home' });
+            return
         }
 
         if (requiresAuth && expiresAtDate <= now) {
             onExpiredSession();
         }
 
-        // TODO: Role-based access control
-        /* if(requiresAuth && user?.role !== role) {
+        if (requiresAuth && role && user?.role !== role) {
             next({ name: 'unauthorized' });
-        } */
+            return
+        }
 
         next();
     })

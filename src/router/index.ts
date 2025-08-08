@@ -1,6 +1,6 @@
+import { createRouter, createWebHistory } from 'vue-router'
 import { useLoginGuard } from '@/guards/useLoginGuard';
 import LoginView from '@/layout/login/views/LoginView.vue'
-import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,15 +12,6 @@ const router = createRouter({
       meta: {
         requiresAuth: false
       },
-      /* beforeEnter: (to, from, next) => {
-        const comesFrom = from.name
-
-        if (comesFrom !== '/' && comesFrom !== 'login') {
-          next({ name: comesFrom });
-        }
-
-        next();
-      } */
     },
     {
       path: '/',
@@ -31,7 +22,7 @@ const router = createRouter({
           path: '/register',
           name: 'register',
           component: () => import('@/modules/register/views/FormRegister.vue'),
-          meta:{
+          meta: {
             requiresAuth: true,
             role: 'admin',
           }
@@ -44,12 +35,18 @@ const router = createRouter({
     {
       path: '/unauthorized',
       name: 'unauthorized',
-      component: () => import('@/layout/errors/views/401Page.vue')
+      component: () => import('@/layout/errors/views/401Page.vue'),
+      meta: {
+        requiresAuth: true,
+      }
     },
     {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
-      component: () => import('@/layout/errors/views/404Page.vue')
+      component: () => import('@/layout/errors/views/404Page.vue'),
+      meta: {
+        requiresAuth: true,
+      }
     }
   ],
 })
