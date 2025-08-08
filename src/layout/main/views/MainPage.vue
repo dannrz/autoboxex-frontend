@@ -2,7 +2,9 @@
     <Menu />
     {{ services }}
     {{ token }}
-    <RouterView />
+    <div class="flex items-center justify-center w-full h-full">
+        <RouterView />
+    </div>
 </template>
 
 <script setup lang="ts">

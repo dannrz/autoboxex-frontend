@@ -8,5 +8,5 @@
 import PanelMenu from 'primevue/panelmenu';
 import { useMenu } from "../composables/useMenu";
 
-const { asideItems: items } = useMenu();
+const { items } = useMenu();
 </script>

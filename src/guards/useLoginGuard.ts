@@ -1,4 +1,5 @@
 import { useLogin } from "@/layout/login/composables/useLogin";
+import type { User } from "@/layout/login/interfaces";
 import type { Router } from "vue-router";
 
 export const useLoginGuard = (router: Router): void => {
@@ -6,14 +7,13 @@ export const useLoginGuard = (router: Router): void => {
         const { onExpiredSession } = useLogin();
 
         const requiresAuth: boolean = to.matched.some(record => record.meta.requiresAuth);
+        const role: string | undefined = to.meta.role as string;
         const token = localStorage.getItem("access_token");
         const expiresAt = localStorage.getItem("expires_at");
+        const user: User | null = JSON.parse(localStorage.getItem("user") || "null");
 
         const now = new Date();
         const expiresAtDate = expiresAt ? new Date(expiresAt) : ''
-
-        console.log('ahora: ', now)
-        console.log('expira: ', expiresAtDate)
 
         if (!token && requiresAuth) {
             next({ name: 'login' });
@@ -22,6 +22,11 @@ export const useLoginGuard = (router: Router): void => {
         if (requiresAuth && expiresAtDate <= now) {
             onExpiredSession();
         }
+
+        // TODO: Role-based access control
+        /* if(requiresAuth && user?.role !== role) {
+            next({ name: 'unauthorized' });
+        } */
 
         next();
     })

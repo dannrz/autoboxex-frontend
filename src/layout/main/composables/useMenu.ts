@@ -1,36 +1,53 @@
+import type { MenuItem } from "primevue/menuitem";
 import { ref, type Ref } from "vue";
-import type { MenuItem } from "../interfaces";
 
 export const useMenu = () => {
     const items: Ref<Array<MenuItem>> = ref<Array<MenuItem>>([
         {
             label: 'Home',
-            icon: 'pi pi-home'
+            icon: 'pi pi-home',
+            route: '/'
+        },
+        {
+            label: 'Registro',
+            icon: 'pi pi-star',
+            route: '/register'
         },
         {
             label: 'Projects',
             icon: 'pi pi-search',
-            badge: 3,
             items: [
                 {
-                    label: 'Core',
-                    icon: 'pi pi-bolt',
-                    shortcut: '⌘+S'
+                    label: 'Components',
+                    icon: 'pi pi-bolt'
                 },
                 {
                     label: 'Blocks',
-                    icon: 'pi pi-server',
-                    shortcut: '⌘+B'
-                },
-                {
-                    separator: true
+                    icon: 'pi pi-server'
                 },
                 {
                     label: 'UI Kit',
-                    icon: 'pi pi-pencil',
-                    shortcut: '⌘+U'
+                    icon: 'pi pi-pencil'
+                },
+                {
+                    label: 'Templates',
+                    icon: 'pi pi-palette',
+                    items: [
+                        {
+                            label: 'Apollo',
+                            icon: 'pi pi-palette'
+                        },
+                        {
+                            label: 'Ultima',
+                            icon: 'pi pi-palette'
+                        }
+                    ]
                 }
             ]
+        },
+        {
+            label: 'Contact',
+            icon: 'pi pi-envelope'
         }
     ]);
 

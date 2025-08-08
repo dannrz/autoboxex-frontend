@@ -6,11 +6,6 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      redirect: '/login',
-      name: 'main',
-    },
-    {
       path: '/login',
       name: 'login',
       component: LoginView,
@@ -28,14 +23,14 @@ const router = createRouter({
       } */
     },
     {
-      path: '/home',
+      path: '/',
       name: 'home',
       component: () => import('@/layout/main/views/MainPage.vue'),
       children: [
         {
-          path: 'profile',
-          name: 'profile',
-          component: () => import('@/layout/main/views/MainPage.vue'),
+          path: '/register',
+          name: 'register',
+          component: () => import('@/modules/register/views/FormRegister.vue'),
           meta:{
             requiresAuth: true,
             role: 'admin',
@@ -45,6 +40,16 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
       }
+    },
+    {
+      path: '/unauthorized',
+      name: 'unauthorized',
+      component: () => import('@/layout/errors/views/401Page.vue')
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('@/layout/errors/views/404Page.vue')
     }
   ],
 })
