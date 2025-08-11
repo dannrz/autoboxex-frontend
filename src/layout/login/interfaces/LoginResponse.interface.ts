@@ -10,8 +10,10 @@ export interface User {
     name: string;
     email: string;
     username: string;
-    email_verified_at: null;
-    created_at: Date;
-    updated_at: Date;
-    role: string;
+    role: Role;
+}
+
+export interface Role {
+    role_name: string;
+    description: string;
 }

@@ -29,7 +29,7 @@ export const useLoginGuard = (router: Router): void => {
             onExpiredSession();
         }
 
-        if (requiresAuth && role && user?.role !== role) {
+        if (requiresAuth && role && user?.role.role_name !== role) {
             next({ name: 'unauthorized' });
             return
         }
