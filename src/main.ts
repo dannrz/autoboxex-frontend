@@ -3,14 +3,26 @@ import './assets/main.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
-import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura'
-import StyleClass from 'primevue/styleclass';
-import Ripple from 'primevue/ripple';
-import Button from "primevue/button"
-import InputText from 'primevue/inputtext';
+import AutoComplete from 'primevue/autocomplete';
 import Avatar from 'primevue/avatar';
 import Badge from 'primevue/badge';
+import Button from "primevue/button"
+import Card from 'primevue/card';
+import DatePicker from 'primevue/datepicker';
+import Divider from 'primevue/divider';
+import FloatLabel from 'primevue/floatlabel';
+import InputText from 'primevue/inputtext';
+import Message from 'primevue/message';
+import PrimeVue from 'primevue/config';
+import ProgressSpinner from 'primevue/progressspinner';
+import Ripple from 'primevue/ripple';
+import Select from 'primevue/select';
+import StyleClass from 'primevue/styleclass';
+import Textarea from 'primevue/textarea';
+import Toast from 'primevue/toast';
+import ToastService from 'primevue/toastservice';
+import { Form } from '@primevue/forms';
 
 import App from './App.vue'
 import router from './router'
@@ -23,14 +35,27 @@ createApp(App)
             preset: Aura,
             options: {
                 darkModeSelector: '.my-app-dark',
+                // darkModeSelector: 'system',
             }
         },
         ripple: true
     })
+    .use(ToastService)
     .directive('styleclass', StyleClass)
     .directive('ripple', Ripple)
-    .component('Button', Button)
-    .component('InputText', InputText)
+    .component('AutoComplete',AutoComplete)
     .component('Avatar', Avatar)
     .component('Badge', Badge)
+    .component('Button', Button)
+    .component('Card', Card)
+    .component('DatePicker', DatePicker)
+    .component('Divider', Divider)
+    .component('FloatLabel',FloatLabel)
+    .component('Form', Form)
+    .component('InputText', InputText)
+    .component('Message', Message)
+    .component('ProgressSpinner', ProgressSpinner)
+    .component('Select', Select)
+    .component('Textarea', Textarea)
+    .component('Toast', Toast)
     .mount('#app')
