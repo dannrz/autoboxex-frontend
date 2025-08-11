@@ -37,6 +37,8 @@ export const useLogin = () => {
                     .then(({ data }) => {
                         const { access_token, user, expires_at } = data;
 
+                        console.warn(user)
+
                         localStorage.setItem("access_token", access_token)
                         localStorage.setItem("expires_at", expires_at.toString())
                         localStorage.setItem("user", JSON.stringify(user))

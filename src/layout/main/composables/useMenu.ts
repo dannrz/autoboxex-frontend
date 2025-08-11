@@ -5,11 +5,11 @@ import { Roles } from "../interfaces";
 
 export const useMenu = () => {
     const user: User | null = JSON.parse(localStorage.getItem("user") || "null");
-    const { role } = user ? user : { role: undefined };
+    const { role_name } = user?.role ? user.role : { role_name: undefined };
     const items: Ref<MenuItem[]> = ref<MenuItem[]>([]);
     const asideItems = ref<MenuItem[]>([]);
 
-    switch (role) {
+    switch (role_name) {
         case Roles.Admin:
             items.value = [
                 {
