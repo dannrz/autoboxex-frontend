@@ -87,6 +87,7 @@ export const useLogin = () => {
         const closeEverything = () => {
             localStorage.removeItem("access_token");
             localStorage.removeItem("expires_at");
+            localStorage.removeItem("user");
 
             router.push({ name: "login" });
         }
@@ -102,6 +103,8 @@ export const useLogin = () => {
     const onExpiredSession = (): void => {
         localStorage.removeItem("access_token");
         localStorage.removeItem("expires_at");
+        localStorage.removeItem("user");
+        
         toast.add({ severity: 'warn', summary: 'La sesión ha expirado', detail: 'Por favor, inicie sesión nuevamente', life: import.meta.env.VITE_TOAST_LIFETIME });
 
         router.push({ name: "login" });
