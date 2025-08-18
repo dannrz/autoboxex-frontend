@@ -34,8 +34,7 @@ createApp(App)
         theme: {
             preset: Aura,
             options: {
-                darkModeSelector: '.my-app-dark',
-                // darkModeSelector: 'system',
+                darkModeSelector: '.autoboxex-dark',
             }
         },
         ripple: true

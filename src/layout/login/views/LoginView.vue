@@ -1,5 +1,4 @@
 <template>
-    <Toast />
     <Card id="card" class="overflow-hidden mx-auto my-8 w-25rem">
         <template #header>
             <img alt="Autoboxex" class="img-fluid w-full" src="../../../assets/autoboxex.jpg" />

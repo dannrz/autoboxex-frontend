@@ -1,7 +1,7 @@
 <template>
     <div class="card">
-        <menu-bar :items="items" :visible="visible" @visibility="onChangeVisibility($event)"
-            :avatar-label="avatarLabel" />
+        <menu-bar :items="items" :visible="visible" @visibility="onChangeVisibility($event)" :avatar-label="avatarLabel"
+            id="menu" />
         <AsideMenu :visible="visible" @visibility="onChangeVisibility($event)" :avatar-label="avatarLabel"
             :user="user" />
     </div>
@@ -23,3 +23,15 @@ const onChangeVisibility = (value: boolean) => {
     visible.value = value;
 };
 </script>
+
+<style scoped>
+#menu {
+    list-style-type: none;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 20px;
+}
+</style>
