@@ -8,6 +8,7 @@ export const useMenu = () => {
     const { role_name } = user?.role ? user.role : { role_name: undefined };
     const items: Ref<MenuItem[]> = ref<MenuItem[]>([]);
     const asideItems = ref<MenuItem[]>([]);
+    const visibleModal = ref<boolean>(false);
 
     switch (role_name) {
         case Roles.Admin:
@@ -55,8 +56,11 @@ export const useMenu = () => {
                     ]
                 },
                 {
-                    label: 'Contact',
-                    icon: 'pi pi-envelope'
+                    label: 'Articulos en almacen',
+                    icon: 'pi pi-box',
+                    command(event) {
+                        visibleModal.value = true;
+                    },
                 }
             ];
 
@@ -195,6 +199,7 @@ export const useMenu = () => {
 
     return {
         items,
-        asideItems
+        asideItems,
+        visibleModal
     }
 }

@@ -19,11 +19,7 @@
         </template>
         <template #end>
             <div class="flex align-items-center gap-2">
-                <ToggleSwitch v-model="checked">
-                    <template #handle="{ checked }">
-                        <i :class="['pi', { 'pi-sun': checked, 'pi-moon': !checked }]" />
-                    </template>
-                </ToggleSwitch>
+                <ModeToggler />
                 <Avatar id="avatar" :label="avatarLabel" shape="circle" />
             </div>
         </template>
@@ -33,8 +29,7 @@
 <script setup lang="ts">
 import Menubar from 'primevue/menubar';
 import type { MenuItem } from 'primevue/menuitem';
-import ToggleSwitch from 'primevue/toggleswitch';
-import { ref } from 'vue';
+import ModeToggler from './ModeToggler.vue';
 
 defineProps<{
     visible: boolean;
@@ -45,9 +40,6 @@ defineProps<{
 const emit = defineEmits<{
     visibility: [value: boolean]
 }>();
-
-const checked = ref<boolean>(false);
-
 </script>
 
 <style scoped>

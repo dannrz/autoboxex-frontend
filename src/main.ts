@@ -10,6 +10,7 @@ import Badge from 'primevue/badge';
 import Button from "primevue/button"
 import Card from 'primevue/card';
 import DatePicker from 'primevue/datepicker';
+import Dialog from "primevue/dialog";
 import Divider from 'primevue/divider';
 import FloatLabel from 'primevue/floatlabel';
 import InputText from 'primevue/inputtext';
@@ -48,6 +49,7 @@ createApp(App)
     .component('Button', Button)
     .component('Card', Card)
     .component('DatePicker', DatePicker)
+    .component('Dialog', Dialog)
     .component('Divider', Divider)
     .component('FloatLabel',FloatLabel)
     .component('Form', Form)
