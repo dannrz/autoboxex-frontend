@@ -16,7 +16,7 @@
                         outlined />
                 </div>
             </template>
-            <ItemsMenu />
+            <ItemsMenu :items="items" :visible="visible" @visibility="changeVisibility" />
             <template #footer>
                 <div class="flex items-center gap-2">
                     <Button label="Account" icon="pi pi-user" class="flex-auto" outlined />
@@ -34,8 +34,11 @@ import Avatar from 'primevue/avatar';
 import ItemsMenu from '@/layout/main/components/ItemsMenu.vue';
 import { useLogin } from '@/layout/login/composables/useLogin';
 import type { User } from '@/layout/login/interfaces';
+import { useMenu } from '../composables/useMenu';
 
 const { onCloseSession } = useLogin()
+const { items } = useMenu();
+
 
 const props = defineProps<{
     visible: boolean | undefined;
