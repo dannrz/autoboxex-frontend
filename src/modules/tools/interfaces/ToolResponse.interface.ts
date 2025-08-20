@@ -5,4 +5,5 @@ export interface ToolResponse {
     quantity: string;
     description: string;
     last_modify: Date;
+    last_modify_formatted?: string;
 }

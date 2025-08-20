@@ -5,10 +5,10 @@
         <AsideMenu :visible="visible" @visibility="onChangeVisibility($event)" :avatar-label="avatarLabel"
             :user="user" />
     </div>
-    <Dialog v-model:visible="visibleModal" maximizable modal header="Header" :style="{ width: '50rem' }"
+    <Dialog v-model:visible="visibleModal" maximizable modal header="Articulos disponibles" :style="{ width: '80rem' }"
         :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
         <p class="m-0">
-            data: {{ data }}
+            <ToolsTable :tools="tools" />
         </p>
     </Dialog>
 </template>
@@ -19,13 +19,12 @@ import AsideMenu from "./AsideMenu.vue";
 import MenuBar from "./MenuBar.vue";
 import { useMenu } from "../composables/useMenu";
 import { useUser } from "../composables/useUser";
-import { toolsService } from "@/modules/tools/services/ToolsService";
+import ToolsTable from "@/modules/tools/components/ToolsTable.vue";
 
 const visible: Ref<boolean> = ref(false);
 
-const { items, visibleModal } = useMenu();
+const { items, visibleModal, tools } = useMenu();
 const { avatarLabel, user } = useUser()
-const { data } = toolsService();
 
 const onChangeVisibility = (value: boolean) => {
     visible.value = value;

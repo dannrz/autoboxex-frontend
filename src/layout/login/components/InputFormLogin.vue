@@ -3,7 +3,7 @@
         {{ validation?.messageError }}
     </Message>
     <FloatLabel variant="on" :class="class" v-if="type === 'username'">
-        <InputText id="username" class="w-full " v-model="model.username" fluid />
+        <InputText id="username" class="w-full" v-model="model.username" fluid />
         <label for="username">Usuario</label>
     </FloatLabel>
     <FloatLabel variant="on" :class="class" v-else>

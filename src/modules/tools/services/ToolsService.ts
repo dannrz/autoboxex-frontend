@@ -1,21 +1,7 @@
 import { api } from "@/api/baseApi"
 import type { ToolResponse } from "../interfaces/ToolResponse.interface"
-import { ref, type Ref } from "vue"
-import { useToast } from "primevue"
+import type { AxiosResponse } from "axios"
 
-export const toolsService = () => {
-    const data: Ref<ToolResponse[]> = ref<ToolResponse[]>([])
-    const toast = useToast()
-
-    api.get<ToolResponse[]>('/services/tools')
-        .then(response => {
-            data.value = response.data
-        })
-        .catch(error => {
-            toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to load tools', life: import.meta.env.VITE_TOAST_LIFETIME })
-        })
-
-    return {
-        data
-    }
+export const toolsService = async (): Promise<AxiosResponse<ToolResponse[]>> => {
+    return await api.get<ToolResponse[]>('/services/tools')
 }
