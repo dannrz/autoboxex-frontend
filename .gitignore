@@ -31,3 +31,8 @@ test/
 *.sw?
 
 *.tsbuildinfo
+
+.env
+.env.prod
+.env.development
+.env.test
