@@ -10,6 +10,7 @@ import Badge from 'primevue/badge';
 import Button from "primevue/button"
 import Card from 'primevue/card';
 import DatePicker from 'primevue/datepicker';
+import Dialog from "primevue/dialog";
 import Divider from 'primevue/divider';
 import FloatLabel from 'primevue/floatlabel';
 import InputText from 'primevue/inputtext';
@@ -22,6 +23,10 @@ import StyleClass from 'primevue/styleclass';
 import Textarea from 'primevue/textarea';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
+import Column from 'primevue/column';
+import DataTable from 'primevue/datatable';
+import IconField from 'primevue/iconfield';
+import InputIcon from 'primevue/inputicon';
 import { Form } from '@primevue/forms';
 
 import App from './App.vue'
@@ -34,8 +39,7 @@ createApp(App)
         theme: {
             preset: Aura,
             options: {
-                darkModeSelector: '.my-app-dark',
-                // darkModeSelector: 'system',
+                darkModeSelector: '.autoboxex-dark',
             }
         },
         ripple: true
@@ -48,10 +52,15 @@ createApp(App)
     .component('Badge', Badge)
     .component('Button', Button)
     .component('Card', Card)
+    .component('Column', Column)
+    .component('DataTable', DataTable)
     .component('DatePicker', DatePicker)
+    .component('Dialog', Dialog)
     .component('Divider', Divider)
     .component('FloatLabel',FloatLabel)
     .component('Form', Form)
+    .component('IconField', IconField)
+    .component('InputIcon', InputIcon)
     .component('InputText', InputText)
     .component('Message', Message)
     .component('ProgressSpinner', ProgressSpinner)

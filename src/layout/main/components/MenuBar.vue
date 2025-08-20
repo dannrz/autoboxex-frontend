@@ -1,10 +1,11 @@
 <template>
-    <Menubar :model="items">
+    <Menubar :model="items" id="card">
         <template #start>
             <Button icon="pi pi-bars" @click="emit('visibility', !visible)" severity="contrast" />
         </template>
         <template #item="{ item, props, hasSubmenu }">
-            <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" active-class="bg-blue-500" custom>
+            <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" active-class="bg-blue-500"
+                custom>
                 <a v-ripple :href="href" v-bind="props.action" @click="navigate">
                     <span :class="item.icon" />
                     <span>{{ item.label }}</span>
@@ -17,8 +18,8 @@
             </a>
         </template>
         <template #end>
-            <div class="flex items-center gap-2">
-                <InputText placeholder="Search" type="text" class="w-32 sm:w-auto" />
+            <div class="flex align-items-center gap-2">
+                <ModeToggler />
                 <Avatar id="avatar" :label="avatarLabel" shape="circle" />
             </div>
         </template>
@@ -28,6 +29,7 @@
 <script setup lang="ts">
 import Menubar from 'primevue/menubar';
 import type { MenuItem } from 'primevue/menuitem';
+import ModeToggler from './ModeToggler.vue';
 
 defineProps<{
     visible: boolean;
@@ -38,7 +40,6 @@ defineProps<{
 const emit = defineEmits<{
     visibility: [value: boolean]
 }>();
-
 </script>
 
 <style scoped>

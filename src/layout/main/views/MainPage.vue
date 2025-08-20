@@ -1,8 +1,10 @@
 <template>
     <Menu />
-    {{ services }}
-    {{ token }}
-    <div class="flex items-center justify-center w-full h-full">
+    <div class="mt-7">
+        {{ services }}
+        {{ token }}
+    </div>
+    <div class="flex w-full h-full mt-7">
         <RouterView />
     </div>
 </template>

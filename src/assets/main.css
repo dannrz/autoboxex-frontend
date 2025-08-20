@@ -1,5 +1,7 @@
 @import './base.css';
 @import 'primeicons/primeicons.css';
-/* @import "tailwindcss"; */
-/* @import "tailwindcss-primeui"; */
+@import "tailwindcss";
+@import "tailwindcss-primeui";
 @import '../../node_modules/primeflex/primeflex.min.css';
+
+@custom-variant dark (&:where(.autoboxex-dark, .autoboxex-dark *));
