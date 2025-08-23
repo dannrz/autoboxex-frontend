@@ -6,7 +6,7 @@
         <template #title>Autoboxex</template>
         <template #subtitle>Admin system</template>
         <template #content>
-            <InputFormLogin type="username" class="mb-4" v-model:login-form="loginVars"
+            <InputFormLogin type="username" customClass="mb-4" v-model:login-form="loginVars"
                 :validation="v.find(v => v.path == 'username')" />
             <InputFormLogin type="password" v-model:login-form="loginVars"
                 :validation="v.find(v => v.path == 'password')" />

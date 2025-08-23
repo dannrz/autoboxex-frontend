@@ -2,11 +2,11 @@
     <Message v-if="validation?.showMessageError" severity="error" size="small" variant="simple" closable>
         {{ validation?.messageError }}
     </Message>
-    <FloatLabel variant="on" :class="class" v-if="type === 'username'">
+    <FloatLabel variant="on" :class="customClass" v-if="type === 'username'">
         <InputText id="username" class="w-full" v-model="model.username" fluid />
         <label for="username">Usuario</label>
     </FloatLabel>
-    <FloatLabel variant="on" :class="class" v-else>
+    <FloatLabel variant="on" :class="customClass" v-else>
         <Password type="text" id="password" v-model="model.password" :feedback="false" toggleMask fluid />
         <label for="password">Contraseña</label>
     </FloatLabel>
@@ -19,7 +19,7 @@ import type { LoginUser, ValidateLoginForm } from '../interfaces';
 const props = defineProps<{
     type?: 'username' | 'password';
     messageError?: string;
-    class?: string;
+    customClass?: string;
     validation?: ValidateLoginForm;
 }>()
 
