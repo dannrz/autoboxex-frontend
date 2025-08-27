@@ -1,10 +1,10 @@
 <template>
-    <Menu />
-    <div class="mt-7">
-        {{ services }}
-        {{ token }}
-    </div>
-    <div class="flex w-full h-full mt-7">
+    <div class="grid grid-cols-1 gap-20">
+        <Menu />
+        <div class="text-center">
+            {{ services }}
+            {{ token }}
+        </div>
         <RouterView />
     </div>
 </template>
