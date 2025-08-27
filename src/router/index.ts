@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useLoginGuard } from '@/guards/useLoginGuard';
 import LoginView from '@/layout/login/views/LoginView.vue'
 
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -32,6 +33,25 @@ const router = createRouter({
         requiresAuth: true,
       }
     },
+    // {
+    //   path: '/tablas',
+    //   name: 'tablas',
+    //   component: () => import('@/layout/main/views/MainPage.vue'),
+    //   children: [
+    //     {
+    //       path: '/tabla',
+    //       name: 'tabla',
+    //       component: () => import('@/modules/tablas/interfaces/tabla.vue'),
+    //       meta: {
+    //         requiresAuth: true,
+    //         role: 'admin',
+    //       }
+    //     }
+    //   ],
+    //   meta: {
+    //     requiresAuth: true,
+    //   }
+    // },
     {
       path: '/unauthorized',
       name: 'unauthorized',
