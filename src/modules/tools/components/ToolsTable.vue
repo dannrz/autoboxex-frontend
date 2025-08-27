@@ -4,7 +4,7 @@
             tableStyle="min-width: 50rem" sort-mode="multiple" removableSort size="large" data-key="id"
             :globalFilterFields="['name', 'sku', 'quantity', 'description', 'last_modify_formatted']">
             <template #header>
-                <div class="flex justify-content-end">
+                <div class="flex justify-end">
                     <IconField>
                         <InputIcon>
                             <i class="pi pi-search" />
