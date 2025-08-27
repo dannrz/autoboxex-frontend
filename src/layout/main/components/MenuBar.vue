@@ -1,5 +1,5 @@
 <template>
-    <Menubar :model="items" id="card">
+    <Menubar :model="items">
         <template #start>
             <Button icon="pi pi-bars" @click="emit('visibility', !visible)" severity="contrast" />
         </template>
@@ -18,7 +18,7 @@
             </a>
         </template>
         <template #end>
-            <div class="flex align-items-center gap-2">
+            <div class="flex items-center gap-3">
                 <ModeToggler />
                 <Avatar id="avatar" :label="avatarLabel" shape="circle" />
             </div>

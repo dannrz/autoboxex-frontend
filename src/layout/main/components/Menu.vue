@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div>
         <menu-bar :items="items" :visible="visible" @visibility="onChangeVisibility($event)" :avatar-label="avatarLabel"
             id="menu" />
         <AsideMenu :visible="visible" @visibility="onChangeVisibility($event)" :avatar-label="avatarLabel"
@@ -34,7 +34,6 @@ const onChangeVisibility = (value: boolean) => {
 <style scoped>
 #menu {
     list-style-type: none;
-    overflow: hidden;
     position: fixed;
     top: 0;
     width: 100%;

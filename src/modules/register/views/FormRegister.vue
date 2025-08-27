@@ -1,38 +1,58 @@
 <template>
-    <Card style="width: 50.5rem; overflow: hidden; grid-column: auto;" class="mx-left my-4 ml-4">
+    <Card class="mx-3">
         <template #title>Datos del Cliente y Auto</template>
         <template #content>
-            <div class="grid grid-cols-5 gap-2">
-                <div>
-                    <FloatLabel variant="on" class="my-4">
-                        <AutoComplete v-model="form.idCliente" inputId="on_label" :suggestions="items"
-                            @complete="search" size="small" />
-                        <label for="">Id Cliente </label>
-                    </FloatLabel>
-                    <FloatLabel variant="on" class="my-4">
-                        <InputText id="" size="small" />
-                        <label for="">Cliente</label>
-                    </FloatLabel>
-                    <FloatLabel variant="on">
-                        <AutoComplete v-model="form.placas" inputId="on_label" :suggestions="items" @complete="search"
-                            size="small" />
-                        <label for="on_label">Placas</label>
-                    </FloatLabel>
-                    <FloatLabel variant="on" class="my-4">
-                        <AutoComplete v-model="form.marca" inputId="on_label" :suggestions="items" @complete="search"
-                            size="small" />
-                        <label for="on_label">Marca</label>
-                    </FloatLabel>
-                    <FloatLabel variant="on" class="my-4">
-                        <AutoComplete v-model="form.modelo" inputId="on_label" :suggestions="items" @complete="search"
-                            size="small" />
-                        <label for="">Modelo</label>
-                    </FloatLabel>
+            <div class="grid grid-cols-4 gap-4 my-6">
+                <FloatLabel variant="on">
+                    <AutoComplete v-model="form.idCliente" id="idCliente" :suggestions="items" @complete="search"
+                        size="small" />
+                    <label for="idCliente">Id Cliente </label>
+                </FloatLabel>
+                <FloatLabel variant="on">
+                    <InputText id="cliente" size="small" />
+                    <label for="cliente">Cliente</label>
+                </FloatLabel>
+                <FloatLabel variant="on">
+                    <AutoComplete v-model="form.placas" id="placas" :suggestions="items" @complete="search"
+                        size="small" />
+                    <label for="placas">Placas</label>
+                </FloatLabel>
+                <FloatLabel variant="on">
+                    <AutoComplete v-model="form.marca" id="marca" :suggestions="items" @complete="search"
+                        size="small" />
+                    <label for="marca">Marca</label>
+                </FloatLabel>
+                <FloatLabel variant="on">
+                    <AutoComplete v-model="form.modelo" id="modelo" :suggestions="items" @complete="search"
+                        size="small" />
+                    <label for="modelo">Modelo</label>
+                </FloatLabel>
 
-                    <!-- -->
-                </div>
+                <FloatLabel variant="on">
+                    <AutoComplete v-model="form.ordenEntrada" id="entradaOrden" :suggestions="items" @complete="search"
+                        size="small" />
+                    <label for="entradaOrden">Orden entrada</label>
+                </FloatLabel>
+                <FloatLabel variant="on">
+                    <InputText id="year" size="small" />
+                    <label for="year">Año</label>
+                </FloatLabel>
+                <FloatLabel variant="on">
+                    <AutoComplete v-model="form.color" id="color" :suggestions="items" @complete="search"
+                        size="small" />
+                    <label for="color">Color</label>
+                </FloatLabel>
+                <FloatLabel variant="on">
+                    <InputText id="serie" size="small" />
+                    <label for="serie">Serie</label>
+                </FloatLabel>
+                <FloatLabel variant="on">
+                    <InputText id="kilometraje" size="small" />
+                    <label for="kilometraje">Kilometraje</label>
+                </FloatLabel>
+            </div>
 
-                <div>
+            <!--  <div>
                     <FloatLabel variant="on" class="my-4">
                         <AutoComplete v-model="form.ordenEntrada" inputId="on_label" :suggestions="items"
                             @complete="search" size="small" />
@@ -82,7 +102,6 @@
                 </div>
 
                 <div>
-                    <!--posiblemente cambiar autorización a SELECT con los nombres de quienes autorizan-->
                     <FloatLabel variant="on" class="my-4">
                         <InputText id="" size="small" placeholder="Nombre autoriza" />
                         <label for="">Autorización</label>
@@ -91,17 +110,14 @@
                         <InputText id="" size="small" />
                         <label for="">asdasd</label>
                     </FloatLabel>
-                    <!--
-                    -->
                     <FloatLabel variant="on" class="my-4">
                         <InputText id="" size="small" />
                         <label for="on_label"></label>
                     </FloatLabel>
-                </div>
-            </div>
+                </div> -->
 
             <div class="grid grid-cols-4 gap-2">
-                <div>
+                <!-- <div>
                     <FloatLabel variant="on">
                         <Textarea id="over_label" v-model="form.observaciones" rows="3" cols="52" style="resize: "
                             class="my-2" size="small" />
@@ -133,34 +149,30 @@
                         <InputText id="" size="small" />
                         <label for="on_label"></label>
                     </FloatLabel>
-                </div>
+                </div> -->
             </div>
-
-            <div class="card flex flex-col items-end gap-4 my-4">
-                <!--Este botón debería "reinciar" el formulario para poder generar un nuevo registro-->
-                <div class="flex flex-wrap gap-4 justify-center">
-                    <Button label="Limpiar Formulario" icon="pi pi-refresh" iconPos="right" size="small" />
-                </div>
-                <div class="flex flex-wrap gap-4 justify-center">
-                    <Button label="Insertar vehículo" icon="pi pi-check" iconPos="right" size="small"
-                        @click="onSubmit" />
-                </div>
+        </template>
+        <template #footer>
+            <div class="flex justify-evenly">
+                <Button severity="contrast" label="Insertar vehículo" icon="pi pi-save" iconPos="right" size="small"
+                    @click="onSubmit" />
+                <Button severity="warn" label="Limpiar Formulario" icon="pi pi-undo" iconPos="right" size="small"
+                    @click="onClear" />
             </div>
         </template>
     </Card>
-
 </template>
 
 
 <script setup lang="ts">
 import { ref } from "vue";
 import type { FormRegister } from "../interfaces";
-import { api } from "@/api/baseApi";
+import { useToast } from "primevue";
 /*aquí inicia la búsqueda de placas*/
 
 const form = ref<FormRegister>({} as FormRegister)
-
 const items = ref<string[]>([]);
+const toast = useToast();
 
 const search = (event: { query: string }) => {
     items.value = [...Array(10).keys()].map((item) => event.query + '-' + item);
@@ -186,4 +198,8 @@ const onSubmit = (): void => {
     console.log(form.value);
 }
 
+const onClear = (): void => {
+    form.value = {} as FormRegister;
+    toast.add({ severity: 'info', summary: '¡Listo!', detail: 'Formulario limpiado', life: import.meta.env.VITE_TOAST_LIFETIME });
+}
 </script>
