@@ -20,7 +20,10 @@
         <template #end>
             <div class="flex items-center gap-3">
                 <ModeToggler />
-                <Avatar id="avatar" :label="avatarLabel" shape="circle" />
+                <Avatar id="avatar" :label="avatarLabel" shape="circle" @click="toggle" />
+                <Popover ref="op">
+                    <UserPopover :label="props.avatarLabel" />
+                </Popover>
             </div>
         </template>
     </Menubar>
@@ -28,10 +31,13 @@
 
 <script setup lang="ts">
 import Menubar from 'primevue/menubar';
+import Popover from 'primevue/popover';
 import type { MenuItem } from 'primevue/menuitem';
 import ModeToggler from './ModeToggler.vue';
+import { ref } from 'vue';
+import UserPopover from './UserPopover.vue';
 
-defineProps<{
+const props = defineProps<{
     visible: boolean;
     items: Array<MenuItem>;
     avatarLabel?: string;
@@ -40,6 +46,12 @@ defineProps<{
 const emit = defineEmits<{
     visibility: [value: boolean]
 }>();
+
+const op = ref();
+
+const toggle = (event: MouseEvent) => {
+    op.value.toggle(event);
+}
 </script>
 
 <style scoped>
@@ -48,5 +60,6 @@ const emit = defineEmits<{
     height: 2.5rem;
     background-color: #ece9fc;
     color: #2a1261;
+    cursor: pointer;
 }
 </style>
