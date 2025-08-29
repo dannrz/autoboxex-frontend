@@ -3,16 +3,23 @@ import './assets/main.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
+import { Form } from '@primevue/forms';
 import Aura from '@primeuix/themes/aura'
 import AutoComplete from 'primevue/autocomplete';
 import Avatar from 'primevue/avatar';
 import Badge from 'primevue/badge';
 import Button from "primevue/button"
 import Card from 'primevue/card';
+import Column from 'primevue/column';
+import ConfirmationService from 'primevue/confirmationservice';
+import ConfirmDialog from 'primevue/confirmdialog';
+import DataTable from 'primevue/datatable';
 import DatePicker from 'primevue/datepicker';
 import Dialog from "primevue/dialog";
 import Divider from 'primevue/divider';
 import FloatLabel from 'primevue/floatlabel';
+import IconField from 'primevue/iconfield';
+import InputIcon from 'primevue/inputicon';
 import InputText from 'primevue/inputtext';
 import Message from 'primevue/message';
 import PrimeVue from 'primevue/config';
@@ -23,11 +30,6 @@ import StyleClass from 'primevue/styleclass';
 import Textarea from 'primevue/textarea';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
-import Column from 'primevue/column';
-import DataTable from 'primevue/datatable';
-import IconField from 'primevue/iconfield';
-import InputIcon from 'primevue/inputicon';
-import { Form } from '@primevue/forms';
 
 import App from './App.vue'
 import router from './router'
@@ -45,6 +47,7 @@ createApp(App)
         ripple: true
     })
     .use(ToastService)
+    .use(ConfirmationService)
     .directive('styleclass', StyleClass)
     .directive('ripple', Ripple)
     .component('AutoComplete', AutoComplete)
@@ -53,6 +56,7 @@ createApp(App)
     .component('Button', Button)
     .component('Card', Card)
     .component('Column', Column)
+    .component('ConfirmDialog', ConfirmDialog)
     .component('DataTable', DataTable)
     .component('DatePicker', DatePicker)
     .component('Dialog', Dialog)
