@@ -68,7 +68,12 @@ export const useMenu = () => {
                     command(event) {
                         toolsData()
                     },
-                }
+                },
+                {
+                    label: 'Administrar usuarios',
+                    icon: 'pi pi-users',
+                    route: '/users'
+                },
             ];
 
             asideItems.value = [
