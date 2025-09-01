@@ -22,6 +22,7 @@ import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
 import InputText from 'primevue/inputtext';
 import Message from 'primevue/message';
+import OverlayBadge from 'primevue/overlaybadge';
 import PrimeVue from 'primevue/config';
 import ProgressSpinner from 'primevue/progressspinner';
 import Ripple from 'primevue/ripple';
@@ -67,6 +68,7 @@ createApp(App)
     .component('InputIcon', InputIcon)
     .component('InputText', InputText)
     .component('Message', Message)
+    .component('OverlayBadge', OverlayBadge)
     .component('ProgressSpinner', ProgressSpinner)
     .component('Select', Select)
     .component('Textarea', Textarea)

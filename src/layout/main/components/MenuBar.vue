@@ -18,11 +18,17 @@
             </a>
         </template>
         <template #end>
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-5">
+                <OverlayBadge value="2" severity="contrast" class="cursor-pointer" @click="toggleNotification">
+                    <i class="pi pi-bell" />
+                </OverlayBadge>
                 <ModeToggler />
                 <Avatar id="avatar" :label="avatarLabel" shape="circle" @click="toggle" />
                 <Popover ref="op">
                     <UserPopover :label="props.avatarLabel" />
+                </Popover>
+                <Popover ref="op2">
+
                 </Popover>
             </div>
         </template>
@@ -48,9 +54,14 @@ const emit = defineEmits<{
 }>();
 
 const op = ref();
+const op2 = ref();
 
 const toggle = (event: MouseEvent) => {
     op.value.toggle(event);
+}
+
+const toggleNotification = (event: MouseEvent) => {
+    op2.value.toggle(event);
 }
 </script>
 

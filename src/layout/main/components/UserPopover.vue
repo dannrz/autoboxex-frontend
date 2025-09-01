@@ -1,5 +1,5 @@
 <template>
-    <Card>
+    <Card unstyled>
         <template #header>
             <div class="flex justify-center">
                 <Avatar id="avatar" :label="label" shape="circle" />
