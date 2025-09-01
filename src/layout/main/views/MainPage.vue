@@ -1,24 +1,12 @@
 <template>
-    <Menu />
-    {{ services }}
-    {{ token }}
-    <div class="flex items-center justify-center w-full h-full">
-        <RouterView />
+    <div class="grid grid-cols-1 gap-20">
+        <Menu />
+        <section class="w-[97%]" style="margin: 0 auto;">
+            <RouterView />
+        </section>
     </div>
 </template>
 
 <script setup lang="ts">
-import { api } from '@/api/baseApi';
 import Menu from '@/layout/main/components/Menu.vue';
-import { ref } from 'vue';
-
-const services = ref([]);
-const token = localStorage.getItem('access_token') || 'sin token';
-
-api.get('/services')
-    .then((res) => {
-        services.value = res.data;
-    }).catch((err) => {
-        console.error(err.headers);
-    });
 </script>

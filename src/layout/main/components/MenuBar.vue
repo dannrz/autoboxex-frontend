@@ -4,7 +4,8 @@
             <Button icon="pi pi-bars" @click="emit('visibility', !visible)" severity="contrast" />
         </template>
         <template #item="{ item, props, hasSubmenu }">
-            <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" active-class="bg-blue-500" custom>
+            <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" active-class="bg-blue-500"
+                custom>
                 <a v-ripple :href="href" v-bind="props.action" @click="navigate">
                     <span :class="item.icon" />
                     <span>{{ item.label }}</span>
@@ -17,9 +18,18 @@
             </a>
         </template>
         <template #end>
-            <div class="flex items-center gap-2">
-                <InputText placeholder="Search" type="text" class="w-32 sm:w-auto" />
-                <Avatar id="avatar" :label="avatarLabel" shape="circle" />
+            <div class="flex items-center gap-5">
+                <OverlayBadge value="2" severity="contrast" class="cursor-pointer" @click="toggleNotification">
+                    <i class="pi pi-bell" />
+                </OverlayBadge>
+                <ModeToggler />
+                <Avatar id="avatar" :label="avatarLabel" shape="circle" @click="toggle" />
+                <Popover ref="op">
+                    <UserPopover :label="props.avatarLabel" />
+                </Popover>
+                <Popover ref="op2">
+
+                </Popover>
             </div>
         </template>
     </Menubar>
@@ -27,9 +37,13 @@
 
 <script setup lang="ts">
 import Menubar from 'primevue/menubar';
+import Popover from 'primevue/popover';
 import type { MenuItem } from 'primevue/menuitem';
+import ModeToggler from './ModeToggler.vue';
+import { ref } from 'vue';
+import UserPopover from './UserPopover.vue';
 
-defineProps<{
+const props = defineProps<{
     visible: boolean;
     items: Array<MenuItem>;
     avatarLabel?: string;
@@ -39,6 +53,16 @@ const emit = defineEmits<{
     visibility: [value: boolean]
 }>();
 
+const op = ref();
+const op2 = ref();
+
+const toggle = (event: MouseEvent) => {
+    op.value.toggle(event);
+}
+
+const toggleNotification = (event: MouseEvent) => {
+    op2.value.toggle(event);
+}
 </script>
 
 <style scoped>
@@ -47,5 +71,6 @@ const emit = defineEmits<{
     height: 2.5rem;
     background-color: #ece9fc;
     color: #2a1261;
+    cursor: pointer;
 }
 </style>
