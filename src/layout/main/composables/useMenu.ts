@@ -21,20 +21,71 @@ export const useMenu = () => {
         case Roles.Admin:
             items.value = [
                 {
-                    label: 'Dashboard',
+                    label: 'Archivos',
                     icon: 'pi pi-home',
-                    route: '/'
+                    route: '/',
+                    items: [
+                        {
+                            label: 'Dashboard',
+                        }]
                 },
                 {
-                    label: 'Registro',
-                    icon: 'pi pi-star',
+                    label: 'Catálogos',
+                    icon: 'pi pi-tags',
                     route: '/register'
                 },
                 {
-                    label: 'Tablas',
+                    label: 'Consultas',
                     icon: 'pi pi-search',
                     route: '/tablas'
-                   
+
+                },
+                {
+                    label: 'Procesos',
+                    icon: 'pi pi-sync',
+                    route: '/',
+                    items: [
+                        {
+                            label: 'Servicio',
+                            icon: 'pi pi-car',
+                        },
+                        {
+                            label: 'Cuentas por cobrar',
+                            icon: 'pi pi-car',
+                        },
+                        {
+                            label: 'Servicios complementarios',
+                            icon: 'pi pi-car',
+                        },
+                        {
+                            label: 'Registro de cobros',
+                            icon: 'pi pi-car',
+                        },
+                        {
+                            label: 'Registro diagnóstico',
+                            icon: 'pi pi-car',
+                        },
+                        {
+                            label: 'Generación de excel',
+                            icon: 'pi pi-car',
+                        },
+                        {
+                            label: 'Reg. Sec. Facturas',
+                            icon: 'pi pi-car',
+                        },
+                    ]
+                },
+                {
+                    label: 'Reportes',
+                    icon: 'pi pi-file',
+                    route: '/tablas'
+
+                },
+                {
+                    label: 'Ventas',
+                    icon: 'pi pi-credit-card',
+                    route: '/tablas'
+
                 },
                 {
                     label: 'Articulos en almacen',
