@@ -1,28 +1,23 @@
-    <template>
-            <card style="width: fit-content;" class=" flex flex-wrap items-start gap-4 ">
-            <template #title>Insumos</template>
-            <template #content>
-                <DataTable :value="products" stripedRows tableStyle="min-width: 50rem">
-                    <Column field="refaccion" header="Refacción"></Column>
-                    <Column field="tipo" header="Tipo"></Column>
-                    <Column field="cantidad" header="Cantidad"></Column>
-                    <Column field="precio" header="Precio"></Column>
-                    <Column field="importe" header="Importe"></Column>
+<template>
+    <card style="width: fit-content;" class=" flex flex-wrap items-start gap-4 ">
+        <template #title>Tabla de insumos</template>
+        <template #content>
+            <div class="card">
+                <DataTable :value="refax" tableStyle="min-width: 50rem">
+                    <Column field="code" header="Refacción"></Column>
+                    <Column field="name" header="Tipo"></Column>
+                    <Column field="category" header="Cantidad"></Column>
+                    <Column field="quantity" header="Precio"></Column>
+                    <Column field="quantity" header="Importe"></Column>
                 </DataTable>
-            </template>
-            <template #footer>
+            </div>
+        </template>
+        <template #footer>
 
-            </template>
-        </card>
-    </template>
-<script setup>
-import { ref, onMounted } from 'vue';
-import { ProductService } from '@/service/ProductService';
+        </template>
+    </card>
+</template>
 
-onMounted(() => {
-    ProductService.getProductsMini().then((data) => (products.value = data));
-});
-
-const products = ref();
+<script setup lang="ts">
 
 </script>

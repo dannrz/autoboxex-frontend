@@ -99,10 +99,7 @@
                         dateFormat="dd/mm/yy" class="w-full" size="small" />
                     <label for="fechaSalida">Fecha de salida</label>
                 </FloatLabel> 
-
-            </div>
-
-  
+            </div>  
         </template>
         <template #footer>
             <div class="flex justify-evenly" style="margin-top: 2rem;">
@@ -113,24 +110,7 @@
             </div>
         </template>
     </card>
-    <card style="width: fit-content;" class=" flex flex-wrap items-start gap-4 ">
-        <template #title>Datos del Cliente y Auto</template>
-        <template #content>
-            <div class="grid grid-cols-4 gap-3 my-6">
-   
-            </div>
 
-  
-        </template>
-        <template #footer>
-            <div class="flex justify-evenly" style="margin-top: 2rem;">
-                <Button severity="contrast" label="Insertar vehículo" icon="pi pi-save" iconPos="right" size="small"
-                    @click="onSubmit" />
-                <Button severity="info" label="Limpiar Formulario" icon="pi pi-undo" iconPos="right" size="small"
-                    @click="onClear" />
-            </div>
-        </template>
-    </card>
  
 
   
@@ -157,7 +137,6 @@ const onClear = (): void => {
     form.value = {} as FormRegister;
     toast.add({ severity: 'info', summary: '¡Listo!', detail: 'Formulario limpiado', life: import.meta.env.VITE_TOAST_LIFETIME });
 }
-
 
 
 </script>
