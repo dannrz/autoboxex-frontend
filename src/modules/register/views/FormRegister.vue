@@ -1,7 +1,6 @@
 <template>
     <div class="grid grid-cols-1 gap-20">
         <InsertClientCard />
-
         <Card>
             <template #title>Clientes registrados</template>
             <template #content></template>
@@ -14,4 +13,5 @@
 
 <script setup lang="ts">
 import InsertClientCard from "../components/InsertClientCard.vue";
+
 </script>

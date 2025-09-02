@@ -48,6 +48,7 @@ export const useMenu = () => {
                         {
                             label: 'Servicio',
                             icon: 'pi pi-car',
+                            route: '/register'
                         },
                         {
                             label: 'Cuentas por cobrar',
