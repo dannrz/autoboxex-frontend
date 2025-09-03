@@ -21,46 +21,67 @@ export const useMenu = () => {
         case Roles.Admin:
             items.value = [
                 {
-                    label: 'Dashboard',
+                    label: 'Archivos',
                     icon: 'pi pi-home',
                     route: '/'
                 },
                 {
-                    label: 'Registro',
-                    icon: 'pi pi-star',
+                    label: 'Catálogos',
+                    icon: 'pi pi-tags',
                     route: '/register'
                 },
                 {
-                    label: 'Projects',
+                    label: 'Consultas',
                     icon: 'pi pi-search',
+                    route: '/tablas'
+
+                },
+                {
+                    label: 'Procesos',
+                    icon: 'pi pi-sync',
+                    // route: '/',
                     items: [
                         {
-                            label: 'Components',
-                            icon: 'pi pi-bolt'
+                            label: 'Servicio',
+                            icon: 'pi pi-car',
                         },
                         {
-                            label: 'Blocks',
-                            icon: 'pi pi-server'
+                            label: 'Cuentas por cobrar',
+                            icon: 'pi pi-car',
                         },
                         {
-                            label: 'UI Kit',
-                            icon: 'pi pi-pencil'
+                            label: 'Servicios complementarios',
+                            icon: 'pi pi-car',
                         },
                         {
-                            label: 'Templates',
-                            icon: 'pi pi-palette',
-                            items: [
-                                {
-                                    label: 'Apollo',
-                                    icon: 'pi pi-palette'
-                                },
-                                {
-                                    label: 'Ultima',
-                                    icon: 'pi pi-palette'
-                                }
-                            ]
-                        }
+                            label: 'Registro de cobros',
+                            icon: 'pi pi-car',
+                        },
+                        {
+                            label: 'Registro diagnóstico',
+                            icon: 'pi pi-car',
+                        },
+                        {
+                            label: 'Generación de excel',
+                            icon: 'pi pi-car',
+                        },
+                        {
+                            label: 'Reg. Sec. Facturas',
+                            icon: 'pi pi-car',
+                        },
                     ]
+                },
+                {
+                    label: 'Reportes',
+                    icon: 'pi pi-file',
+                    route: '/tablas'
+
+                },
+                {
+                    label: 'Ventas',
+                    icon: 'pi pi-credit-card',
+                    route: '/tablas'
+
                 },
                 {
                     label: 'Articulos en almacen',
@@ -220,10 +241,6 @@ export const useMenu = () => {
         const toolService = toolsService()
 
         toolService.then(({ data }): void => {
-            data.map((tool: ToolResponse) => {
-                tool.last_modify_formatted = useDateFormat(new Date(tool.last_modify), 'DD/MM/YYYY HH:mm:ss').value;
-            })
-
             tools.value = data
             visibleModal.value = true;
         })

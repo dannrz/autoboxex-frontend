@@ -27,10 +27,12 @@ import PrimeVue from 'primevue/config';
 import ProgressSpinner from 'primevue/progressspinner';
 import Ripple from 'primevue/ripple';
 import Select from 'primevue/select';
+import Skeleton from 'primevue/skeleton';
 import StyleClass from 'primevue/styleclass';
 import Textarea from 'primevue/textarea';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
+import Tooltip from 'primevue/tooltip';
 
 import App from './App.vue'
 import router from './router'
@@ -51,6 +53,7 @@ createApp(App)
     .use(ConfirmationService)
     .directive('styleclass', StyleClass)
     .directive('ripple', Ripple)
+    .directive('tooltip', Tooltip)
     .component('AutoComplete', AutoComplete)
     .component('Avatar', Avatar)
     .component('Badge', Badge)
@@ -71,6 +74,7 @@ createApp(App)
     .component('OverlayBadge', OverlayBadge)
     .component('ProgressSpinner', ProgressSpinner)
     .component('Select', Select)
+    .component('Skeleton', Skeleton)
     .component('Textarea', Textarea)
     .component('Toast', Toast)
     .mount('#app')
