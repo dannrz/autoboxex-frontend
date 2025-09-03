@@ -29,6 +29,15 @@ const router = createRouter({
           }
         },
         {
+          path: '/vehicles',
+          name: 'vehicles',
+          component: () => import('@/modules/catalogos/views/Vehicle.vue'),
+          meta: {
+            requiresAuth: true,
+            role: 'admin',
+          }
+        },
+        {
           path: '/user/:user',
           name: 'profile',
           component: () => import('@/modules/user/views/ProfileView.vue'),

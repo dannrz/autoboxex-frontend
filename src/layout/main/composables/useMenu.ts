@@ -32,13 +32,22 @@ export const useMenu = () => {
                 {
                     label: 'Catálogos',
                     icon: 'pi pi-tags',
-                    route: '/register'
+                    route: '/',
+                    items: [
+                        { label: 'Vehículos', icon: 'pi pi-car', route: '/vehicles' },
+                        { label: 'Refacción', icon: 'pi pi-wrench', route: '/proveedores' },
+                        { label: 'Cliente', icon: 'pi pi-users', route: '/marcas' },  ]
                 },
                 {
                     label: 'Consultas',
                     icon: 'pi pi-search',
-                    route: '/tablas'
-
+                    route: '/tablas',
+                    items: [
+                        { label: 'Servicios', icon: 'pi pi-car', route: '/vehicles' },
+                        { label: 'Refacción', icon: 'pi pi-wrench', route: '/proveedores' },
+                        { label: 'Cliente', icon: 'pi pi-users', route: '/marcas' }, 
+                     ]
+                
                 },
                 {
                     label: 'Procesos',
