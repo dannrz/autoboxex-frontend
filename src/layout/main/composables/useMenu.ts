@@ -34,20 +34,45 @@ export const useMenu = () => {
                     icon: 'pi pi-tags',
                     route: '/',
                     items: [
-                        { label: 'Vehículos', icon: 'pi pi-car', route: '/vehicles' },
-                        { label: 'Refacción', icon: 'pi pi-wrench', route: '/proveedores' },
-                        { label: 'Cliente', icon: 'pi pi-users', route: '/marcas' },  ]
+                        {
+                            label: 'Cliente',
+                            icon: 'pi pi-users',
+                            route: '/Clientes'
+                        },
+                        {
+                            label: 'Vehículos',
+                            icon: 'pi pi-car',
+                            route: '/'
+                        },
+                        {
+                            label: 'Refacción',
+                            icon: 'pi pi-wrench',
+                            route: '/'
+                        },
+                    ]
                 },
                 {
                     label: 'Consultas',
                     icon: 'pi pi-search',
-                    route: '/tablas',
+                    route: '/',
                     items: [
-                        { label: 'Servicios', icon: 'pi pi-car', route: '/vehicles' },
-                        { label: 'Refacción', icon: 'pi pi-wrench', route: '/proveedores' },
-                        { label: 'Cliente', icon: 'pi pi-users', route: '/marcas' }, 
-                     ]
-                
+                        {
+                            label: 'Servicios',
+                            icon: 'pi pi-car',
+                            route: '/vehicles'
+                        },
+                        {
+                            label: 'Refacción',
+                            icon: 'pi pi-wrench',
+                            route: '/proveedores'
+                        },
+                        {
+                            label: 'Cliente',
+                            icon: 'pi pi-users',
+                            route: '/marcas'
+                        },
+                    ]
+
                 },
                 {
                     label: 'Procesos',
