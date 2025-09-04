@@ -20,34 +20,34 @@ export const useMenu = () => {
     switch (role_name) {
         case Roles.Admin:
             items.value = [
-                {
-                    label: 'Archivos',
-                    icon: 'pi pi-home',
-                    route: '/',
-                    items: [
-                        {
-                            label: 'Dashboard',
-                        }]
-                },
+                // {
+                //     // label: 'Archivos',
+                //     // icon: 'pi pi-home',
+                //     // route: '/',
+                //     // items: [
+                //     //     {
+                //     //         label: 'Dashboard',
+                //     //     }]
+                // },
                 {
                     label: 'Catálogos',
                     icon: 'pi pi-tags',
                     route: '/',
                     items: [
                         {
-                            label: 'Cliente',
+                            label: 'Clientes',
                             icon: 'pi pi-users',
                             route: '/Clientes'
                         },
                         {
-                            label: 'Vehículos',
+                            label: 'Refacciones',
                             icon: 'pi pi-car',
-                            route: '/'
+                            route: '/Vehicles'
                         },
                         {
-                            label: 'Refacción',
+                            label: 'Servicios',
                             icon: 'pi pi-wrench',
-                            route: '/'
+                            route: '/Spare'
                         },
                     ]
                 },
@@ -57,17 +57,17 @@ export const useMenu = () => {
                     route: '/',
                     items: [
                         {
-                            label: 'Servicios',
+                            label: 'Compras',
                             icon: 'pi pi-car',
                             route: '/vehicles'
                         },
                         {
-                            label: 'Refacción',
+                            label: 'Refacciones',
                             icon: 'pi pi-wrench',
                             route: '/proveedores'
                         },
                         {
-                            label: 'Cliente',
+                            label: 'Servicios',
                             icon: 'pi pi-users',
                             route: '/marcas'
                         },

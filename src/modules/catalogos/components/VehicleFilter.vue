@@ -1,10 +1,10 @@
 <template>
 
     <card style="width: fit-content;" class=" flex flex-wrap items-start gap-4 ">
-        <template #title>Búsqueda/Registro Cliente</template>
+        <template #title>Búsqueda/Registro Vehículo</template>
         <template #content>
             <div class="grid grid-cols-5 gap-3 my-6">
-                <FloatLabel variant="on" class="w-full">
+                <!-- <FloatLabel variant="on" class="w-full">
                     <AutoComplete v-model="form.idCliente" id="idCliente" :suggestions="items" @complete="search"
                         size="small" />
                     <label for="idCliente">Id Cliente </label>
@@ -77,7 +77,7 @@
                     <AutoComplete v-model="form.manoObra" id="manoObra" :suggestions="items" @complete="search"
                         size="small" />
                     <label for="manoObra">Mano de obra </label>
-                </FloatLabel>
+                </FloatLabel> -->
 
 
             </div>
@@ -98,7 +98,7 @@
 
 
     <p class="m-0">
-        <ClientTable :Cat="Catalogos" />
+        <VehicleTable :Cat="Catalogos" />
     </p>
 
 
@@ -112,7 +112,8 @@ import { useForm } from '@/utils/forms/composables/useForm';
 import Catalogos from "@/modules/catalogos/Composables/ClientTable.vue";
 import ClientTable from '@/modules/catalogos/Composables/ClientTable.vue';
 import type { Cat } from '../interfaces/Catalogos.interface';
-const { items, search, states } = useForm();
+import VehicleTable from '../Composables/VehicleTable.vue';
+const { items, search, serviceType, states } = useForm();
 const toast = useToast();
 
 const form = ref<Cat>({} as Cat);

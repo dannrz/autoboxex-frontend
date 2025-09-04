@@ -38,6 +38,24 @@ const router = createRouter({
           }
         },
         {
+          path: '/vehicles',
+          name: 'vehicles',
+          component: () => import('@/modules/catalogos/views/Vehicles.vue'),
+          meta: {
+            requiresAuth: true,
+            role: 'admin',
+          }
+        },
+        {
+          path: '/spare',
+          name: 'spare',
+          component: () => import('@/modules/catalogos/views/Spare.vue'),
+          meta: {
+            requiresAuth: true,
+            role: 'admin',
+          }
+        },
+        {
           path: '/user/:user',
           name: 'profile',
           component: () => import('@/modules/user/views/ProfileView.vue'),
