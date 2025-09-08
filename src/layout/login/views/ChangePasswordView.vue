@@ -9,25 +9,28 @@
             <template #content>
                 <div class="flex flex-col gap-6">
                     <FloatLabel variant="on">
-                        <InputText v-model="username" class="w-full" :input-style="{ 'width': '100%' }" />
+                        <InputText v-model="restoreData.username" class="w-full" :input-style="{ 'width': '100%' }" />
                         <label for="newPassword">Nombre de usuario</label>
                     </FloatLabel>
                     <FloatLabel variant="on">
-                        <Password v-model="newPassword" class="w-full" :input-style="{ 'width': '100%' }"
-                            :feedback="false" />
+                        <Password v-model="restoreData.newPassword" class="w-full" :input-style="{ 'width': '100%' }"
+                            :feedback="false" toggle-mask />
                         <label for="newPassword">Nueva contraseña</label>
                     </FloatLabel>
                     <FloatLabel variant="on">
-                        <Password v-model="confirmPassword" class="w-full" :input-style="{ 'width': '100%' }"
-                            :feedback="false" />
+                        <Password v-model="restoreData.confirmPassword" class="w-full"
+                            :input-style="{ 'width': '100%' }" :feedback="false" toggle-mask />
                         <label for="confirmPassword">Confirmar contraseña</label>
                     </FloatLabel>
                 </div>
             </template>
             <template #footer>
                 <div class="flex justify-center">
-                    <Button label="Solicitar cambio" icon="pi pi-arrow-right-arrow-left" class="w-2xs" outlined
-                        rounded />
+                    <Button v-if="!isLoading" label="Solicitar cambio" icon="pi pi-arrow-right-arrow-left" class="w-2xs"
+                        @click="onRestore" outlined rounded />
+                    <Button class="w-2xs" v-else disabled outlined>
+                        <ProgressSpinner id="spinner" />
+                    </Button>
                 </div>
             </template>
         </Card>
@@ -47,10 +50,15 @@
 import { ref } from 'vue';
 import Password from 'primevue/password';
 import router from '@/router';
+import type { PasswordRestoreRequest } from '../interfaces';
+import { useLogin } from '../composables/useLogin';
 
-const username = ref('');
-const newPassword = ref('');
-const confirmPassword = ref('');
+const restoreData = ref<PasswordRestoreRequest>({} as PasswordRestoreRequest);
+const { onRestorePassword, isLoading } = useLogin();
+
+const onRestore = async (): Promise<void> => {
+    onRestorePassword(restoreData.value).then(() => restoreData.value = {} as PasswordRestoreRequest);
+}
 </script>
 
 <style scoped>
