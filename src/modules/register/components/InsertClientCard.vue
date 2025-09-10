@@ -10,8 +10,9 @@
                     <label for="idCliente">Id Cliente </label>
                 </FloatLabel>
                 <FloatLabel variant="on" class="w-full">
-                    <InputText id="cliente" v-model="form.cliente" size="small" />
-                    <label for="cliente">Cliente</label>
+                    <AutoComplete v-model="form.cliente" id="cliente" :suggestions="items" @complete="search"
+                        size="small" />
+                    <label for="cliente">Cliente </label>
                 </FloatLabel>
                 <FloatLabel variant="on" class="w-full">
                     <AutoComplete v-model="form.placas" id="placas" :suggestions="items" @complete="search"
@@ -45,29 +46,31 @@
                         size="small" />
                     <label for="color">Color</label>
                 </FloatLabel>
-                <FloatLabel variant="on" class="w-full">
-                    <InputText id="serie" size="small" />
-                    <label for="serie">Serie</label>
+                  <FloatLabel variant="on">
+                    <AutoComplete v-model="form.serie" id="entradaOrden" :suggestions="items" @complete="search"
+                        class="w-full" size="small" />
+                    <label for="entradaOrden">Serie</label>
                 </FloatLabel>
                 <FloatLabel variant="on" class="w-full">
-                    <InputText id="kilometraje" size="small" />
+                    <InputText type="number" id="kilometraje" size="small" />
                     <label for="kilometraje">Kilometraje</label>
                 </FloatLabel>
-                <FloatLabel variant="on" class="w-full">
-                    <AutoComplete v-model="form.idCliente" id="idCliente" :suggestions="items" @complete="search"
-                        size="small" />
-                    <label for="idCliente">Id Cliente </label>
-                </FloatLabel>
+               
                 <FloatLabel variant="on">
                     <Select v-model="form.tipo" id="tipo" :options="tipo" optionLabel="name" size="small"
                          class="w-2/3" />
                     <label for="tipo">Tipo</label>
+                </FloatLabel>
+                 <FloatLabel variant="on" class="w-full">
+                    <InputText disabled type="number" id="serie" size="small" />
+                    <label for="serie">Folio</label> 
                 </FloatLabel>
                 <FloatLabel variant="on">
                     <DatePicker v-model="form.fechaEntrada" id="fechaEntrada" showIcon iconDisplay="input"
                         dateFormat="dd/mm/yy" size="small" class="w-2/3" />
                     <label for="fechaEntrada">Fecha de entrada</label>
                 </FloatLabel>
+                
                 <FloatLabel variant="on">
                     <Select v-model="form.estado" id="estado" :options="estado" optionLabel="name" class="w-2/3"
                         size="small" />
@@ -103,7 +106,7 @@
                     class="w-full" size="small" />
                     <label for="ordenEntrada">Mano de Obra</label>
                 </FloatLabel>
-          <br></br>
+      
                 <FloatLabel variant="on">
                     <AutoComplete v-model="form.suma" id="ordenEntrada" :suggestions="items" @complete="search"
                     class="w-full" size="small" />
@@ -119,7 +122,9 @@
                     class="w-full" size="small" />
                     <label for="ordenEntrada">Total</label>
                 </FloatLabel>
-                <FloatLabel variant="in" class="col-span-1" >
+                <br>
+                
+                <FloatLabel variant="in" style="width: 50%;">
                     <Textarea id="ingresaPor" v-model="form.DatosFiscales" rows="3"   cols="30" size="large" autoResize />
                     <label for="ingresaPor">Datos fiscales </label>
                 </FloatLabel>
@@ -172,11 +177,11 @@ const onClear = (): void => {
 }
 
 const tipo = ref([
-    { name: 'Mantenimiento' },
-    { name: 'Reparación' },
-    { name: 'Diagnóstico' },
-    { name: 'Inspección' },
-    { name: 'Otro' }
+    { name: 'Servicio' },
+    { name: 'Presupuesto' },
+    { name: 'Factura' },
+    { name: 'Remisión' },
+    
 ]);
 
 const estado = ref([

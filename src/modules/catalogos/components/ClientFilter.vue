@@ -37,7 +37,7 @@
                 </FloatLabel>
 
                 <FloatLabel variant="on" class="w-full">
-                    <InputText type="number" id="ciudadEstado" v-model="form.ciudadEstado" size="small" />
+                    <InputText id="ciudadEstado" v-model="form.ciudadEstado" size="small" />
                     <label for="ciudadEstado">Ciudad/Estado</label>
                 </FloatLabel>
                 <FloatLabel variant="on">
