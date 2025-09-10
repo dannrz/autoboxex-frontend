@@ -1,4 +1,5 @@
 import type { PasswordInterface } from "@/modules/user/interfaces";
+import Swal, { type SweetAlertIcon } from "sweetalert2";
 import { ref } from "vue"
 import z from "zod";
 

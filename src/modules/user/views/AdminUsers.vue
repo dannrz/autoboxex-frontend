@@ -55,13 +55,12 @@ import type { User } from '@/layout/login/interfaces';
 
 const allUsers: Ref<User[]> = ref([])
 
-const { users } = UserService();
+UserService.users()
+    .then(({ data }) => {
+        data.map((user, i) => {
+            user.id = i + 1;
+        })
 
-users().then(({ data }) => {
-    data.map((user, i) => {
-        user.id = i + 1;
+        allUsers.value = data
     })
-
-    allUsers.value = data
-})
 </script>

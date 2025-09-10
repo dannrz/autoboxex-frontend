@@ -13,6 +13,7 @@ import Card from 'primevue/card';
 import Column from 'primevue/column';
 import ConfirmationService from 'primevue/confirmationservice';
 import ConfirmDialog from 'primevue/confirmdialog';
+import ConfirmPopup from 'primevue/confirmpopup';
 import DataTable from 'primevue/datatable';
 import DatePicker from 'primevue/datepicker';
 import Dialog from "primevue/dialog";
@@ -61,6 +62,7 @@ createApp(App)
     .component('Card', Card)
     .component('Column', Column)
     .component('ConfirmDialog', ConfirmDialog)
+    .component('ConfirmPopup', ConfirmPopup)
     .component('DataTable', DataTable)
     .component('DatePicker', DatePicker)
     .component('Dialog', Dialog)

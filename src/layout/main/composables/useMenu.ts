@@ -93,7 +93,18 @@ export const useMenu = () => {
                 {
                     label: 'Administrar usuarios',
                     icon: 'pi pi-users',
-                    route: '/users'
+                    items: [
+                        {
+                            label: 'Lista de Usuarios',
+                            icon: 'pi pi-user',
+                            route: '/users'
+                        },
+                        {
+                            label: 'Solicitudes de cambios de contraseña',
+                            icon: 'pi pi-lock',
+                            route: '/password-requests'
+                        }
+                    ]
                 },
             ];
 
