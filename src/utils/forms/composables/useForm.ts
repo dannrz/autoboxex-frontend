@@ -1,5 +1,4 @@
 import type { PasswordInterface } from "@/modules/user/interfaces";
-import Swal, { type SweetAlertIcon } from "sweetalert2";
 import { ref } from "vue"
 import z from "zod";
 
@@ -11,7 +10,7 @@ export const useForm = () => {
             password: z.string()
                 .nonempty('La contraseña es requerida')
                 .min(6, 'La contraseña debe tener al menos 6 caracteres')
-                .pipe(z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/, 'La contraseña debe contener al menos una letra mayúscula, una letra minúscula y un número'))
+                .pipe(z.string().regex(/^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+$/, 'La contraseña solo puede contener letras, números y caracteres especiales'))
                 .refine((val) => !val.includes(' '), {
                     message: 'La contraseña no debe contener espacios en blanco',
                 }),

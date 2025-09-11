@@ -1,12 +1,14 @@
-import { AxiosError } from "axios";
+import { AxiosError, type AxiosResponse } from "axios";
 import { ref, type Ref } from "vue";
 import { useToast } from "primevue/usetoast";
-import z, { set, ZodError } from "zod";
 import Swal, { type SweetAlertResult } from 'sweetalert2';
+import z, { ZodError } from "zod";
 import { api } from "@/api/baseApi";
 import { loginService } from "../services/login";
+import { UserService } from "@/modules/user/services/UserService";
 import router from "@/router";
 import type { ErrorResponse, LoginUser, PasswordRestoreRequest, ValidateLoginForm } from "../interfaces";
+import type { PasswordInterface } from "@/modules/user/interfaces";
 
 export const useLogin = () => {
     const loginVars: Ref<LoginUser> = ref<LoginUser>({
@@ -175,6 +177,19 @@ export const useLogin = () => {
         }, 2000);
     }
 
+    const onChangePassword = (pwd: PasswordInterface) => {
+        UserService.changePassword(pwd)
+            .then(({ data }: AxiosResponse) => {
+                toast.add({ severity: 'success', summary: 'Cambio realizado correctamente', detail: data.message, life: import.meta.env.VITE_TOAST_LIFETIME });
+                setTimeout((): void => {
+                    onLogout();
+                }, import.meta.env.VITE_TOAST_LIFETIME);
+            })
+            .catch(({ response }: AxiosError<{ message: string }>) => {
+                toast.add({ severity: 'error', summary: 'Error', detail: response?.data.message, life: import.meta.env.VITE_TOAST_LIFETIME });
+            });
+    }
+
     return {
         loginVars,
         validateLoginForm,
@@ -183,6 +198,7 @@ export const useLogin = () => {
         onLogout,
         onExpiredSession,
         onCloseSession,
-        onRestorePassword
+        onRestorePassword,
+        onChangePassword
     }
 }
