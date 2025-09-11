@@ -56,6 +56,24 @@ const router = createRouter({
           }
         },
         {
+          path: '/paquetes',
+          name: 'paquetes',
+          component: () => import('@/modules/catalogos/views/Paquetes.vue'),
+          meta: {
+            requiresAuth: true,
+            role: 'admin',
+          }
+        },
+        {
+          path: '/servicios',
+          name: 'servicios',
+          component: () => import('@/modules/consultas/views/servicios.vue'),
+          meta: {
+            requiresAuth: true,
+            role: 'admin',
+          }
+        },
+        {
           path: '/user/:user',
           name: 'profile',
           component: () => import('@/modules/user/views/ProfileView.vue'),

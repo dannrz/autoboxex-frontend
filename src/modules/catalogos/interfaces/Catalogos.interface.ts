@@ -19,4 +19,24 @@ export interface Cat{
     credito?: string;
     descuento?: string;
     manoObra?: string;
+    refacciones?: string;
+    idPaquete?: number;
+    paquete?: string;
+    idRefaccion?: number;
+    ref?: string;
+    unidad?: string;
+    codigo?: string;
+    tipo?: string;
+    cantidad?: string;
+    precio?: number;
+    ultimoReg?: string;
+    marca1?: string;
+    calidad?: string;
+    iva?: string;
+
+
+
+    
+
+
 }

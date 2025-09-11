@@ -4,7 +4,7 @@
         <template #title>Búsqueda/Registro Vehículo</template>
         <template #content>
             <div class="grid grid-cols-5 gap-3 my-6">
-                <!-- <FloatLabel variant="on" class="w-full">
+                <FloatLabel variant="on" class="w-full">
                     <AutoComplete v-model="form.idCliente" id="idCliente" :suggestions="items" @complete="search"
                         size="small" />
                     <label for="idCliente">Id Cliente </label>
@@ -77,16 +77,16 @@
                     <AutoComplete v-model="form.manoObra" id="manoObra" :suggestions="items" @complete="search"
                         size="small" />
                     <label for="manoObra">Mano de obra </label>
-                </FloatLabel> -->
+                </FloatLabel>
 
 
             </div>
         </template>
         <template #footer>
             <div class="flex justify-evenly" style="margin-top: 2rem;">
-                <Button severity="Success" label="Buscar Cliente" icon="pi pi-search" iconPos="right" size="small"
+                <Button severity="Success" label="Buscar Vehículo" icon="pi pi-search" iconPos="right" size="small"
                     @click="onSubmit" />
-                <Button severity="contrast" label="Registrar Cliente" icon="pi pi-save" iconPos="right" size="small"
+                <Button severity="contrast" label="Registrar Vehículo" icon="pi pi-save" iconPos="right" size="small"
                     @click="onSubmit" />
                 <Button severity="info" label="Limpiar Formulario" icon="pi pi-undo" iconPos="right" size="small"
                     @click="onClear" />

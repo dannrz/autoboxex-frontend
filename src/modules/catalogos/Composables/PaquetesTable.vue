@@ -1,7 +1,7 @@
 <template>
     <div class="card">
-        <DataTable v-model:filters="filters" :value="cat" paginator :rows="7" :rowsPerPageOptions="[5, 10, 20, 50]" stripedRows
-            tableStyle="min-width: 50rem" sort-mode="multiple" removableSort size="large" data-key="id"
+        <DataTable v-model:filters="filters" :value="cat" paginator :rows="7" :rowsPerPageOptions="[5, 10, 20, 50]"
+            stripedRows tableStyle="min-width: 50rem" sort-mode="multiple" removableSort size="large" data-key="id"
             :globalFilterFields="['IdVehículo', 'Placas', 'Modelo', 'Marca', 'Color', 'Año', 'Serie']">
             <template #header>
                 <div class="flex justify-end">
@@ -22,7 +22,7 @@
             <Column field="Año" header="Año" sortable />
             <Column field="Color" header="Color" sortable />
             <Column field="Serie" header="Serie" sortable />
-            
+
         </DataTable>
     </div>
 </template>
@@ -31,8 +31,6 @@
 import { ref } from 'vue';
 import { FilterMatchMode } from '@primevue/core/api';
 import type { Catalogos } from '@/modules/catalogos/interfaces/Catalogos.interface';
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
 
 defineProps<{
     cat: Catalogos[]
