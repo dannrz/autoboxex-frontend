@@ -1,8 +1,8 @@
 <template>
     <div class="grid grid-cols-1 gap-20">
-        <VehicleFilter />
+        <ServiciosFilter />
         <Card>
-            <template #title>Catálogo de Vehículos</template>
+            <template #title></template>
             <template #content></template>
             <template #footer>
                 <Button severity="success" label="Descargar Excel" icon="pi pi-file-excel" iconPos="right" size="small" />
@@ -13,10 +13,5 @@
 
 <script setup lang="ts">
 
-import VehicleFilter from "../components/VehicleFilter.vue";
-// import VehicleFilter from "../components/ClientFilter.vue";
-
-
-
-
+import ServiciosFilter from "../components/ServiciosFilter.vue";
 </script>

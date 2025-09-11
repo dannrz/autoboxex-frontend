@@ -40,14 +40,19 @@ export const useMenu = () => {
                             route: '/Clientes'
                         },
                         {
-                            label: 'Refacciones',
+                            label: 'Vehículos',
                             icon: 'pi pi-car',
                             route: '/Vehicles'
                         },
                         {
-                            label: 'Servicios',
+                            label: 'Refacciones',
                             icon: 'pi pi-wrench',
                             route: '/Spare'
+                        },
+                        {
+                            label: 'Paquetes',
+                            icon: 'pi pi-box',
+                            route: '/Paquetes'
                         },
                     ]
                 },
@@ -69,7 +74,7 @@ export const useMenu = () => {
                         {
                             label: 'Servicios',
                             icon: 'pi pi-users',
-                            route: '/marcas'
+                            route: '/servicios'
                         },
                     ]
 

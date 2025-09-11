@@ -3,7 +3,7 @@
     <card style="width: fit-content;" class=" flex flex-wrap items-start gap-4 ">
         <template #title>Datos del Cliente y Auto</template>
         <template #content>
-            <div class="grid grid-cols-3 gap-3 my-6">
+            <div class="grid grid-cols-3 gap-3 my-6 ">
                 <FloatLabel variant="on" class="w-full">
                     <AutoComplete v-model="form.idCliente" id="idCliente" :suggestions="items" @complete="search"
                         size="small" />

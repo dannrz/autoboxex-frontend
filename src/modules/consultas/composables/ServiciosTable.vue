@@ -30,12 +30,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { FilterMatchMode } from '@primevue/core/api';
-import type { Catalogos } from '@/modules/catalogos/interfaces/Catalogos.interface';
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
+import type { Consultas } from '@/modules/consultas/interfaces/Consultas.interface';
 
 defineProps<{
-    cat: Catalogos[]
+    cat: Consultas[]
 }>();
 
 const filters = ref({

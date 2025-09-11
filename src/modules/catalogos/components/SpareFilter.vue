@@ -4,102 +4,79 @@
         <template #title>Búsqueda/Registro Refacción</template>
         <template #content>
             <div class="grid grid-cols-5 gap-3 my-6">
-                <!-- <FloatLabel variant="on" class="w-full">
-                    <AutoComplete v-model="form.idCliente" id="idCliente" :suggestions="items" @complete="search"
+                <FloatLabel variant="on" class="w-full">
+                    <AutoComplete v-model="form.IdRefaccion" id="IdRefaccion" :suggestions="items" @complete="search"
                         size="small" />
-                    <label for="idCliente">Id Cliente </label>
+                    <label for="IdRefaccion">Id Refacción </label>
                 </FloatLabel>
                 <FloatLabel variant="on" class="w-full">
-                    <InputText id="cliente" v-model="form.cliente" size="small" />
-                    <label for="cliente">Cliente</label>
+                    <InputText id="Ref" v-model="form.Ref" size="small" />
+                    <label for="Ref">Ref/Servicio externo</label>
                 </FloatLabel>
                 <FloatLabel variant="on" class="w-full">
-                    <AutoComplete v-model="form.rfc" id="rfc" :suggestions="items" @complete="search"
-                        size="small" />
-                    <label for="rfc">RFC</label>
+                    <AutoComplete v-model="form.Unidad" id="Unidad" :suggestions="items" @complete="search" size="small" />
+                    <label for="Unidad">Unidad</label>
                 </FloatLabel>
 
                 <FloatLabel variant="on">
-                    <AutoComplete v-model="form.direccion" id="direccion" :suggestions="items" @complete="search"
+                    <AutoComplete v-model="form.Codigo" id="Codigo" :suggestions="items" @complete="search"
                         class="w-full " size="small" />
-                    <label for="direccion">Dirección</label>
+                    <label for="Codigo">Código</label>
                 </FloatLabel>
 
                 <FloatLabel variant="on">
-                    <AutoComplete v-model="form.colonia" id="colonia" :suggestions="items" @complete="search"
+                    <AutoComplete v-model="form.Tipo" id="Tipo" :suggestions="items" @complete="search"
                         class="w-full" size="small" />
-                    <label for="colonia">Colonia</label>
+                    <label for="Tipo">Tipo</label>
                 </FloatLabel>
                 <FloatLabel variant="on">
-                    <AutoComplete v-model="form.zonaMunicipio" id="zonaMunicipio" :suggestions="items" @complete="search"
+                    <AutoComplete v-model="form.Cantidad" id="Cantidad" :suggestions="items"
+                        @complete="search" class="w-full" size="small" />
+                    <label for="Cantidad">Cantidad</label>
+                </FloatLabel>
+
+                <FloatLabel variant="on" class="w-full">
+                    <InputText type="number" id="Precio" v-model="form.Precio" size="small" />
+                    <label for="Precio">Precio</label>
+                </FloatLabel>
+                <FloatLabel variant="on">
+                    <AutoComplete v-model="form.UltimoReg" id="UltimoReg" :suggestions="items" @complete="search"
                         class="w-full" size="small" />
-                    <label for="zonaMunicipio">Zona/Municipio</label>
-                </FloatLabel>
-
-                <FloatLabel variant="on" class="w-full">
-                    <InputText type="number" id="ciudadEstado" v-model="form.ciudadEstado" size="small" />
-                    <label for="ciudadEstado">Ciudad/Estado</label>
+                    <label for="UltimoReg">Fecha último registro</label>
                 </FloatLabel>
                 <FloatLabel variant="on">
-                    <AutoComplete v-model="form.contacto" id="contacto" :suggestions="items" @complete="search" class="w-full"
-                        size="small" />
-                    <label for="contacto">Contacto</label>
+                    <AutoComplete v-model="form.Marca1" id="Marca" :suggestions="items"
+                        @complete="search" class="w-full" size="small" />
+                    <label for="Marca">Marca</label>
                 </FloatLabel>
                 <FloatLabel variant="on">
-                    <AutoComplete v-model="form.telParticular" id="telParticular" :suggestions="items" @complete="search" class="w-full"
-                        size="small" />
-                    <label for="telParticular">Tel. Particular</label>
+                    <AutoComplete v-model="form.Calidad" id="Calidad" :suggestions="items" @complete="search"
+                        class="w-full" size="small" />
+                    <label for="Calidad">Calidad</label>
                 </FloatLabel>
+
                 <FloatLabel variant="on">
-                    <AutoComplete v-model="form.telMovil" id="telMovil" :suggestions="items" @complete="search" class="w-full"
-                        size="small" />
-                    <label for="telMovil">Tel. Móvil</label>
+                    <AutoComplete v-model="form.Iva" id="Iva" :suggestions="items" @complete="search"
+                        class="w-full" size="small" />
+                    <label for="Iva">Precio IVA</label>
                 </FloatLabel>
-        
-                <FloatLabel variant="on">
-                    <AutoComplete v-model="form.telOficina" id="telOficina" :suggestions="items" @complete="search" class="w-full"
-                        size="small" />
-                    <label for="telOficina">Tel. Oficina</label>
-                </FloatLabel>
-        
-              
-                <FloatLabel variant="on" class="w-full">
-                    <AutoComplete v-model="form.credito" id="credito" :suggestions="items" @complete="search"
-                        size="small" />
-                    <label for="credito">Crédito </label>
-                </FloatLabel>
-                <FloatLabel variant="on" class="w-full">
-                    <AutoComplete v-model="form.descuento" id="descuento" :suggestions="items" @complete="search"
-                        size="small" />
-                    <label for="descuento">Descuento </label>
-                </FloatLabel> -->
-
-
-
             </div>
         </template>
         <template #footer>
             <div class="flex justify-evenly" style="margin-top: 2rem;">
-                <Button severity="Success" label="Buscar Cliente" icon="pi pi-search" iconPos="right" size="small"
+                <Button severity="Success" label="Buscar Refacción" icon="pi pi-search" iconPos="right" size="small"
                     @click="onSubmit" />
-                <Button severity="contrast" label="Registrar Cliente" icon="pi pi-save" iconPos="right" size="small"
+                <Button severity="contrast" label="Registrar Refacción" icon="pi pi-save" iconPos="right" size="small"
                     @click="onSubmit" />
                 <Button severity="info" label="Limpiar Formulario" icon="pi pi-undo" iconPos="right" size="small"
                     @click="onClear" />
             </div>
-
         </template>
-
     </card>
-
-
-    <p class="m-0">
-        <SpareTableTable :Cat="Catalogos" />
-    </p>
-
-
-
-</template> 
+       <p class="m-0">
+                    <SpareTable :cat="items" />
+                </p>
+</template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
