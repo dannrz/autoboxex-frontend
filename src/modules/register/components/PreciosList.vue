@@ -3,11 +3,22 @@
         <template #title>Tabla de precios</template>
         <template #content>
             <div class="card">
-                <DataTable :value="precios" tableStyle="min-width: 50rem">
-                    <Column field="code" header="Id Producto"></Column>
-                    <Column field="name" header="Producto"></Column>
-                    <Column field="category" header="Precio"></Column>
-                   
+                <DataTable v-if="loading" :value="new Array(3)">
+                    <Column v-for="value in ['Id Producto', 'Producto', 'Precio']" :header="value">
+                        <template #body>
+                            <Skeleton></Skeleton>
+                        </template>
+                    </Column>
+                </DataTable>
+                <DataTable v-else :value="precios" tableStyle="min-width: 50rem">
+                    <Column field="id" header="Id Producto"></Column>
+                    <Column field="producto" header="Producto"></Column>
+                    <Column field="precio" header="Precio"></Column>
+                    <template #empty>
+                        <h1 class="text-center">
+                            No hay precios disponibles
+                        </h1>
+                    </template>
                 </DataTable>
             </div>
         </template>
@@ -18,5 +29,11 @@
 </template>
 
 <script setup lang="ts">
+import Skeleton from 'primevue/skeleton';
+import type { Precios } from '../interfaces';
 
+defineProps<{
+    precios: Precios[],
+    loading: boolean
+}>();
 </script>
