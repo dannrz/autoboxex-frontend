@@ -22,5 +22,9 @@ export const UserService = {
             user_id,
             accept
         });
+    },
+
+    async changeStatusUser({ username }: User): Promise<AxiosResponse<{ message: string, status_user: number }>> {
+        return await api.patch<{ message: string, status_user: number }>('/user/change-status', { username });
     }
 };

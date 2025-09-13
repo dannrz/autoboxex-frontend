@@ -10,10 +10,16 @@ export interface User {
     name: string;
     email: string;
     username: string;
+    status?: number;
     role: Role;
+    password_restores?: PasswordRestores;
 }
 
 export interface Role {
     role_name: string;
     description: string;
+}
+
+export interface PasswordRestores {
+    user_id: number;
 }
