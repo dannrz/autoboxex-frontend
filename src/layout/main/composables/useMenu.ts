@@ -4,9 +4,9 @@ import { ref, type Ref } from "vue";
 import { Roles } from "../interfaces";
 import { toolsService } from "@/modules/tools/services/ToolsService";
 import type { ToolResponse } from "@/modules/tools/interfaces/ToolResponse.interface";
-import { useDateFormat } from "@vueuse/core";
 import type { AxiosError } from "axios";
 import { useToast } from "primevue";
+import { useToolStore } from "@/stores/useToolStore";
 
 export const useMenu = () => {
     const user: User | null = JSON.parse(localStorage.getItem("user") || "null");
@@ -15,35 +15,74 @@ export const useMenu = () => {
     const asideItems = ref<MenuItem[]>([]);
     const visibleModal = ref<boolean>(false);
     const tools: Ref<ToolResponse[]> = ref<ToolResponse[]>([]);
+
     const toast = useToast()
+    const toolsStore = useToolStore();
 
     switch (role_name) {
         case Roles.Admin:
             items.value = [
                 {
-                    label: 'Archivos',
+                    label: 'Inicio',
                     icon: 'pi pi-home',
                     route: '/'
                 },
                 {
                     label: 'Catálogos',
                     icon: 'pi pi-tags',
-                    route: '/register'
+                    items: [
+                        {
+                            label: 'Clientes',
+                            icon: 'pi pi-users',
+                            route: '/clientes'
+                        },
+                        {
+                            label: 'Vehículos',
+                            icon: 'pi pi-car',
+                            route: '/vehiculos'
+                        },
+                        {
+                            label: 'Refacciones',
+                            icon: 'pi pi-wrench',
+                            route: '/spare'
+                        },
+                        {
+                            label: 'Paquetes',
+                            icon: 'pi pi-box',
+                            route: '/paquetes'
+                        },
+                    ]
                 },
                 {
                     label: 'Consultas',
                     icon: 'pi pi-search',
-                    route: '/tablas'
+                    items: [
+                        {
+                            label: 'Compras',
+                            icon: 'pi pi-car',
+                            route: '/vehicles'
+                        },
+                        {
+                            label: 'Refacciones',
+                            icon: 'pi pi-wrench',
+                            route: '/proveedores'
+                        },
+                        {
+                            label: 'Servicios',
+                            icon: 'pi pi-users',
+                            route: '/servicios'
+                        },
+                    ]
 
                 },
                 {
                     label: 'Procesos',
                     icon: 'pi pi-sync',
-                    // route: '/',
                     items: [
                         {
                             label: 'Servicio',
                             icon: 'pi pi-car',
+                            route: '/register'
                         },
                         {
                             label: 'Cuentas por cobrar',
@@ -249,10 +288,17 @@ export const useMenu = () => {
     }
 
     const toolsData = () => {
-        const toolService = toolsService()
+        if (toolsStore.$state.tools.length > 0) {
+            tools.value = toolsStore.$state.tools;
+            visibleModal.value = true;
 
-        toolService.then(({ data }): void => {
-            tools.value = data
+            return;
+        }
+
+        toolsService().then(({ data }): void => {
+            toolsStore.$state.tools = data;
+            tools.value = data;
+
             visibleModal.value = true;
         })
             .catch((error: AxiosError): void => {

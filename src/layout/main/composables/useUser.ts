@@ -1,5 +1,6 @@
 import type { User } from "@/layout/login/interfaces";
 import { UserService } from "@/modules/user/services/UserService";
+import { useUserStore } from "@/stores/useUserStore";
 import { useToast } from "primevue";
 import { ref, type Ref } from "vue";
 
@@ -9,18 +10,24 @@ export const useUser = () => {
     const lastNameInitial = user?.name?.split(' ').slice(-1)[0].charAt(0) || '';
 
     const toast = useToast();
+    const userStore = useUserStore();
 
     const avatarLabel = initialAvatar + lastNameInitial;
 
     const allUsers: Ref<User[]> = ref([])
 
     const getAllUsers = () => {
+        if (userStore.$state.users.length > 0) {
+            allUsers.value = userStore.$state.users;
+            return;
+        }
+
         UserService.users()
             .then(({ data }) => {
                 data.map((user, i) => {
                     user.id = i + 1;
                 })
-
+                userStore.$state.users = data;
                 allUsers.value = data
             })
     }

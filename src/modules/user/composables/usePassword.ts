@@ -4,6 +4,7 @@ import { useConfirm } from "primevue/useconfirm";
 import { UserService } from "../services/UserService";
 import type { PasswordRequest } from "../interfaces";
 import { useToast } from "primevue/usetoast";
+import { useUserStore } from "@/stores/useUserStore";
 
 export const usePassword = () => {
     const allUsers = ref<Array<PasswordRequest>>([]);
@@ -11,6 +12,7 @@ export const usePassword = () => {
 
     const confirm = useConfirm();
     const toast = useToast();
+    const passwordStore = useUserStore();
 
     const onResponsePasswordRequest = (id: number, accept: boolean): void => {
         UserService.respondPasswordRequest(id, accept)
@@ -22,6 +24,7 @@ export const usePassword = () => {
                 }).then((accepted: SweetAlertResult): void => {
                     if (accepted.isConfirmed) {
                         allUsers.value = allUsers.value.filter((user) => user.user_id !== id);
+                        passwordStore.$reset();
                     }
                 });
             })
@@ -35,8 +38,16 @@ export const usePassword = () => {
     }
 
     const loadRequests = (): void => {
+        if (passwordStore.$state.passwordRequests.length > 0) {
+            allUsers.value = passwordStore.$state.passwordRequests;
+            skeletonTable.value = false;
+
+            return;
+        }
+
         UserService.passwordRequests().then(({ data }) => {
             allUsers.value = data;
+            passwordStore.$state.passwordRequests = data;
             skeletonTable.value = false;
 
             allUsers.value.map((user, index) => {
