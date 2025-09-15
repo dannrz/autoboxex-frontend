@@ -16,4 +16,11 @@ export interface FormRegister {
     observaciones: string;
     ingresaPor: string;
     fechaSalida: Date;
+    DatosFiscales: string;
+    mano: string;
+    suma: string;
+    CuentasCobrar: string;
+    descuento: string;
+    iva: string;
+    total: string;
 }

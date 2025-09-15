@@ -8,11 +8,12 @@ export const useUser = () => {
     const user: User = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {};
     const initialAvatar = user?.name?.charAt(0).toUpperCase() || '';
     const lastNameInitial = user?.name?.split(' ').slice(-1)[0].charAt(0) || '';
+    const avatarLabel = initialAvatar.toUpperCase() + lastNameInitial.toUpperCase();
 
     const toast = useToast();
     const userStore = useUserStore();
+    const isLoading = ref<boolean>(false);
 
-    const avatarLabel = initialAvatar + lastNameInitial;
 
     const allUsers: Ref<User[]> = ref([])
 
@@ -49,14 +50,20 @@ export const useUser = () => {
             return true;
         }
 
+        if (isLoading.value == true) {
+            return true;
+        }
+
         return false;
     }
 
     const handleStatusChange = (user: User) => {
+        isLoading.value = true;
         UserService.changeStatusUser(user)
             .then(({ data }) => {
                 user.status = data.status_user;
                 toast.add({ severity: 'success', summary: 'Éxito', detail: data.message, life: import.meta.env.VITE_TOAST_LIFETIME });
+                isLoading.value = false;
             })
             .catch(({ response }) => {
                 toast.add({ severity: 'error', summary: 'Error', detail: response.data.message, life: import.meta.env.VITE_TOAST_LIFETIME });
@@ -70,6 +77,7 @@ export const useUser = () => {
         getAllUsers,
         tooltipMessage,
         disableRules,
-        handleStatusChange
+        handleStatusChange,
+        isLoading,
     };
 }

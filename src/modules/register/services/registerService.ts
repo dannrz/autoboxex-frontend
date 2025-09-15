@@ -1,17 +1,24 @@
 import { api } from "@/api/baseApi"
-import type { ServiceType } from "../interfaces"
+import type { Costos, Insumos, Precios, ServiceType } from "../interfaces"
+import type { AxiosResponse } from "axios"
 
-export const RegisterService = () => {
-    const serviceType = async () => {
+export const RegisterService = {
+    async serviceType() {
         return await api.get<ServiceType[]>('/services')
-    }
+    },
 
-    const states = async () => {
+    async states() {
         return await api.get<ServiceType[]>('/services/states')
-    }
+    },
+    async getInsumos(): Promise<AxiosResponse<Insumos[]>> {
+        return await api.get<Insumos[]>('/services/insumos');
+    },
 
-    return {
-        serviceType,
-        states
+    async getPrecios(): Promise<AxiosResponse<Precios[]>> {
+        return await api.get<Precios[]>('/services/precios');
+    },
+
+    async getCostos(): Promise<AxiosResponse<Costos[]>> {
+        return await api.get<Costos[]>('/services/costos');
     }
 }

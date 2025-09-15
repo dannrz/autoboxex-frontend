@@ -76,12 +76,12 @@
                 </FloatLabel>
 
                 <FloatLabel variant="in" class="col-span-2">
-                    <Textarea id="observaciones" v-model="form.observaciones" rows="3" cols="105" size="large"
+                    <Textarea id="observaciones" v-model="form.observaciones" rows="3" cols="48" size="large"
                         autoResize />
                     <label for="observaciones">Observaciones:</label>
                 </FloatLabel>
                 <FloatLabel variant="in" class="col-span-2">
-                    <Textarea id="ingresaPor" v-model="form.ingresaPor" rows="3" cols="105" size="large" autoResize />
+                    <Textarea id="ingresaPor" v-model="form.ingresaPor" rows="3" cols="48" size="large" autoResize />
                     <label for="ingresaPor">Ingresa por: </label>
                 </FloatLabel>
                 <FloatLabel variant="on" class="col-span-2">
@@ -114,17 +114,16 @@ import { useForm } from '@/utils/forms/composables/useForm';
 import { RegisterService } from '../services/registerService';
 
 const { items, search } = useForm();
-const { serviceType, states } = RegisterService();
 const toast = useToast();
 
 const form = ref<FormRegister>({} as FormRegister);
 const lists = ref<Array<ServiceType[]>>([]);
 
-serviceType().then(({ data }): void => {
+RegisterService.serviceType().then(({ data }): void => {
     lists.value[0] = data;
 });
 
-states().then(({ data }): void => {
+RegisterService.states().then(({ data }): void => {
     lists.value[1] = data;
 });
 
