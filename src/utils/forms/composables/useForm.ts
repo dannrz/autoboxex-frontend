@@ -1,10 +1,8 @@
 import type { FormRegister, ServiceType } from "@/modules/register/interfaces";
 import { RegisterService } from "@/modules/register/services/registerService";
-import type { PasswordInterface } from "@/modules/user/interfaces";
 import { useFormStore } from "@/stores/useFormStore";
 import { useToast } from "primevue";
 import { ref } from "vue"
-import z from "zod";
 
 export const useForm = () => {
     const toast = useToast();
@@ -15,26 +13,6 @@ export const useForm = () => {
     const lists = ref<Array<ServiceType[]>>([]);
     const isLoadingTipos = ref<boolean>(false);
     const isLoadingStates = ref<boolean>(false);
-
-    const passwordSchema = z.object(
-        {
-            password: z.string()
-                .nonempty('La contraseña es requerida')
-                .min(6, 'La contraseña debe tener al menos 6 caracteres')
-                .pipe(z.string().regex(/^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+$/, 'La contraseña solo puede contener letras, números y caracteres especiales'))
-                .refine((val) => !val.includes(' '), {
-                    message: 'La contraseña no debe contener espacios en blanco',
-                }),
-            confirmPassword: z.string(),
-            currentPassword: z.string(),
-        })
-        .refine((data) => data.password === data.confirmPassword, {
-            message: 'Las contraseñas no coinciden',
-        });
-
-    const comparePasswords = async (passwords: PasswordInterface): Promise<PasswordInterface> => {
-        return await passwordSchema.parseAsync(passwords)
-    }
 
     const search = (event: { query: string }) => {
         items.value = [...Array(10).keys()].map((item) => event.query + '-' + item);
@@ -83,7 +61,6 @@ export const useForm = () => {
         items,
         form,
         search,
-        comparePasswords,
         onSubmit,
         onClear,
         fetchLists,

@@ -7,10 +7,8 @@
 </template>
 
 <script setup lang="ts">
+import { UserInfoCard, PasswordChangeCard, PasswordDialog } from '../components';
 import type { User } from '@/layout/login/interfaces';
-import UserInfoCard from '../components/UserInfoCard.vue';
-import PasswordChangeCard from '../components/PasswordChangeCard.vue';
-import PasswordDialog from '../components/PasswordDialog.vue';
 import { useLogin } from '@/layout/login/composables/useLogin';
 
 const { name, role, username, email }: User = JSON.parse(localStorage.getItem('user') || '{}');

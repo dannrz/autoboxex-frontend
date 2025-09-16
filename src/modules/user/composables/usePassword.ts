@@ -2,17 +2,67 @@ import { ref } from "vue";
 import Swal, { type SweetAlertResult } from "sweetalert2";
 import { useConfirm } from "primevue/useconfirm";
 import { UserService } from "../services/UserService";
-import type { PasswordRequest } from "../interfaces";
+import type { PasswordInterface, PasswordRequest } from "../interfaces";
 import { useToast } from "primevue/usetoast";
 import { useUserStore } from "@/stores/useUserStore";
+import z, { ZodError } from "zod";
 
 export const usePassword = () => {
     const allUsers = ref<Array<PasswordRequest>>([]);
     const skeletonTable = ref<boolean>(true);
+    const pwd = ref<PasswordInterface>({} as PasswordInterface);
+    const isLoading = ref<boolean>(false);
 
     const confirm = useConfirm();
     const toast = useToast();
     const passwordStore = useUserStore();
+
+    const passwordSchema = z.object(
+        {
+            password: z.string()
+                .nonempty('La contraseña es requerida')
+                .min(6, 'La contraseña debe tener al menos 6 caracteres')
+                .pipe(z.string().regex(/^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+$/, 'La contraseña solo puede contener letras, números y caracteres especiales'))
+                .refine((val) => !val.includes(' '), {
+                    message: 'La contraseña no debe contener espacios en blanco',
+                }),
+            confirmPassword: z.string(),
+            currentPassword: z.string(),
+        })
+        .refine((data) => data.password === data.confirmPassword, {
+            message: 'Las contraseñas no coinciden',
+        });
+
+    const comparePasswords = async (passwords: PasswordInterface): Promise<PasswordInterface> => {
+        return await passwordSchema.parseAsync(passwords)
+    }
+
+    const requireConfirmation = (emit: any): void => {
+        isLoading.value = true;
+
+        comparePasswords(pwd.value)
+            .then(() => {
+                confirm.require({
+                    group: 'headless',
+                    header: '¿Está seguro de cambiar la contraseña?',
+                    message: 'Sugerimos usar una contraseña fuerte y única. En caso de olvidarla solicite el cambio a su administrador.',
+                    accept: () => {
+                        emit('changePassword', pwd.value);
+                    },
+                    reject: () => {
+                        toast.add({ severity: 'info', summary: 'Cambio cancelado', detail: 'No se realizó el cambio de contraseña', life: import.meta.env.VITE_TOAST_LIFETIME });
+                    }
+                });
+            })
+            .catch((error: ZodError) => {
+                error.issues.forEach(issue => {
+                    toast.add({ severity: 'error', summary: issue.path.join('.'), detail: issue.message, life: import.meta.env.VITE_TOAST_LIFETIME });
+                });
+            })
+            .finally(() => {
+                isLoading.value = false;
+            });
+    }
 
     const onResponsePasswordRequest = (id: number, accept: boolean): void => {
         UserService.respondPasswordRequest(id, accept)
@@ -102,11 +152,15 @@ export const usePassword = () => {
     }
 
     return {
+        comparePasswords,
         allUsers,
         onResponsePasswordRequest,
         loadRequests,
         skeletonTable,
         confirmRequest,
-        rejectRequest
+        rejectRequest,
+        requireConfirmation,
+        isLoading,
+        pwd,
     };
 }
