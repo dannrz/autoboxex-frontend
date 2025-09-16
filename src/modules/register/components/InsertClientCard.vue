@@ -54,22 +54,24 @@
                         class="w-full" :inputStyle="{ width: '100%' }" size="small" />
                     <label for="ordenEntrada">Orden entrada</label>
                 </FloatLabel>
-                <FloatLabel variant="on">
+                <FloatLabel v-if="!isLoadingTipos" variant="on">
                     <Select v-model="form.tipo" id="tipo" :options="lists[0]" optionLabel="name" class="w-full"
                         size="small" />
                     <label for="tipo">Tipo</label>
                 </FloatLabel>
+                <Select v-else placeholder="Cargando tipos..." loading size="small" />
                 <FloatLabel variant="on">
                     <DatePicker v-model="form.fechaEntrada" id="fechaEntrada" showIcon iconDisplay="input"
                         dateFormat="dd/mm/yy" size="small" class="w-full" />
                     <label for="fechaEntrada">Fecha de entrada</label>
                 </FloatLabel>
 
-                <FloatLabel variant="on">
+                <FloatLabel v-if="!isLoadingStates" variant="on">
                     <Select v-model="form.estado" id="estado" :options="lists[1]" optionLabel="name" class="w-full"
                         size="small" />
                     <label for="estado">Estado</label>
                 </FloatLabel>
+                <Select v-else placeholder="Cargando estados..." loading size="small" />
                 <FloatLabel variant="on" class="col-span-2">
                     <InputText id="autorizacion" size="small" class="w-full" />
                     <label for="autorizacion">Nombre de quien autoriza</label>
@@ -107,32 +109,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { FormRegister, ServiceType } from '../interfaces';
-import { useToast } from "primevue";
 import { useForm } from '@/utils/forms/composables/useForm';
-import { RegisterService } from '../services/registerService';
+import { onMounted } from 'vue';
 
-const { items, search } = useForm();
-const toast = useToast();
+const { form, items, search, onSubmit, onClear, fetchLists, lists, isLoadingStates, isLoadingTipos } = useForm();
 
-const form = ref<FormRegister>({} as FormRegister);
-const lists = ref<Array<ServiceType[]>>([]);
-
-RegisterService.serviceType().then(({ data }): void => {
-    lists.value[0] = data;
+onMounted((): void => {
+    fetchLists();
 });
-
-RegisterService.states().then(({ data }): void => {
-    lists.value[1] = data;
-});
-
-const onSubmit = (): void => {
-    console.log(form.value);
-}
-
-const onClear = (): void => {
-    form.value = {} as FormRegister;
-    toast.add({ severity: 'info', summary: '¡Listo!', detail: 'Formulario limpiado', life: import.meta.env.VITE_TOAST_LIFETIME });
-}
 </script>
