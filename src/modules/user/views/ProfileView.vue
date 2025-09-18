@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col gap-11">
-        <UserInfoCard :user="{ name, role, username, email }" />
+        <UserInfoCard :user="{ name, role, username }" />
         <PasswordChangeCard @changePassword="onChangePassword($event)" />
     </div>
     <PasswordDialog />
