@@ -8,6 +8,7 @@ export const useLoginGuard = (router: Router): void => {
 
         const requiresAuth: boolean = to.matched.some(record => record.meta.requiresAuth);
         const role: string | undefined = to.meta.role as string | undefined;
+        const roles: string[] = to.meta.roles as string[];
         const token = localStorage.getItem("access_token");
         const expiresAt = localStorage.getItem("expires_at");
         const user: User | null = JSON.parse(localStorage.getItem("user") || "null");
@@ -30,6 +31,10 @@ export const useLoginGuard = (router: Router): void => {
         }
 
         if (requiresAuth && role && user?.role.role_name !== role) {
+            next({ name: 'unauthorized' });
+            return
+        }
+        if (requiresAuth && roles && !roles.includes(user?.role.role_name || '')) {
             next({ name: 'unauthorized' });
             return
         }

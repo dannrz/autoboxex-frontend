@@ -19,7 +19,8 @@
         </template>
         <template #end>
             <div class="flex items-center gap-5">
-                <OverlayBadge value="2" severity="contrast" class="cursor-pointer" @click="toggleNotification">
+                <OverlayBadge :value="badgeValue" severity="contrast" class="cursor-pointer"
+                    @click="toggleNotification">
                     <i class="pi pi-bell" />
                 </OverlayBadge>
                 <ModeToggler />
@@ -28,7 +29,7 @@
                     <UserPopover :label="props.avatarLabel" />
                 </Popover>
                 <Popover ref="op2">
-
+                    <NotificationPopover />
                 </Popover>
             </div>
         </template>
@@ -36,12 +37,13 @@
 </template>
 
 <script setup lang="ts">
-import Menubar from 'primevue/menubar';
-import Popover from 'primevue/popover';
+import { onMounted } from 'vue';
+import { Menubar, Popover } from 'primevue';
 import type { MenuItem } from 'primevue/menuitem';
-import ModeToggler from './ModeToggler.vue';
-import { ref } from 'vue';
-import UserPopover from './UserPopover.vue';
+import { ModeToggler, UserPopover, NotificationPopover } from '.';
+import { useMenu } from '../composables/useMenu';
+
+const { overlayBadge, badgeValue, toggle, toggleNotification, op, op2 } = useMenu();
 
 const props = defineProps<{
     visible: boolean;
@@ -53,16 +55,9 @@ const emit = defineEmits<{
     visibility: [value: boolean]
 }>();
 
-const op = ref();
-const op2 = ref();
-
-const toggle = (event: MouseEvent) => {
-    op.value.toggle(event);
-}
-
-const toggleNotification = (event: MouseEvent) => {
-    op2.value.toggle(event);
-}
+onMounted(() => {
+    overlayBadge();
+});
 </script>
 
 <style scoped>
