@@ -11,6 +11,8 @@ import type { ErrorResponse, LoginUser, PasswordRestoreRequest, ValidateLoginFor
 import type { PasswordInterface } from "@/modules/user/interfaces";
 
 export const useLogin = () => {
+    const toast = useToast();
+
     const loginVars: Ref<LoginUser> = ref<LoginUser>({
         username: '',
         password: ''
@@ -18,7 +20,6 @@ export const useLogin = () => {
 
     const validateLoginForm: Ref<ValidateLoginForm[]> = ref<Array<ValidateLoginForm>>([])
     const isLoading = ref<boolean>(false);
-    const toast = useToast();
 
     const loginSchema = z.object({
         username: z.string().min(1, 'El usuario es requerido'),

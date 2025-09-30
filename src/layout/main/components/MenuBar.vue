@@ -29,7 +29,7 @@
                     <UserPopover :label="props.avatarLabel" />
                 </Popover>
                 <Popover ref="op2">
-                    <NotificationPopover />
+                    <NotificationPopover :requests="requests" />
                 </Popover>
             </div>
         </template>
@@ -43,7 +43,7 @@ import type { MenuItem } from 'primevue/menuitem';
 import { ModeToggler, UserPopover, NotificationPopover } from '.';
 import { useMenu } from '../composables/useMenu';
 
-const { overlayBadge, badgeValue, toggle, toggleNotification, op, op2 } = useMenu();
+const { overlayBadge, badgeValue, toggle, toggleNotification, op, op2, requests } = useMenu();
 
 const props = defineProps<{
     visible: boolean;

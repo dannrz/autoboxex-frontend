@@ -8,6 +8,8 @@ import type { AxiosError } from "axios";
 import { useToast } from "primevue";
 import { useToolStore } from "@/stores/useToolStore";
 import { MenuService } from "../services/MenuService";
+import { UserService } from "@/modules/user/services/UserService";
+import type { PasswordRequest } from "@/modules/user/interfaces";
 
 export const useMenu = () => {
     const user: User | null = JSON.parse(localStorage.getItem("user") || "null");
@@ -17,6 +19,7 @@ export const useMenu = () => {
     const visibleModal = ref<boolean>(false);
     const tools: Ref<ToolResponse[]> = ref<ToolResponse[]>([]);
     const badgeValue: Ref<number> = ref<number>(0);
+    const requests = ref<PasswordRequest[]>([]);
 
     const toast = useToast()
     const toolsStore = useToolStore();
@@ -483,6 +486,14 @@ export const useMenu = () => {
         MenuService.getOverlayBadge()
             .then(({ data }) => {
                 badgeValue.value = data.count;
+                if (data.count > 0) {
+                    toast.add({ severity: 'info', summary: 'Notificación', detail: `Tienes ${data.count} nuevas solicitudes de cambio de contraseña`, life: import.meta.env.VITE_TOAST_LIFETIME });
+
+                    UserService.passwordRequests('notifications')
+                        .then(({ data }) => {
+                            requests.value = data;
+                        })
+                }
             })
             .catch((error: AxiosError) => {
                 if (error.status === 401) {
@@ -513,6 +524,7 @@ export const useMenu = () => {
         op,
         op2,
         toggle,
-        toggleNotification
+        toggleNotification,
+        requests
     }
 }

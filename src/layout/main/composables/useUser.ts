@@ -17,7 +17,7 @@ export const useUser = () => {
 
     const allUsers: Ref<User[]> = ref([])
 
-    const getAllUsers = () => {
+    const getAllUsers = (): void => {
         if (userStore.$state.users.length > 0) {
             allUsers.value = userStore.$state.users;
             return;
@@ -34,6 +34,10 @@ export const useUser = () => {
     }
 
     const tooltipMessage = (data: User): string => {
+        if (data.username == user.username) {
+            return `No puedes desactivar tu propia cuenta`;
+        }
+        
         if (data.status == 1) {
             return `Desactivar cuenta de ${data.name}`;
         }
@@ -54,6 +58,10 @@ export const useUser = () => {
             return true;
         }
 
+        if (data.username == user.username) {
+            return true;
+        }
+
         return false;
     }
 
@@ -63,10 +71,12 @@ export const useUser = () => {
             .then(({ data }) => {
                 user.status = data.status_user;
                 toast.add({ severity: 'success', summary: 'Éxito', detail: data.message, life: import.meta.env.VITE_TOAST_LIFETIME });
-                isLoading.value = false;
             })
             .catch(({ response }) => {
                 toast.add({ severity: 'error', summary: 'Error', detail: response.data.message, life: import.meta.env.VITE_TOAST_LIFETIME });
+            })
+            .finally(() => {
+                isLoading.value = false;
             });
     }
 

@@ -13,7 +13,11 @@ export const UserService = {
         return await api.get<User[]>('/user/users');
     },
 
-    async passwordRequests(): Promise<AxiosResponse<PasswordRequest[]>> {
+    async passwordRequests(params?: string): Promise<AxiosResponse<PasswordRequest[]>> {
+        if (params) {
+            return await api.get<PasswordRequest[]>('/user/request-password-changes', { params: { filter: params } });
+        }
+
         return await api.get<PasswordRequest[]>('/user/request-password-changes');
     },
 
