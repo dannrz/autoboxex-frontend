@@ -1,33 +1,36 @@
 <template>
-    <Toast />
-    <Card id="card" class="overflow-hidden mx-auto my-8 w-25rem">
-        <template #header>
-            <img alt="Autoboxex" class="img-fluid w-full" src="../../../assets/autoboxex.jpg" />
-        </template>
-        <template #title>Autoboxex</template>
-        <template #subtitle>Admin system</template>
-        <template #content>
-            <InputFormLogin type="username" class="mb-4" v-model:login-form="loginVars"
-                :validation="v.find(v => v.path == 'username')" />
-            <InputFormLogin type="password" v-model:login-form="loginVars"
-                :validation="v.find(v => v.path == 'password')" />
-        </template>
-        <template #footer>
-            <div class="px-8 py-3">
-                <Button label="Ingresar" icon="pi pi-sign-in" class="w-full" v-if="!isLoading" @click="onLogin" outlined />
-                <Button class="w-full" v-else disabled outlined>
-                    <ProgressSpinner id="spinner" />
-                </Button>
-            </div>
-        </template>
-    </Card>
-    <div class="mx-auto w-25rem">
-        <Divider layout="horizontal" align="center" type="dashed">
-            <b class="text-gray-400">O si olvidaste tu contraseña</b>
-        </Divider>
-    </div>
-    <div class="mx-auto w-25rem flex justify-content-between">
-        <Button severity="info" label="Cambiar contraseña" icon="pi pi-sync" class="w-full" outlined />
+    <div class="flex flex-col justify-content-center place-content-center">
+        <Card id="card" class="w-[30rem]">
+            <template #header>
+                <img alt="Autoboxex" class="w-full" src="../../../assets/autoboxex.jpg" />
+            </template>
+            <template #title>Autoboxex</template>
+            <template #subtitle>Admin system</template>
+            <template #content>
+                <InputFormLogin type="username" v-model:login-form="loginVars"
+                    :validation="v.find(v => v.path == 'username')" />
+                <InputFormLogin type="password" v-model:login-form="loginVars"
+                    :validation="v.find(v => v.path == 'password')" />
+            </template>
+            <template #footer>
+                <div class="flex justify-center">
+                    <Button label="Ingresar" icon="pi pi-sign-in" class="w-2xs" v-if="!isLoading" @click="onLogin"
+                        outlined />
+                    <Button class="w-2xs" v-else disabled outlined>
+                        <ProgressSpinner id="spinner" />
+                    </Button>
+                </div>
+            </template>
+        </Card>
+        <div class="w-[30rem] login">
+            <Divider layout="horizontal" align="center" type="dashed">
+                <b class="text-gray-400">O si olvidaste tu contraseña</b>
+            </Divider>
+        </div>
+        <div class="w-[30rem] login">
+            <Button severity="info" label="Cambiar contraseña" icon="pi pi-sync" class="w-full"
+                @click="router.push({ name: 'change-password' })" outlined />
+        </div>
     </div>
 </template>
 
@@ -35,6 +38,7 @@
 import Card from 'primevue/card';
 import InputFormLogin from '../components/InputFormLogin.vue';
 import { useLogin } from '../composables/useLogin';
+import router from '@/router';
 
 const { loginVars, validateLoginForm: v, onLogin, isLoading } = useLogin();
 </script>
@@ -48,7 +52,12 @@ const { loginVars, validateLoginForm: v, onLogin, isLoading } = useLogin();
 
 #card {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    margin-top: 10rem !important;
+    margin: 10rem auto 1rem auto !important;
+    overflow: hidden;
+}
+
+.login {
+    margin: 0 auto !important;
 }
 
 #spinner {

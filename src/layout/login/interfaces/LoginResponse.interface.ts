@@ -6,12 +6,20 @@ export interface LoginResponse {
 }
 
 export interface User {
-    id: number;
+    id?: number;
     name: string;
-    email: string;
+    email?: string;
     username: string;
-    email_verified_at: null;
-    created_at: Date;
-    updated_at: Date;
-    role: string;
+    status?: number;
+    role: Role;
+    password_restores?: PasswordRestores;
+}
+
+export interface Role {
+    role_name: string;
+    description: string;
+}
+
+export interface PasswordRestores {
+    user_id: number;
 }

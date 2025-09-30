@@ -3,20 +3,20 @@
         <Drawer :visible="visible" :show-close-icon="false">
             <template #header>
                 <div class="flex justify-content-between w-full">
-                    <div class="flex align-items-center gap-3">
-                        <div class="flex align-items-center gap-1">
+                    <div class="flex items-center">
+                        <div class="flex align-items-center gap-3">
                             <Avatar :label="avatarLabel" id="avatar" shape="circle" />
-                            <span class="font-bold">{{ user?.name }}</span>
+                            <span style="font-weight: bold;">{{ user?.name }}</span>
                         </div>
                         <span class="text-sm text-gray-500">
-                            {{ user?.role }}
+                            {{ user?.role.description }}
                         </span>
                     </div>
                     <Button type="button" @click="changeVisibility" icon="pi pi-times" severity="danger" rounded
                         outlined />
                 </div>
             </template>
-            <ItemsMenu />
+            <ItemsMenu :items="items" :visible="visible" @visibility="changeVisibility" />
             <template #footer>
                 <div class="flex items-center gap-2">
                     <Button label="Account" icon="pi pi-user" class="flex-auto" outlined />
@@ -34,8 +34,11 @@ import Avatar from 'primevue/avatar';
 import ItemsMenu from '@/layout/main/components/ItemsMenu.vue';
 import { useLogin } from '@/layout/login/composables/useLogin';
 import type { User } from '@/layout/login/interfaces';
+import { useMenu } from '../composables/useMenu';
 
 const { onCloseSession } = useLogin()
+const { items } = useMenu();
+
 
 const props = defineProps<{
     visible: boolean | undefined;

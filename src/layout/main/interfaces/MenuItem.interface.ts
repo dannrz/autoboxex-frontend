@@ -5,4 +5,5 @@ export interface MenuItem {
     items?: MenuItem[];
     separator?: boolean;
     shortcut?: string;
+    url?: string;
 }
