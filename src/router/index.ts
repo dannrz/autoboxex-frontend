@@ -15,6 +15,14 @@ const router = createRouter({
       },
     },
     {
+      path: '/change-password',
+      name: 'change-password',
+      component: () => import('@/layout/login/views/ChangePasswordView.vue'),
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
       path: '/',
       name: 'home',
       component: () => import('@/layout/main/views/MainPage.vue'),
@@ -87,9 +95,18 @@ const router = createRouter({
           component: () => import('@/modules/user/views/AdminUsers.vue'),
           meta: {
             requiresAuth: true,
-            role: 'admin',
+            roles: ['admin', 'admtivo'],
           }
         },
+        {
+          path: '/password-requests',
+          name: 'password-requests',
+          component: () => import('@/modules/user/views/PasswordRequests.vue'),
+          meta: {
+            requiresAuth: true,
+            role: 'admin',
+          }
+        }
       ],
       meta: {
         requiresAuth: true,

@@ -1,6 +1,6 @@
 import { api } from "@/api/baseApi";
 import type { AxiosResponse } from "axios";
-import type { LoginUser, LoginResponse } from "../interfaces";
+import type { LoginUser, LoginResponse, PasswordRestoreRequest } from "../interfaces";
 import axios from "axios";
 
 export const loginService = {
@@ -17,6 +17,14 @@ export const loginService = {
     async logout() {
         try {
             await api.get("/auth/logout");
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    async restorePassword(data: PasswordRestoreRequest): Promise<AxiosResponse> {
+        try {
+            return await api.post("/auth/request-password-change", data);
         } catch (error) {
             throw error;
         }

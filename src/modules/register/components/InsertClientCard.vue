@@ -57,6 +57,7 @@
                 </FloatLabel>
                
                 <FloatLabel variant="on">
+<<<<<<< HEAD
                     <Select v-model="form.tipo" id="tipo" :options="tipo" optionLabel="name" size="small"
                          class="w-2/3" />
                     <label for="tipo">Tipo</label>
@@ -65,11 +66,24 @@
                     <InputText disabled type="number" id="serie" size="small" />
                     <label for="serie">Folio</label> 
                 </FloatLabel>
+=======
+                    <AutoComplete v-model="form.ordenEntrada" id="ordenEntrada" :suggestions="items" @complete="search"
+                        class="w-full" :inputStyle="{ width: '100%' }" size="small" />
+                    <label for="ordenEntrada">Orden entrada</label>
+                </FloatLabel>
+                <FloatLabel v-if="!isLoadingTipos" variant="on">
+                    <Select v-model="form.tipo" id="tipo" :options="lists[0]" optionLabel="name" class="w-full"
+                        size="small" />
+                    <label for="tipo">Tipo</label>
+                </FloatLabel>
+                <Select v-else placeholder="Cargando tipos..." loading size="small" />
+>>>>>>> dann
                 <FloatLabel variant="on">
                     <DatePicker v-model="form.fechaEntrada" id="fechaEntrada" showIcon iconDisplay="input"
                         dateFormat="dd/mm/yy" size="small" class="w-2/3" />
                     <label for="fechaEntrada">Fecha de entrada</label>
                 </FloatLabel>
+<<<<<<< HEAD
                 
                 <FloatLabel variant="on">
                     <Select v-model="form.estado" id="estado" :options="estado" optionLabel="name" class="w-2/3"
@@ -135,6 +149,27 @@
                 </FloatLabel>
                 <FloatLabel variant="in" >
                     <Textarea id="ingresaPor" v-model="form.ingresaPor" rows="3" cols="30" size="large" autoResize />
+=======
+
+                <FloatLabel v-if="!isLoadingStates" variant="on">
+                    <Select v-model="form.estado" id="estado" :options="lists[1]" optionLabel="name" class="w-full"
+                        size="small" />
+                    <label for="estado">Estado</label>
+                </FloatLabel>
+                <Select v-else placeholder="Cargando estados..." loading size="small" />
+                <FloatLabel variant="on" class="col-span-2">
+                    <InputText id="autorizacion" size="small" class="w-full" />
+                    <label for="autorizacion">Nombre de quien autoriza</label>
+                </FloatLabel>
+
+                <FloatLabel variant="in" class="col-span-2">
+                    <Textarea id="observaciones" v-model="form.observaciones" rows="3" cols="48" size="large"
+                        autoResize />
+                    <label for="observaciones">Observaciones:</label>
+                </FloatLabel>
+                <FloatLabel variant="in" class="col-span-2">
+                    <Textarea id="ingresaPor" v-model="form.ingresaPor" rows="3" cols="48" size="large" autoResize />
+>>>>>>> dann
                     <label for="ingresaPor">Ingresa por: </label>
                 </FloatLabel>
             </div>
@@ -157,14 +192,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { FormRegister } from '../interfaces';
-import { useToast } from "primevue";
 import { useForm } from '@/utils/forms/composables/useForm';
+import { onMounted } from 'vue';
 
-const { items, search, serviceType, states } = useForm();
-const toast = useToast();
+const { form, items, search, onSubmit, onClear, fetchLists, lists, isLoadingStates, isLoadingTipos } = useForm();
 
+<<<<<<< HEAD
 const form = ref<FormRegister>({} as FormRegister);
 
 const onSubmit = (): void => {
@@ -205,4 +238,9 @@ const autoriza = ref([
 //     { name: 'Cancelado' }
 // ];
 
+=======
+onMounted((): void => {
+    fetchLists();
+});
+>>>>>>> dann
 </script>

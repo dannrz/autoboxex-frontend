@@ -17,10 +17,14 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
+<<<<<<< HEAD
 import FactList from "../components/FactList.vue";
 import InsertClientCard from "../components/InsertClientCard.vue";
 import Insumos from "../components/Insumos.vue";
 import PreciosList from "../components/PreciosList.vue";
+=======
+import { FactList, InsertClientCard, Insumos, PreciosList } from "../components";
+>>>>>>> dann
 import { useTables } from "../composables/useTables";
 
 const { refax, precios, costos, refaxLoading, preciosLoading, costosLoading, getTables } = useTables();

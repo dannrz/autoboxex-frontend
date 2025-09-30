@@ -15,10 +15,10 @@
 
 <script setup lang="ts">
 import { type Ref, ref } from "vue";
-import AsideMenu from "./AsideMenu.vue";
-import MenuBar from "./MenuBar.vue";
 import { useMenu } from "../composables/useMenu";
 import { useUser } from "../composables/useUser";
+import AsideMenu from "./AsideMenu.vue";
+import MenuBar from "./MenuBar.vue";
 import ToolsTable from "@/modules/tools/components/ToolsTable.vue";
 
 const visible: Ref<boolean> = ref(false);

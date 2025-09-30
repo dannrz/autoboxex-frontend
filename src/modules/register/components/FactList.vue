@@ -1,5 +1,9 @@
 <template>
+<<<<<<< HEAD
     <card style="width: fit-content;" class=" flex flex-wrap items-start gap-4 ">
+=======
+    <card style="width: fit-content;" class=" flex flex-wrap items-start">
+>>>>>>> dann
         <template #title>Tabla de costos</template>
         <template #content>
             <div class="card">
@@ -10,7 +14,11 @@
                         </template>
                     </Column>
                 </DataTable>
+<<<<<<< HEAD
                 <DataTable v-else :value="costos" tableStyle="min-width: 50rem">
+=======
+                <DataTable v-else :value="costos" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" tableStyle="min-width: 50rem">
+>>>>>>> dann
                     <Column field="id" header="Id Producto"></Column>
                     <Column field="producto" header="Producto"></Column>
                     <Column field="cantidad" header="Cantidad"></Column>

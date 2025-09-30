@@ -9,10 +9,6 @@
                     <InputText id="name" size="large" class="w-full" v-model="form.name" />
                     <label for="name">Nombre</label>
                 </FloatLabel>
-                <FloatLabel variant="on">
-                    <InputText id="email" size="large" class="w-full" v-model="form.email" />
-                    <label for="email">Email</label>
-                </FloatLabel>
             </div>
         </template>
         <template #footer>

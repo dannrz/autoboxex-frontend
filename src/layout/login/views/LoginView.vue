@@ -28,7 +28,8 @@
             </Divider>
         </div>
         <div class="w-[30rem] login">
-            <Button severity="info" label="Cambiar contraseña" icon="pi pi-sync" class="w-full" outlined />
+            <Button severity="info" label="Cambiar contraseña" icon="pi pi-sync" class="w-full"
+                @click="router.push({ name: 'change-password' })" outlined />
         </div>
     </div>
 </template>
@@ -37,6 +38,7 @@
 import Card from 'primevue/card';
 import InputFormLogin from '../components/InputFormLogin.vue';
 import { useLogin } from '../composables/useLogin';
+import router from '@/router';
 
 const { loginVars, validateLoginForm: v, onLogin, isLoading } = useLogin();
 </script>

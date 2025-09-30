@@ -1,6 +1,10 @@
 export enum Roles {
     Admin = 'admin',
-    User = 'user',
-    Guest = 'guest',
-    Almacen = 'almacen'
+    Capturista = 'cpt',
+    Abc = 'abc',
+    Analisec = 'ana',
+    Administrativo = 'admtivo',
+    Almacen = 'almacen',
+    JefeTaller = 'jta',
+    User = 'user'
 }
