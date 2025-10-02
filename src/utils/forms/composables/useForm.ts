@@ -1,18 +1,24 @@
+import { ref } from "vue"
+import { FilterMatchMode } from '@primevue/core/api';
+import { useToast } from "primevue";
 import type { FormRegister, ServiceType } from "@/modules/register/interfaces";
 import { RegisterService } from "@/modules/register/services/registerService";
 import { useFormStore } from "@/stores/useFormStore";
-import { useToast } from "primevue";
-import { ref } from "vue"
+import type { Clientes } from "@/modules/register/interfaces/Clientes.interface";
+import { useClientStore } from "@/stores/useClientStore";
 
 export const useForm = () => {
     const toast = useToast();
     const formStore = useFormStore();
+    const clientStore = useClientStore();
 
     const items = ref<string[]>([]);
     const form = ref<FormRegister>({} as FormRegister);
     const lists = ref<Array<ServiceType[]>>([]);
     const isLoadingTipos = ref<boolean>(false);
     const isLoadingStates = ref<boolean>(false);
+    const clientes = ref<Clientes[]>([]);
+    const isLoadingClients = ref<boolean>(false);
 
     const search = (event: { query: string }) => {
         items.value = [...Array(10).keys()].map((item) => event.query + '-' + item);
@@ -27,9 +33,23 @@ export const useForm = () => {
         console.log(form.value);
     }
 
+    const onClientChange = (e: Clientes) => {
+        RegisterService.getClient(e)
+            .then(({ data }): void => {
+                form.value.idCliente = String(data.IdCliente);
+                form.value.sucursal = data.Sucursal!;
+                form.value.rfc = data.RFC!;
+                form.value.credito = `${data.Credito!} ${data.Credito! == 1 ? 'día' : 'días'}`;
+                form.value.direccion = `${data.Direccion!} ${data.Colonia} ${data.Poblacion} ${data.Estado} ${data.CP}`;
+            })
+    }
+
     const fetchLists = (): void => {
         if (formStore.$state.tipoServicios.length > 0) {
             lists.value[0] = formStore.$state.tipoServicios;
+            lists.value[1] = formStore.$state.state;
+            clientes.value = clientStore.$state.clients;
+
             return;
         }
         isLoadingTipos.value = true;
@@ -42,10 +62,6 @@ export const useForm = () => {
                 isLoadingTipos.value = false;
             });
 
-        if (formStore.$state.state.length > 0) {
-            lists.value[1] = formStore.$state.state;
-            return;
-        }
         isLoadingStates.value = true;
         RegisterService.states()
             .then(({ data }): void => {
@@ -55,17 +71,35 @@ export const useForm = () => {
             .finally(() => {
                 isLoadingStates.value = false;
             });
+
+        isLoadingClients.value = true;
+        RegisterService.getClients()
+            .then(({ data }): void => {
+                clientStore.$state.clients = data;
+                clientes.value = data;
+            })
+            .finally(() => {
+                isLoadingClients.value = false;
+            });
     }
+
+    const filters = ref({
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS }
+    });
 
     return {
         items,
         form,
         search,
+        filters,
+        clientes,
         onSubmit,
         onClear,
         fetchLists,
         lists,
         isLoadingTipos,
         isLoadingStates,
+        isLoadingClients,
+        onClientChange,
     }
 }
