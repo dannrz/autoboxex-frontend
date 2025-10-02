@@ -25,15 +25,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { FilterMatchMode } from '@primevue/core/api';
+import { useForm } from '@/utils/forms/composables/useForm';
 import type { ToolResponse } from '../interfaces';
 
 defineProps<{
     tools: ToolResponse[]
 }>();
 
-const filters = ref({
-    global: { value: null, matchMode: FilterMatchMode.CONTAINS }
-});
+const { filters } = useForm();
 </script>

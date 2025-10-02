@@ -27,12 +27,12 @@ const router = createRouter({
       component: () => import('@/layout/main/views/MainPage.vue'),
       children: [
         {
-          path: '/register',
+          path: '/processes/service',
           name: 'register',
           component: () => import('@/modules/register/views/FormRegister.vue'),
           meta: {
             requiresAuth: true,
-            role: 'admin',
+            roles: ['admin', 'admtivo'],
           }
         },
         {

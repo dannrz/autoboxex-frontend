@@ -1,38 +1,30 @@
-# primevue
+# Autoboxex Frontend
+<img src="https://gearboxgo.com/_ipx/_/https:/s3.us-east-1.amazonaws.com/assets.gearboxgo.com/articles/primevue-tailwind-4.png" width="250">
+<img src="https://xprimiendo.com/wp-content/uploads/2018/04/vue-js.png" width="500">
+Proyecto frontend desarrollado con Vue 3, Primevue y TailwindCSS 4.
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+## Como levantar el proyecto
+El proyecto requiere Node.JS 22.12.0 y npm 11.6.1
 
 ```sh
-npm install
-```
+git init
+git checkout -b <rama>
+git remote add <variable_remota> <url_repo>
+git pull <rama> <origen_remoto>
 
-### Compile and Hot-Reload for Development
-
-```sh
+npm i
 npm run dev
 ```
+Es importante agregar variables de entorno para conexión a API
 
-### Type-Check, Compile and Minify for Production
+
+### Para build de producción
 
 ```sh
 npm run build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+### Correr pruebas unitarias con [Vitest](https://vitest.dev/)
 
 ```sh
 npm run test:unit
