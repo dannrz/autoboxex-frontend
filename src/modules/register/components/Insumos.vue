@@ -3,14 +3,14 @@
         <template #title>Tabla de insumos</template>
         <template #content>
             <div class="card">
-                <DataTable v-if="loading" :value="new Array(3)">
+                <DataTable v-if="loading" :value="new Array(3)" tableStyle="min-width: 50rem">
                     <Column v-for="value in ['Refacción', 'Tipo', 'Cantidad', 'Precio', 'Importe']" :header="value">
                         <template #body>
                             <Skeleton></Skeleton>
                         </template>
                     </Column>
                 </DataTable>
-                <DataTable v-else :value="refax" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" tableStyle="min-width: 50rem">
+                <DataTable v-else :value="refax" paginator :rows="15" :rowsPerPageOptions="[5, 15, 20, 50]" tableStyle="min-width: 50rem">
                     <Column field="refaccion" header="Refacción"></Column>
                     <Column field="tipo" header="Tipo"></Column>
                     <Column field="cantidad" header="Cantidad"></Column>

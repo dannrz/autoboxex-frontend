@@ -1,6 +1,10 @@
 export interface FormRegister {
     idCliente: string;
     cliente: string;
+    sucursal: string;
+    rfc: string;
+    credito: string;
+    direccion: string;
     placas: string;
     marca: string;
     modelo: string;
