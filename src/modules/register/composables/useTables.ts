@@ -49,6 +49,10 @@ export const useTables = () => {
     const getTables = () => {
         getInsumos();
         getPrecios();
+        if (tableStore.$state.costos.length > 0) {
+            costos.value = tableStore.$state.costos;
+            return;
+        }
     }
 
     const filters = ref({
@@ -63,6 +67,8 @@ export const useTables = () => {
             precio: ev.Precio,
             total: ev.Precio,
         });
+
+        tableStore.$state.costos = costos.value;
     }
 
     return {
