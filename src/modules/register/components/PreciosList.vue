@@ -1,18 +1,14 @@
 <template>
-    <card style="width: fit-content;" class=" flex flex-wrap items-start gap-4">
+    <Card style="width: fit-content;" class=" flex flex-wrap items-start gap-4">
         <template #title>Tabla de precios</template>
         <template #content>
             <div class="card">
-                <DataTable v-if="loading" :value="new Array(3)">
-                    <Column v-for="value in ['Id Producto', 'Producto', 'Precio']" :header="value">
-                        <template #body>
-                            <Skeleton></Skeleton>
-                        </template>
-                    </Column>
-                </DataTable>
-                <DataTable v-else v-model:filters="filters" :value="precios" paginator :rows="5"
-                    :rowsPerPageOptions="[5, 10, 20, 50]" tableStyle="min-width: 50rem"
-                    :globalFilterFields="['IdProducto', 'Producto', 'Precio']">
+                <SkeletonTable v-if="loading" :rows="5" :headers="['Id Producto', 'Producto', 'Precio']"
+                    styles="min-width: 50rem" />
+                <DataTable v-else v-model:filters="filters" v-model:selection="selectedPrecio" :value="precios"
+                    paginator :rows="10" selectionMode="single" :rowsPerPageOptions="[5, 10, 20, 50]" stripedRows
+                    tableStyle="min-width: 50rem" :globalFilterFields="['IdProducto', 'Producto', 'Precio']"
+                    @row-select="onSelection($event.data)">
                     <template #header>
                         <div class="flex justify-end">
                             <IconField>
@@ -34,18 +30,26 @@
                 </DataTable>
             </div>
         </template>
-    </card>
+    </Card>
 </template>
 
 <script setup lang="ts">
-import Skeleton from 'primevue/skeleton';
+import { SkeletonTable } from '@/modules/user/components';
 import type { Precios } from '../interfaces';
-import { useForm } from '@/utils/forms/composables/useForm';
+import { useTables } from '../composables/useTables';
 
 defineProps<{
     precios: Precios[],
     loading: boolean
 }>();
 
-const { filters } = useForm();
+const emits = defineEmits<{
+    selection: [value: Precios]
+}>();
+
+const onSelection = (value: Precios) => {
+    emits('selection', value);
+}
+
+const { filters, selectedPrecio } = useTables();
 </script>

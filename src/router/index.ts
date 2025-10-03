@@ -58,7 +58,7 @@ const router = createRouter({
           component: () => import('@/modules/user/views/PasswordRequests.vue'),
           meta: {
             requiresAuth: true,
-            role: 'admin',
+            roles: ['admin', 'admtivo'],
           }
         }
       ],

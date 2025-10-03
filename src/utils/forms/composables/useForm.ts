@@ -1,5 +1,4 @@
 import { ref } from "vue"
-import { FilterMatchMode } from '@primevue/core/api';
 import { useToast } from "primevue";
 import type { FormRegister, ServiceType } from "@/modules/register/interfaces";
 import { RegisterService } from "@/modules/register/services/registerService";
@@ -83,15 +82,10 @@ export const useForm = () => {
             });
     }
 
-    const filters = ref({
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS }
-    });
-
     return {
         items,
         form,
         search,
-        filters,
         clientes,
         onSubmit,
         onClear,

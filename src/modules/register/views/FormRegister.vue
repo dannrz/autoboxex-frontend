@@ -3,7 +3,7 @@
         <InsertClientCard />
         <Insumos :refax="refax" :loading="refaxLoading" />
         <FactList :costos="costos" :loading="costosLoading" />
-        <PreciosList :precios="precios" :loading="preciosLoading" />
+        <PreciosList :precios="precios" :loading="preciosLoading" @selection="onEmitedSelection" />
         <Card class="w-full col-span-2">
             <template #title>Clientes registrados</template>
             <template #content></template>
@@ -19,8 +19,9 @@
 import { onMounted } from "vue";
 import { FactList, InsertClientCard, Insumos, PreciosList } from "../components";
 import { useTables } from "../composables/useTables";
+import type { Precios } from "../interfaces";
 
-const { refax, precios, costos, refaxLoading, preciosLoading, costosLoading, getTables } = useTables();
+const { refax, precios, costos, refaxLoading, preciosLoading, costosLoading, onEmitedSelection, getTables } = useTables();
 
 onMounted(() => {
     getTables();
