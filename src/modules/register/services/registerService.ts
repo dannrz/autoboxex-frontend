@@ -19,9 +19,9 @@ export const RegisterService = {
         return await api.get<Precios[]>('/services/precios');
     },
 
-    async getCostos(): Promise<AxiosResponse<Costos[]>> {
+    /* async getCostos(): Promise<AxiosResponse<Costos[]>> {
         return await api.get<Costos[]>('/services/costos');
-    },
+    }, */
 
     async getClients(): Promise<AxiosResponse<Clientes[]>> {
         return await api.get<Clientes[]>('/services/clients');

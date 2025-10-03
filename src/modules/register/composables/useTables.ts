@@ -1,4 +1,5 @@
 import { ref } from "vue";
+import { FilterMatchMode } from '@primevue/core/api';
 import type { Costos, Insumos, Precios } from "../interfaces";
 import { RegisterService } from "../services/registerService";
 import { useTablesStore } from "@/stores/useTablesStore";
@@ -7,6 +8,8 @@ export const useTables = () => {
     const refax = ref<Array<Insumos>>([]);
     const precios = ref<Array<Precios>>([]);
     const costos = ref<Array<Costos>>([]);
+    const selectedPrecio = ref<Precios | null>(null);
+
     const refaxLoading = ref<boolean>(true);
     const preciosLoading = ref<boolean>(true);
     const costosLoading = ref<boolean>(true);
@@ -43,25 +46,23 @@ export const useTables = () => {
         });
     }
 
-    const getCostos = () => {
-        if (tableStore.$state.costos.length > 0) {
-            costos.value = tableStore.$state.costos;
-            costosLoading.value = false;
-            return;
-        }
-        RegisterService.getCostos().then(({ data }) => {
-            costos.value = data;
-            tableStore.$state.costos = data;
-            costosLoading.value = false;
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
-
     const getTables = () => {
         getInsumos();
         getPrecios();
-        getCostos();
+    }
+
+    const filters = ref({
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS }
+    });
+
+    const onEmitedSelection = (ev: Precios) => {
+        costos.value.push({
+            id: ev.IdProducto,
+            producto: ev.Producto,
+            cantidad: 1,
+            precio: ev.Precio,
+            total: ev.Precio,
+        });
     }
 
     return {
@@ -72,5 +73,8 @@ export const useTables = () => {
         refaxLoading,
         preciosLoading,
         costosLoading,
+        selectedPrecio,
+        filters,
+        onEmitedSelection,
     }
 }
