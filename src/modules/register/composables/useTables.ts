@@ -1,25 +1,19 @@
 import { ref } from "vue";
+import { FilterMatchMode } from '@primevue/core/api';
 import type { Costos, Insumos, Precios } from "../interfaces";
-<<<<<<< HEAD
-import { tableService } from "../services/tableService";
-=======
 import { RegisterService } from "../services/registerService";
 import { useTablesStore } from "@/stores/useTablesStore";
->>>>>>> dann
 
 export const useTables = () => {
     const refax = ref<Array<Insumos>>([]);
     const precios = ref<Array<Precios>>([]);
     const costos = ref<Array<Costos>>([]);
+    const selectedPrecio = ref<Precios | null>(null);
+
     const refaxLoading = ref<boolean>(true);
     const preciosLoading = ref<boolean>(true);
     const costosLoading = ref<boolean>(true);
 
-<<<<<<< HEAD
-    const getInsumos = () => {
-        tableService.getInsumos().then(({ data }) => {
-            refax.value = data;
-=======
     const tableStore = useTablesStore();
 
     const getInsumos = () => {
@@ -31,7 +25,6 @@ export const useTables = () => {
         RegisterService.getInsumos().then(({ data }) => {
             refax.value = data;
             tableStore.$state.insumos = data;
->>>>>>> dann
             refaxLoading.value = false;
         }).catch((error) => {
             console.log(error);
@@ -39,10 +32,6 @@ export const useTables = () => {
     }
 
     const getPrecios = () => {
-<<<<<<< HEAD
-        tableService.getPrecios().then(({ data }) => {
-            precios.value = data;
-=======
         if (tableStore.$state.precios.length > 0) {
             precios.value = tableStore.$state.precios;
             preciosLoading.value = false;
@@ -51,28 +40,7 @@ export const useTables = () => {
         RegisterService.getPrecios().then(({ data }) => {
             precios.value = data;
             tableStore.$state.precios = data;
->>>>>>> dann
             preciosLoading.value = false;
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
-
-    const getCostos = () => {
-<<<<<<< HEAD
-        tableService.getCostos().then(({ data }) => {
-            costos.value = data;
-=======
-        if (tableStore.$state.costos.length > 0) {
-            costos.value = tableStore.$state.costos;
-            costosLoading.value = false;
-            return;
-        }
-        RegisterService.getCostos().then(({ data }) => {
-            costos.value = data;
-            tableStore.$state.costos = data;
->>>>>>> dann
-            costosLoading.value = false;
         }).catch((error) => {
             console.log(error);
         });
@@ -81,7 +49,20 @@ export const useTables = () => {
     const getTables = () => {
         getInsumos();
         getPrecios();
-        getCostos();
+    }
+
+    const filters = ref({
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS }
+    });
+
+    const onEmitedSelection = (ev: Precios) => {
+        costos.value.push({
+            id: ev.IdProducto,
+            producto: ev.Producto,
+            cantidad: 1,
+            precio: ev.Precio,
+            total: ev.Precio,
+        });
     }
 
     return {
@@ -92,5 +73,8 @@ export const useTables = () => {
         refaxLoading,
         preciosLoading,
         costosLoading,
+        selectedPrecio,
+        filters,
+        onEmitedSelection,
     }
 }
