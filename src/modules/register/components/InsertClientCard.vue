@@ -83,8 +83,8 @@
                 </FloatLabel>
                 <Select v-else placeholder="Cargando tipos..." loading size="small" class="col-span-3" />
                 <FloatLabel variant="on" class="col-span-3">
-                    <DatePicker v-model="form.fechaEntrada" id="fechaEntrada" showIcon iconDisplay="input"
-                        dateFormat="dd/mm/yy" size="small" class="w-full" />
+                    <DatePicker v-model="form.fechaEntrada" id="fechaEntrada" update-model-type="date" showIcon
+                        iconDisplay="input" dateFormat="dd/mm/yy" size="small" class="w-full" />
                     <label for="fechaEntrada">Fecha de entrada</label>
                 </FloatLabel>
 
@@ -113,8 +113,9 @@
                     <label for="proximoServicio">Próximo servicio (días)</label>
                 </FloatLabel>
                 <FloatLabel variant="on" class="col-span-4">
-                    <DatePicker v-model="form.fechaSalida" id="fechaSalida" showIcon iconDisplay="input"
-                        dateFormat="dd/mm/yy" class="w-full" size="small" />
+                    <DatePicker v-model="form.fechaSalida" update-model-type="date" id="fechaSalida" showIcon
+                        iconDisplay="input" dateFormat="dd/mm/yy" class="w-full" size="small"
+                        :inputStyle="{ width: '100%' }" />
                     <label for="fechaSalida">Fecha de salida</label>
                 </FloatLabel>
             </div>
