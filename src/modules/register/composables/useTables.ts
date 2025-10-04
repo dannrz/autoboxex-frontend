@@ -4,6 +4,8 @@ import type { Costos, Insumos, Precios } from "../interfaces";
 import { RegisterService } from "../services/registerService";
 import { useTablesStore } from "@/stores/useTablesStore";
 
+const tableStore = useTablesStore();
+
 export const useTables = () => {
     const refax = ref<Array<Insumos>>([]);
     const precios = ref<Array<Precios>>([]);
@@ -14,7 +16,6 @@ export const useTables = () => {
     const preciosLoading = ref<boolean>(true);
     const costosLoading = ref<boolean>(true);
 
-    const tableStore = useTablesStore();
 
     const getInsumos = () => {
         if (tableStore.$state.insumos.length > 0) {
@@ -60,6 +61,16 @@ export const useTables = () => {
     });
 
     const onEmitedSelection = (ev: Precios) => {
+        if (costos.value.includes(costos.value.find(c => c.id === ev.IdProducto)!)) {
+            const costo = costos.value.find(c => c.id === ev.IdProducto);
+
+            if (costo) {
+                costo.cantidad += 1;
+                costo.total = costo.cantidad * costo.precio;
+            }
+            return;
+        }
+
         costos.value.push({
             id: ev.IdProducto,
             producto: ev.Producto,
@@ -69,6 +80,57 @@ export const useTables = () => {
         });
 
         tableStore.$state.costos = costos.value;
+    }
+
+    const editableColumns = ref([
+        { field: 'producto', header: 'Producto' },
+        { field: 'cantidad', header: 'Cantidad' },
+        { field: 'precio', header: 'Precio' },
+    ]);
+
+    const tableProps: any = {
+        table: { style: 'min-width: 50rem' },
+        column: {
+            bodycell: ({ state }: any) => ({
+                class: [{ '!py-0': state['d_editing'] }]
+            })
+        }
+    };
+
+    const formatCurrency = (value: number) => {
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
+    }
+
+    const onCellEditComplete = (event: any) => {
+        let { data, newValue, field } = event;
+
+        switch (field) {
+            case 'cantidad':
+            case 'precio':
+                if (isPositiveInteger(newValue)) data[field] = Number(newValue);
+                else event.preventDefault();
+                break;
+
+            default:
+                if (newValue.trim().length > 0) data[field] = newValue;
+                else event.preventDefault();
+                break;
+        }
+    }
+
+    const isPositiveInteger = (val: number) => {
+        let str = String(val);
+
+        str = str.trim();
+
+        if (!str) {
+            return false;
+        }
+
+        str = str.replace(/^0+/, '') || '0';
+        let n = Math.floor(Number(str));
+
+        return n !== Infinity && String(n) === str && n >= 0;
     }
 
     return {
@@ -82,5 +144,9 @@ export const useTables = () => {
         selectedPrecio,
         filters,
         onEmitedSelection,
+        editableColumns,
+        tableProps,
+        formatCurrency,
+        onCellEditComplete,
     }
 }
