@@ -30,5 +30,6 @@ export interface FormRegister {
     iva: string;
     total: string;
     servicios: Array<Servicio>;
+    servicio: Servicio;
     placasList: string[];
 }
