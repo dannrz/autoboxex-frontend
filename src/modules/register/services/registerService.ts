@@ -1,5 +1,5 @@
 import { api } from "@/api/baseApi"
-import type { Costos, Insumos, Precios, ServiceType } from "../interfaces"
+import type { ClientServicesResponse, Insumos, Precios, ServiceType } from "../interfaces"
 import type { AxiosResponse } from "axios"
 import type { Clientes } from "../interfaces/Clientes.interface"
 
@@ -19,15 +19,11 @@ export const RegisterService = {
         return await api.get<Precios[]>('/services/precios');
     },
 
-    /* async getCostos(): Promise<AxiosResponse<Costos[]>> {
-        return await api.get<Costos[]>('/services/costos');
-    }, */
-
     async getClients(): Promise<AxiosResponse<Clientes[]>> {
         return await api.get<Clientes[]>('/services/clients');
     },
 
-    async getClient({ IdCliente }: Clientes): Promise<AxiosResponse<Clientes>> {
-        return await api.get<Clientes>('/services/clients', { params: { id: IdCliente } });
+    async getClient({ IdCliente }: Clientes): Promise<AxiosResponse<ClientServicesResponse>> {
+        return await api.get<ClientServicesResponse>('/services/clients', { params: { id: IdCliente } });
     }
 }

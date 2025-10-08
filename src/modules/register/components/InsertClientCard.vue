@@ -34,13 +34,21 @@
                     <Textarea v-model="form.direccion" id="direccion" rows="1" cols="48" size="large" autoResize />
                     <label for="direccion">Dirección</label>
                 </FloatLabel>
+                <h4 v-if="form.servicios" class="col-span-12 font-bold">
+                    {{ `Total de servicios: ${form.servicios.length}` }}
+                </h4>
                 <Divider align="center" type="dotted" class="col-span-12">
                     <b class="italic">Vehículo</b>
                 </Divider>
-                <FloatLabel variant="on" class="col-span-4">
-                    <InputText id="placas" class="w-full" size="small" />
+                <FloatLabel v-if="!isLoadingClients" variant="on" class="col-span-4">
+                    <Select v-model="form.placas" id="placas" filter :options="form.placasList"
+                        class="w-full" size="small" @value-change="onPlacasChange" />
                     <label for="placas">Placas</label>
                 </FloatLabel>
+                <!-- <FloatLabel variant="on" class="col-span-4">
+                    <InputText id="placas" class="w-full" size="small" />
+                    <label for="placas">Placas</label>
+                </FloatLabel> -->
                 <FloatLabel variant="on" class="col-span-4">
                     <AutoComplete v-model="form.marca" id="marca" :suggestions="items" @complete="search" class="w-full"
                         :inputStyle="{ width: '100%' }" size="small" />
@@ -135,7 +143,7 @@
 import { onMounted } from 'vue';
 import { useForm } from '@/utils/forms/composables/useForm';
 
-const { form, items, search, onSubmit, onClear, fetchLists, lists, isLoadingStates, isLoadingTipos, isLoadingClients, clientes, onClientChange } = useForm();
+const { form, items, search, onSubmit, onClear, fetchLists, lists, isLoadingStates, isLoadingTipos, isLoadingClients, clientes, onClientChange, onPlacasChange } = useForm();
 
 onMounted((): void => {
     fetchLists();

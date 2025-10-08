@@ -38,9 +38,24 @@ export const useForm = () => {
                 form.value.idCliente = String(data.IdCliente);
                 form.value.sucursal = data.Sucursal!;
                 form.value.rfc = data.RFC!;
-                form.value.credito = `${data.Credito!} ${data.Credito! == 1 ? 'día' : 'días'}`;
+                form.value.credito = `${data.Credito!} ${data.Credito! == '1' ? 'día' : 'días'}`;
                 form.value.direccion = `${data.Direccion!} ${data.Colonia} ${data.Poblacion} ${data.Estado} ${data.CP}`;
-            })
+                form.value.servicios = data.servicios;
+
+                let listPlacas: string[] = [];
+                data.servicios.forEach((service) => {
+                    listPlacas.push(service.vehiculo.Placas);
+                });
+                form.value.placasList = listPlacas;
+            });
+    }
+
+    const onPlacasChange = (placas: string) => {
+
+        const servicio = form.value.servicios.find((service) => service.vehiculo.Placas === placas);
+
+        console.log(servicio);
+        form.value.servicios = servicio ? [servicio] : [];
     }
 
     const fetchLists = (): void => {
@@ -95,5 +110,6 @@ export const useForm = () => {
         isLoadingStates,
         isLoadingClients,
         onClientChange,
+        onPlacasChange,
     }
 }
