@@ -1,6 +1,6 @@
 import { ref } from "vue"
 import { useToast } from "primevue";
-import type { FormRegister, ServiceType } from "@/modules/register/interfaces";
+import type { FormRegister, ServiceType, Servicio } from "@/modules/register/interfaces";
 import { RegisterService } from "@/modules/register/services/registerService";
 import { useFormStore } from "@/stores/useFormStore";
 import type { Clientes } from "@/modules/register/interfaces/Clientes.interface";
@@ -14,9 +14,11 @@ export const useForm = () => {
     const items = ref<string[]>([]);
     const form = ref<FormRegister>({} as FormRegister);
     const lists = ref<Array<ServiceType[]>>([]);
+    const clientes = ref<Clientes[]>([]);
+
     const isLoadingTipos = ref<boolean>(false);
     const isLoadingStates = ref<boolean>(false);
-    const clientes = ref<Clientes[]>([]);
+    const isLoadingPlacas = ref<boolean>(false);
     const isLoadingClients = ref<boolean>(false);
 
     const search = (event: { query: string }) => {
@@ -33,6 +35,9 @@ export const useForm = () => {
     }
 
     const onClientChange = (e: Clientes) => {
+        isLoadingPlacas.value = true;
+        form.value = {} as FormRegister;
+
         RegisterService.getClient(e)
             .then(({ data }): void => {
                 form.value.idCliente = String(data.IdCliente);
@@ -47,15 +52,22 @@ export const useForm = () => {
                     listPlacas.push(service.vehiculo.Placas);
                 });
                 form.value.placasList = listPlacas;
+            })
+            .finally(() => {
+                isLoadingPlacas.value = false;
             });
     }
 
     const onPlacasChange = (placas: string) => {
 
-        const servicio = form.value.servicios.find((service) => service.vehiculo.Placas === placas);
+        const servicio: Servicio | undefined = form.value.servicios.find((service: Servicio | undefined) => service!.vehiculo.Placas === placas);
 
-        console.log(servicio);
-        form.value.servicios = servicio ? [servicio] : [];
+        form.value.marca = servicio!.vehiculo.marca.Marca;
+        form.value.modelo = servicio!.vehiculo.Modelo;
+        form.value.year = servicio!.vehiculo.Año;
+        form.value.color = servicio!.vehiculo.Color!;
+        form.value.serie = servicio!.vehiculo.Serie!;
+        form.value.kilometraje = servicio!.Kms!;
     }
 
     const fetchLists = (): void => {
@@ -109,6 +121,7 @@ export const useForm = () => {
         isLoadingTipos,
         isLoadingStates,
         isLoadingClients,
+        isLoadingPlacas,
         onClientChange,
         onPlacasChange,
     }

@@ -40,18 +40,16 @@
                 <Divider align="center" type="dotted" class="col-span-12">
                     <b class="italic">Vehículo</b>
                 </Divider>
-                <FloatLabel v-if="!isLoadingClients" variant="on" class="col-span-4">
-                    <Select v-model="form.placas" id="placas" filter :options="form.placasList"
-                        class="w-full" size="small" @value-change="onPlacasChange" />
+                <FloatLabel v-if="!isLoadingPlacas" variant="on" class="col-span-4">
+                    <Select v-model="form.placas" id="placas" filter :options="form.placasList" class="w-full"
+                        size="small" @value-change="onPlacasChange" />
                     <label for="placas">Placas</label>
                 </FloatLabel>
-                <!-- <FloatLabel variant="on" class="col-span-4">
-                    <InputText id="placas" class="w-full" size="small" />
-                    <label for="placas">Placas</label>
-                </FloatLabel> -->
+                <Select v-else placeholder="Cargando placas..." class="col-span-4" loading size="small" />
+
                 <FloatLabel variant="on" class="col-span-4">
-                    <AutoComplete v-model="form.marca" id="marca" :suggestions="items" @complete="search" class="w-full"
-                        :inputStyle="{ width: '100%' }" size="small" />
+                    <InputText v-model="form.marca" id="marca" class="w-full" size="small"
+                        :inputStyle="{ width: '100%' }" />
                     <label for="marca">Marca</label>
                 </FloatLabel>
                 <FloatLabel variant="on" class="col-span-4">
@@ -69,11 +67,11 @@
                     <label for="color">Color</label>
                 </FloatLabel>
                 <FloatLabel variant="on" class="col-span-3">
-                    <InputText id="serie" size="small" class="w-full" />
+                    <InputText v-model="form.serie" id="serie" size="small" class="w-full" />
                     <label for="serie">Serie</label>
                 </FloatLabel>
                 <FloatLabel variant="on" class="col-span-3">
-                    <InputText id="kilometraje" size="small" class="w-full" />
+                    <InputText v-model="form.kilometraje" id="kilometraje" size="small" class="w-full" />
                     <label for="kilometraje">Kilometraje</label>
                 </FloatLabel>
                 <Divider align="center" type="dotted" class="col-span-12">
@@ -143,7 +141,7 @@
 import { onMounted } from 'vue';
 import { useForm } from '@/utils/forms/composables/useForm';
 
-const { form, items, search, onSubmit, onClear, fetchLists, lists, isLoadingStates, isLoadingTipos, isLoadingClients, clientes, onClientChange, onPlacasChange } = useForm();
+const { form, items, search, onSubmit, onClear, fetchLists, lists, isLoadingStates, isLoadingTipos, isLoadingClients, isLoadingPlacas, clientes, onClientChange, onPlacasChange } = useForm();
 
 onMounted((): void => {
     fetchLists();
