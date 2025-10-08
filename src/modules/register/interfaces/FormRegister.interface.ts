@@ -1,3 +1,5 @@
+import type { Servicio } from "./ClientServicesResponse.interface";
+
 export interface FormRegister {
     idCliente: string;
     cliente: string;
@@ -27,4 +29,6 @@ export interface FormRegister {
     descuento: string;
     iva: string;
     total: string;
+    servicios: Array<Servicio>;
+    placasList: string[];
 }

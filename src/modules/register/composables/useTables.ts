@@ -48,7 +48,7 @@ export const useTables = () => {
     }
 
     const getTables = () => {
-        getInsumos();
+        // getInsumos();
         getPrecios();
         if (tableStore.$state.costos.length > 0) {
             costos.value = tableStore.$state.costos;
