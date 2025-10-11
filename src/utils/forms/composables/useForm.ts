@@ -59,8 +59,12 @@ export const useForm = () => {
     }
 
     const onPlacasChange = (placas: string) => {
-
         const servicio: Servicio | undefined = form.value.servicios.find((service: Servicio | undefined) => service!.vehiculo.Placas === placas);
+
+        RegisterService.getInsumos(servicio!)
+            .then(({ data }) => {
+                console.log(data);
+            })
 
         form.value.marca = servicio!.vehiculo.marca.Marca;
         form.value.modelo = servicio!.vehiculo.Modelo;
