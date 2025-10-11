@@ -1,5 +1,5 @@
 import { api } from "@/api/baseApi"
-import type { ClientServicesResponse, Insumos, Precios, ServiceType } from "../interfaces"
+import type { ClientServicesResponse, Insumos, Precios, ServiceType, Servicio } from "../interfaces"
 import type { AxiosResponse } from "axios"
 import type { Clientes } from "../interfaces/Clientes.interface"
 
@@ -11,9 +11,9 @@ export const RegisterService = {
     async states() {
         return await api.get<ServiceType[]>('/services/states')
     },
-    async getInsumos(): Promise<AxiosResponse<Insumos[]>> {
+    /* async getInsumos(): Promise<AxiosResponse<Insumos[]>> {
         return await api.get<Insumos[]>('/services/insumos');
-    },
+    }, */
 
     async getPrecios(): Promise<AxiosResponse<Precios[]>> {
         return await api.get<Precios[]>('/services/precios');
@@ -25,5 +25,9 @@ export const RegisterService = {
 
     async getClient({ IdCliente }: Clientes): Promise<AxiosResponse<ClientServicesResponse>> {
         return await api.get<ClientServicesResponse>('/services/clients', { params: { id: IdCliente } });
+    },
+
+    async getInsumos({ IdMovimiento }: Servicio): Promise<AxiosResponse> {
+        return await api.get('/services/insumos', { params: { id: IdMovimiento } });
     }
 }
