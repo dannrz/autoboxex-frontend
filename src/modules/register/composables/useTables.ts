@@ -1,13 +1,13 @@
 import { ref } from "vue";
 import { FilterMatchMode } from '@primevue/core/api';
-import type { Costos, Insumos, Precios } from "../interfaces";
+import type { Costos, Insumo, Precios } from "../interfaces";
 import { RegisterService } from "../services/registerService";
 import { useTablesStore } from "@/stores/useTablesStore";
 
 const tableStore = useTablesStore();
 
 export const useTables = () => {
-    const refax = ref<Array<Insumos>>([]);
+    const refax = ref<Array<Insumo>>([]);
     const precios = ref<Array<Precios>>([]);
     const costos = ref<Array<Costos>>([]);
     const selectedPrecio = ref<Precios | null>(null);
@@ -15,22 +15,6 @@ export const useTables = () => {
     const refaxLoading = ref<boolean>(true);
     const preciosLoading = ref<boolean>(true);
     const costosLoading = ref<boolean>(true);
-
-
-    const getInsumos = () => {
-        if (tableStore.$state.insumos.length > 0) {
-            refax.value = tableStore.$state.insumos;
-            refaxLoading.value = false;
-            return;
-        }
-        RegisterService.getInsumos().then(({ data }) => {
-            refax.value = data;
-            tableStore.$state.insumos = data;
-            refaxLoading.value = false;
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
 
     const getPrecios = () => {
         if (tableStore.$state.precios.length > 0) {
@@ -48,7 +32,6 @@ export const useTables = () => {
     }
 
     const getTables = () => {
-        // getInsumos();
         getPrecios();
         if (tableStore.$state.costos.length > 0) {
             costos.value = tableStore.$state.costos;

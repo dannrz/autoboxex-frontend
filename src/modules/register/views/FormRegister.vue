@@ -1,7 +1,7 @@
 <template>
     <div class="grid grid-cols-2 gap-5 my-5">
-        <InsertClientCard />
-        <Insumos :refax="refax" :loading="refaxLoading" />
+        <InsertClientCard @insumos="getInsumos($event)" />
+        <Insumos :refax="insumos" :loading="refaxLoading" />
         <FactList :costos="costos" :loading="costosLoading" />
         <PreciosList :precios="precios" :loading="preciosLoading" @selection="onEmitedSelection" />
         <Card class="w-full col-span-2">
@@ -16,14 +16,19 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { FactList, InsertClientCard, Insumos, PreciosList } from "../components";
 import { useTables } from "../composables/useTables";
-import type { Precios } from "../interfaces";
+import type { Insumo, Precios } from "../interfaces";
 
-const { refax, precios, costos, refaxLoading, preciosLoading, costosLoading, onEmitedSelection, getTables } = useTables();
+const { precios, costos, refaxLoading, preciosLoading, costosLoading, onEmitedSelection, getTables } = useTables();
+const insumos = ref<Insumo[]>([]);
 
 onMounted(() => {
     getTables();
 });
+
+const getInsumos = (e: Insumo[]) => {
+    insumos.value = e;
+}
 </script>
