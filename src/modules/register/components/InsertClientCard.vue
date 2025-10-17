@@ -42,7 +42,7 @@
                 </Divider>
                 <FloatLabel v-if="!isLoadingPlacas" variant="on" class="col-span-4">
                     <Select v-model="form.placas" id="placas" filter :options="form.placasList" class="w-full"
-                        size="small" @value-change="onPlacasChange" />
+                        size="small" @value-change="onPlacasChange($event, emits)" />
                     <label for="placas">Placas</label>
                 </FloatLabel>
                 <Select v-else placeholder="Cargando placas..." class="col-span-4" loading size="small" />
@@ -140,10 +140,15 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useForm } from '@/utils/forms/composables/useForm';
+import type { Insumo } from '../interfaces';
 
 const { form, items, search, onSubmit, onClear, fetchLists, lists, isLoadingStates, isLoadingTipos, isLoadingClients, isLoadingPlacas, clientes, onClientChange, onPlacasChange } = useForm();
 
 onMounted((): void => {
     fetchLists();
 });
+
+const emits = defineEmits<{
+    insumos: [value: Insumo[]]
+}>()
 </script>

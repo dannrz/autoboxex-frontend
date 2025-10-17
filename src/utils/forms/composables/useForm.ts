@@ -1,6 +1,6 @@
 import { ref } from "vue"
 import { useToast } from "primevue";
-import type { FormRegister, ServiceType, Servicio } from "@/modules/register/interfaces";
+import type { FormRegister, Insumo, ServiceType, Servicio } from "@/modules/register/interfaces";
 import { RegisterService } from "@/modules/register/services/registerService";
 import { useFormStore } from "@/stores/useFormStore";
 import type { Clientes } from "@/modules/register/interfaces/Clientes.interface";
@@ -15,6 +15,7 @@ export const useForm = () => {
     const form = ref<FormRegister>({} as FormRegister);
     const lists = ref<Array<ServiceType[]>>([]);
     const clientes = ref<Clientes[]>([]);
+    const insumos = ref<Insumo[]>([]);
 
     const isLoadingTipos = ref<boolean>(false);
     const isLoadingStates = ref<boolean>(false);
@@ -58,12 +59,17 @@ export const useForm = () => {
             });
     }
 
-    const onPlacasChange = (placas: string) => {
+    const onPlacasChange = (placas: string, emits: (evt: "insumos", value: Insumo[]) => void) => {
         const servicio: Servicio | undefined = form.value.servicios.find((service: Servicio | undefined) => service!.vehiculo.Placas === placas);
 
         RegisterService.getInsumos(servicio!)
             .then(({ data }) => {
-                console.log(data);
+                data.map((insumo: Insumo) => {
+                    insumo.Importe = (Number(insumo.PrecioIva) * Number(insumo.Cantidad)).toFixed(2);
+                    return insumo;
+                });
+                insumos.value = data;
+                emits('insumos', data);
             })
 
         form.value.marca = servicio!.vehiculo.marca.Marca;
@@ -128,5 +134,6 @@ export const useForm = () => {
         isLoadingPlacas,
         onClientChange,
         onPlacasChange,
+        insumos,
     }
 }

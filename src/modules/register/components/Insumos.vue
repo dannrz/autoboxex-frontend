@@ -3,19 +3,13 @@
         <template #title>Tabla de insumos</template>
         <template #content>
             <div class="card">
-                <!-- <DataTable v-if="loading" :value="new Array(3)" tableStyle="min-width: 50rem">
-                    <Column v-for="value in ['Refacción', 'Tipo', 'Cantidad', 'Precio', 'Importe']" :header="value">
-                        <template #body>
-                            <Skeleton></Skeleton>
-                        </template>
-                    </Column>
-                </DataTable> -->
-                <DataTable :value="refax" paginator :rows="10" :rowsPerPageOptions="[5, 15, 20, 50]" tableStyle="min-width: 50rem">
-                    <Column field="refaccion" header="Refacción"></Column>
+                <DataTable :value="refax" paginator :rows="15" :rowsPerPageOptions="[5, 15, 20, 50]"
+                    tableStyle="min-width: 50rem">
+                    <Column field="refaccion.Refacción" header="Refacción"></Column>
                     <Column field="tipo" header="Tipo"></Column>
-                    <Column field="cantidad" header="Cantidad"></Column>
-                    <Column field="precio" header="Precio"></Column>
-                    <Column field="importe" header="Importe"></Column>
+                    <Column field="Cantidad" header="Cantidad"></Column>
+                    <Column field="PrecioIva" header="Precio"></Column>
+                    <Column field="Importe" header="Importe"></Column>
                     <template #empty>
                         <div class="flex justify-center">
                             <span>No hay datos disponibles</span>
@@ -28,11 +22,10 @@
 </template>
 
 <script setup lang="ts">
-import Skeleton from 'primevue/skeleton';
-import type { Insumos } from '../interfaces';
+import type { Insumo } from '../interfaces';
 
 defineProps<{
-    refax: Array<Insumos>
+    refax: Array<Insumo>,
     loading: boolean
 }>()
 </script>
