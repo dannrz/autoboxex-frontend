@@ -21,6 +21,7 @@ export const useForm = () => {
     const isLoadingStates = ref<boolean>(false);
     const isLoadingPlacas = ref<boolean>(false);
     const isLoadingClients = ref<boolean>(false);
+    const isLoadingInsumos = ref<boolean>(false);
 
     const search = (event: { query: string }) => {
         items.value = [...Array(10).keys()].map((item) => event.query + '-' + item);
@@ -61,6 +62,7 @@ export const useForm = () => {
 
     const onPlacasChange = (placas: string, emits: (evt: "insumos", value: Insumo[]) => void) => {
         const servicio: Servicio | undefined = form.value.servicios.find((service: Servicio | undefined) => service!.vehiculo.Placas === placas);
+        isLoadingInsumos.value = true;
 
         RegisterService.getInsumos(servicio!)
             .then(({ data }) => {
@@ -71,6 +73,7 @@ export const useForm = () => {
                 insumos.value = data;
                 emits('insumos', data);
             })
+            .finally(() => isLoadingInsumos.value = false);
 
         form.value.marca = servicio!.vehiculo.marca.Marca;
         form.value.modelo = servicio!.vehiculo.Modelo;
@@ -78,6 +81,9 @@ export const useForm = () => {
         form.value.color = servicio!.vehiculo.Color!;
         form.value.serie = servicio!.vehiculo.Serie!;
         form.value.kilometraje = servicio!.Kms!;
+
+        form.value.ordenEntrada = servicio!.FolioOE;
+        form.value.fechaEntrada = new Date(servicio!.FEntrada!);
     }
 
     const fetchLists = (): void => {
@@ -135,5 +141,6 @@ export const useForm = () => {
         onClientChange,
         onPlacasChange,
         insumos,
+        isLoadingInsumos,
     }
 }
