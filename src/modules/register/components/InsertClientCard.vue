@@ -78,8 +78,8 @@
                     <b>Orden de trabajo</b>
                 </Divider>
                 <FloatLabel variant="on" class="col-span-3">
-                    <AutoComplete v-model="form.ordenEntrada" id="entradaOrden" :suggestions="items" @complete="search"
-                        class="w-full" :inputStyle="{ width: '100%' }" size="small" />
+                    <InputText v-model="form.ordenEntrada" id="entradaOrden" class="w-full"
+                        :inputStyle="{ width: '100%' }" size="small" />
                     <label for="entradaOrden">Orden entrada</label>
                 </FloatLabel>
                 <FloatLabel v-if="!isLoadingTipos" variant="on" class="col-span-3">
