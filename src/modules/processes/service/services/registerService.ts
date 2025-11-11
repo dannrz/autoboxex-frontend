@@ -4,11 +4,11 @@ import type { AxiosResponse } from "axios"
 import type { Clientes } from "../interfaces/Clientes.interface"
 
 export const RegisterService = {
-    async serviceType() {
+    async serviceType(): Promise<AxiosResponse<ServiceType[]>> {
         return await api.get<ServiceType[]>('/services')
     },
 
-    async states() {
+    async states(): Promise<AxiosResponse<ServiceType[]>> {
         return await api.get<ServiceType[]>('/services/states')
     },
 
@@ -26,5 +26,13 @@ export const RegisterService = {
 
     async getInsumos({ IdMovimiento }: Servicio): Promise<AxiosResponse<Insumo[]>> {
         return await api.get<Insumo[]>('/services/insumos', { params: { id: IdMovimiento } });
+    },
+
+    async getInOrders(): Promise<AxiosResponse<Array<{ FolioOE: string }>>> {
+        return await api.get<Array<{ FolioOE: string }>>('/services/oe');
+    },
+
+    async getClientAndVehicle(inOrder: number) {
+        return await api.get<Clientes>('/services/clients', { params: { inOrder } });
     }
 }

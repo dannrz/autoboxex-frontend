@@ -1,8 +1,9 @@
 import type { Servicio } from "./ClientServicesResponse.interface";
+import type { Clientes } from "./Clientes.interface";
 
 export interface FormRegister {
     idCliente: string;
-    cliente: string;
+    cliente: Clientes;
     sucursal: string;
     rfc: string;
     credito: string;

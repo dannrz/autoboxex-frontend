@@ -6,7 +6,7 @@ import { useTablesStore } from "@/stores/useTablesStore";
 
 const tableStore = useTablesStore();
 
-export const useTables = () => {
+export const useService = () => {
     const refax = ref<Array<Insumo>>([]);
     const precios = ref<Array<Precios>>([]);
     const costos = ref<Array<Costos>>([]);

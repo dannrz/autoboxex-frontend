@@ -36,7 +36,7 @@
 <script setup lang="ts">
 import { SkeletonTable } from '@/modules/user/components';
 import type { Precios } from '../interfaces';
-import { useTables } from '../composables/useTables';
+import { useService } from '../composables/useService';
 
 defineProps<{
     precios: Precios[],
@@ -51,5 +51,5 @@ const onSelection = (value: Precios) => {
     emits('selection', value);
 }
 
-const { filters, selectedPrecio } = useTables();
+const { filters, selectedPrecio } = useService();
 </script>

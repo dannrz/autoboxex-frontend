@@ -8,6 +8,7 @@ export interface ClientServicesResponse {
     Poblacion: string;
     Estado: string;
     CP: string;
+    direccionFull?: string;
     Telefono: string;
     Telefono2: string;
     Telefono3: string;

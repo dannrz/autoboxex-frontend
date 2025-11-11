@@ -42,12 +42,12 @@
 <script setup lang="ts">
 import InputNumber from 'primevue/inputnumber';
 import type { Costos } from '../interfaces';
-import { useTables } from '../composables/useTables';
+import { useService } from '../composables/useService';
 
 defineProps<{
     costos: Costos[],
     loading: boolean
 }>();
 
-const { editableColumns, tableProps, formatCurrency, onCellEditComplete } = useTables();
+const { editableColumns, tableProps, formatCurrency, onCellEditComplete } = useService();
 </script>

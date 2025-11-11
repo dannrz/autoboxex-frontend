@@ -1,9 +1,8 @@
 import { ref } from "vue"
 import { useToast } from "primevue";
-import type { FormRegister, Insumo, ServiceType, Servicio } from "@/modules/register/interfaces";
-import { RegisterService } from "@/modules/register/services/registerService";
+import { RegisterService } from "@/modules/processes/service/services/registerService";
 import { useFormStore } from "@/stores/useFormStore";
-import type { Clientes } from "@/modules/register/interfaces/Clientes.interface";
+import type { Clientes, FormRegister, Insumo, ServiceType, Servicio } from "@/modules/processes/service/interfaces";
 import { useClientStore } from "@/stores/useClientStore";
 
 export const useForm = () => {
@@ -16,12 +15,15 @@ export const useForm = () => {
     const lists = ref<Array<ServiceType[]>>([]);
     const clientes = ref<Clientes[]>([]);
     const insumos = ref<Insumo[]>([]);
+    const folios = ref<Array<{ FolioOE: string }>>([]);
 
     const isLoadingTipos = ref<boolean>(false);
     const isLoadingStates = ref<boolean>(false);
     const isLoadingPlacas = ref<boolean>(false);
     const isLoadingClients = ref<boolean>(false);
     const isLoadingInsumos = ref<boolean>(false);
+    const isLoadingFolios = ref<boolean>(false);
+    const isLoadingForm = ref<boolean>(false);
 
     const search = (event: { query: string }) => {
         items.value = [...Array(10).keys()].map((item) => event.query + '-' + item);
@@ -46,7 +48,7 @@ export const useForm = () => {
                 form.value.sucursal = data.Sucursal!;
                 form.value.rfc = data.RFC!;
                 form.value.credito = `${data.Credito!} ${data.Credito! == '1' ? 'día' : 'días'}`;
-                form.value.direccion = `${data.Direccion!} ${data.Colonia} ${data.Poblacion} ${data.Estado} ${data.CP}`;
+                form.value.direccion = data.direccionFull!;
                 form.value.servicios = data.servicios;
 
                 let listPlacas: string[] = [];
@@ -86,6 +88,29 @@ export const useForm = () => {
         form.value.fechaEntrada = new Date(servicio!.FEntrada!);
     }
 
+    const onSelectedFolio = (folio: { FolioOE: string }) => {
+        isLoadingForm.value = true;
+
+        RegisterService.getClientAndVehicle(Number(folio.FolioOE))
+            .then(({ data }) => {
+                form.value.idCliente = String(data.IdCliente);
+
+                const clienteSeleccionado = clientes.value.find(c => c.Nombre === data.Nombre);
+                if (clienteSeleccionado) {
+                    form.value.cliente = clienteSeleccionado;
+                }
+
+                form.value.sucursal = data.Sucursal!;
+                form.value.rfc = data.RFC!;
+                form.value.credito = `${data.Credito!} ${data.Credito! == 1 ? 'día' : 'días'}`;
+                form.value.direccion = data.direccionFull!;
+                // form.value.servicios = data.servicios;
+            })
+            .finally(() => {
+                isLoadingForm.value = false;
+            });
+    }
+
     const fetchLists = (): void => {
         if (formStore.$state.tipoServicios.length > 0) {
             lists.value[0] = formStore.$state.tipoServicios;
@@ -123,6 +148,15 @@ export const useForm = () => {
             .finally(() => {
                 isLoadingClients.value = false;
             });
+
+        isLoadingFolios.value = true;
+        RegisterService.getInOrders()
+            .then(({ data }) => {
+                folios.value = data;
+            })
+            .finally(() => {
+                isLoadingFolios.value = false;
+            });
     }
 
     return {
@@ -138,9 +172,13 @@ export const useForm = () => {
         isLoadingStates,
         isLoadingClients,
         isLoadingPlacas,
+        isLoadingFolios,
+        isLoadingForm,
         onClientChange,
         onPlacasChange,
         insumos,
         isLoadingInsumos,
+        folios,
+        onSelectedFolio,
     }
 }
