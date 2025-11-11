@@ -18,11 +18,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { FactList, InsertClientCard, Insumos, PreciosList } from "../components";
-import { useTables } from "../composables/useTables";
+import { useService } from "../composables/useService";
 import type { Insumo, Precios } from "../interfaces";
 import { useForm } from "@/utils/forms/composables/useForm";
 
-const { precios, costos, preciosLoading, costosLoading, onEmitedSelection, getTables } = useTables();
+const { precios, costos, preciosLoading, costosLoading, onEmitedSelection, getTables } = useService();
 const { isLoadingInsumos } = useForm();
 const insumos = ref<Insumo[]>([]);
 

@@ -4,3 +4,4 @@ export * from './Insumos.interface';
 export * from './Precios.interface';
 export * from './Costos.interface';
 export * from './ClientServicesResponse.interface';
+export * from './Clientes.interface';

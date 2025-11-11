@@ -29,7 +29,7 @@ const router = createRouter({
         {
           path: '/processes/service',
           name: 'register',
-          component: () => import('@/modules/register/views/FormRegister.vue'),
+          component: () => import('@/modules/processes/service/views/FormRegister.vue'),
           meta: {
             requiresAuth: true,
             roles: ['admin', 'admtivo'],

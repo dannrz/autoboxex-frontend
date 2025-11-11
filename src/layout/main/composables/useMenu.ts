@@ -33,107 +33,282 @@ export const useMenu = () => {
     ];
     switch (role_name) {
         case Roles.Admin:
-            items.value.push({
-                label: 'Catálogos',
-                icon: 'pi pi-tags',
-                items: [
-                    {
-                        label: 'Clientes',
-                        icon: 'pi pi-users',
-                        route: '/clientes'
-                    },
-                    {
-                        label: 'Vehículos',
-                        icon: 'pi pi-car',
-                        route: '/vehiculos'
-                    },
-                    {
-                        label: 'Refacciones',
-                        icon: 'pi pi-wrench',
-                        route: '/spare'
-                    },
-                    {
-                        label: 'Paquetes',
-                        icon: 'pi pi-box',
-                        route: '/paquetes'
-                    },
-                ]
-            },
+            items.value.push(
                 {
-                    label: 'Consultas',
+                    label: 'Catálogos',
+                    icon: 'pi pi-tags',
+                    items: [
+                        {
+                            label: 'Marca de vehículo',
+                            icon: 'pi pi-book',
+                            route: '/catalogs/brands'
+                        },
+                        {
+                            label: 'Modelo de la marca',
+                            icon: 'pi pi-gauge',
+                            route: '/catalogs/models'
+                        },
+                        {
+                            label: 'Proveedor',
+                            icon: 'pi pi-users',
+                            route: '/catalogs/providers'
+                        },
+                        {
+                            label: 'Refacción',
+                            icon: 'pi pi-cog',
+                            route: '/catalogs/parts'
+                        },
+                        {
+                            label: 'Paquete',
+                            icon: 'pi pi-box',
+                            route: '/catalogs/package'
+                        },
+                        {
+                            label: 'Cliente',
+                            icon: 'pi pi-user',
+                            route: '/catalogs/client'
+                        },
+                        {
+                            label: 'Precio',
+                            icon: 'pi pi-dollar',
+                            route: '/catalogs/price'
+                        },
+                        {
+                            label: 'Origen de recursos',
+                            icon: 'pi pi-money-bill',
+                            route: '/catalogs/resources'
+                        },
+                        {
+                            label: 'Verificación de vehículo',
+                            icon: 'pi pi-car',
+                            route: '/catalogs/verify-car'
+                        },
+                    ]
+                },
+                {
+                    label: 'Consulta',
                     icon: 'pi pi-search',
                     items: [
                         {
+                            label: 'Orden de entrada',
+                            icon: 'pi pi-file-import',
+                            route: '/consult/in-orders'
+                        },
+                        {
+                            label: 'Imágenes',
+                            icon: 'pi pi-image',
+                            route: '/consult/images'
+                        },
+                        {
                             label: 'Compras',
-                            icon: 'pi pi-car',
-                            route: '/vehicles'
+                            icon: 'pi pi-tags',
+                            route: '/consult/buy'
                         },
                         {
                             label: 'Refacciones',
                             icon: 'pi pi-wrench',
-                            route: '/proveedores'
+                            route: '/consult/parts'
                         },
                         {
                             label: 'Servicios',
-                            icon: 'pi pi-users',
-                            route: '/servicios'
+                            icon: 'pi pi-briefcase',
+                            route: '/consult/services'
                         },
                     ]
-
+                },
+                {
+                    label: 'Nóminas',
+                    icon: 'pi pi-users',
+                    items: [
+                        {
+                            label: 'Periodos de nómina',
+                            icon: 'pi pi-calendar',
+                            route: '/nomina/periodo-nomina'
+                        },
+                        {
+                            label: 'Personal',
+                            icon: 'pi pi-users',
+                            route: '/nomina/personal'
+                        },
+                        {
+                            label: 'Generación de nómina',
+                            icon: 'pi pi-sync',
+                            route: '/nomina/genera-nomina'
+                        },
+                        {
+                            label: 'Cálculo de nómina',
+                            icon: 'pi pi-calculator',
+                            route: '/nomina/calcula-nomina'
+                        },
+                        {
+                            label: 'Reporte de nómina',
+                            icon: 'pi pi-file-export',
+                            route: '/nomina/reporte-nomina'
+                        },
+                        {
+                            label: 'Cierre de nómina',
+                            icon: 'pi pi-check',
+                            route: '/nomina/cierre-nomina'
+                        },
+                    ]
                 },
                 {
                     label: 'Procesos',
-                    icon: 'pi pi-sync',
+                    icon: 'pi pi-cog',
                     items: [
                         {
                             label: 'Servicio',
-                            icon: 'pi pi-car',
-                            route: '/register'
+                            icon: 'pi pi-wrench',
+                            route: '/processes/service'
+                        },
+                        {
+                            label: 'Entradas y salidas',
+                            icon: 'pi pi-arrow-right-arrow-left',
+                            route: '/processes/entries-exits'
                         },
                         {
                             label: 'Cuentas por cobrar',
-                            icon: 'pi pi-car',
+                            icon: 'pi pi-money-bill',
+                            route: '/processes/accounts-receivable'
+                        },
+                        {
+                            label: 'Registro de pagos',
+                            icon: 'pi pi-dollar',
+                            route: '/processes/payment-registration'
+                        },
+                        {
+                            label: 'Cierre mensual de caja',
+                            icon: 'pi pi-check-circle',
+                            route: '/processes/monthly-close'
                         },
                         {
                             label: 'Servicios complementarios',
-                            icon: 'pi pi-car',
+                            icon: 'pi pi-cog',
+                            route: '/processes/supplementary-services'
+                        },
+                        {
+                            label: 'Registro de imágenes',
+                            icon: 'pi pi-image',
+                            route: '/processes/image-registration'
                         },
                         {
                             label: 'Registro de cobros',
-                            icon: 'pi pi-car',
+                            icon: 'pi pi-receipt',
+                            route: '/processes/image-registration'
+                        },
+                        {
+                            label: 'Otros egresos e ingresos',
+                            icon: 'pi pi-arrow-right-arrow-left',
+                            route: '/processes/other-income-expenses'
                         },
                         {
                             label: 'Registro diagnóstico',
-                            icon: 'pi pi-car',
+                            icon: 'pi pi-check',
+                            route: '/processes/diagnostic-registration'
                         },
                         {
-                            label: 'Generación de excel',
-                            icon: 'pi pi-car',
+                            label: 'Generación de Excel',
+                            icon: 'pi pi-file-excel',
+                            route: '/processes/excel-generation'
                         },
                         {
-                            label: 'Reg. Sec. Facturas',
-                            icon: 'pi pi-car',
+                            label: 'Reg. sec. facturas',
+                            icon: 'pi pi-file-plus',
+                            route: '/processes/invoice-registration'
+                        },
+                        {
+                            label: 'Alarma autorizaciones',
+                            icon: 'pi pi-bell',
+                            route: '/processes/authorization-alarm'
                         },
                     ]
                 },
                 {
                     label: 'Reportes',
-                    icon: 'pi pi-file',
-                    route: '/tablas'
-
+                    icon: 'pi pi-chart-bar',
+                    items: [
+                        {
+                            label: 'Refacciones',
+                            icon: 'pi pi-wrench',
+                            route: '/reports/refactions'
+                        },
+                        {
+                            label: 'Entradas / Salidas',
+                            icon: 'pi pi-arrow-right-arrow-left',
+                            route: '/reports/entries-exits'
+                        },
+                        {
+                            label: 'Insumos',
+                            icon: 'pi pi-box',
+                            route: '/reports/insumos'
+                        },
+                        {
+                            label: 'Presupuesto de servicios',
+                            icon: 'pi pi-wallet',
+                            route: '/reports/services-budget'
+                        },
+                        {
+                            label: 'Prefactura',
+                            icon: 'pi pi-receipt',
+                            route: '/reports/prefactura'
+                        },
+                        {
+                            label: 'Órdenes de entrada cobradas',
+                            icon: 'pi pi-check-circle',
+                            route: '/reports/entry-orders-charged'
+                        },
+                        {
+                            label: 'OE cobradas por cliente',
+                            icon: 'pi pi-dollar',
+                            route: '/reports/entry-orders-client'
+                        },
+                        {
+                            label: 'Egresos e ingresos',
+                            icon: 'pi pi-arrow-right-arrow-left',
+                            route: '/reports/expenses-income'
+                        },
+                        {
+                            label: 'Saldo caja',
+                            icon: 'pi pi-dollar',
+                            route: '/reports/cash-balance'
+                        },
+                        {
+                            label: 'Cuentas por pagar',
+                            icon: 'pi pi-dollar',
+                            route: '/reports/accounts-payable'
+                        },
+                        {
+                            label: 'Relación de cobranza',
+                            icon: 'pi pi-money-bill',
+                            route: '/reports/collection-report'
+                        },
+                        {
+                            label: 'Órdenes de entrada',
+                            icon: 'pi pi-file-import',
+                            route: '/reports/entry-orders'
+                        },
+                        {
+                            label: 'Reporte almacen facturas',
+                            icon: 'pi pi-file-check',
+                            route: '/reports/invoice-storage-report'
+                        },
+                    ]
                 },
                 {
-                    label: 'Ventas',
-                    icon: 'pi pi-credit-card',
-                    route: '/tablas'
-
-                },
-                {
-                    label: 'Articulos en almacen',
-                    icon: 'pi pi-box',
-                    command(event) {
-                        toolsData()
-                    },
+                    label: 'Administrar usuarios',
+                    icon: 'pi pi-users',
+                    items: [
+                        {
+                            label: 'Lista de Usuarios',
+                            icon: 'pi pi-user',
+                            route: '/users'
+                        },
+                        {
+                            label: 'Solicitudes de cambios de contraseña',
+                            icon: 'pi pi-lock',
+                            route: '/password-requests'
+                        }
+                    ]
                 }
             );
 
@@ -334,7 +509,7 @@ export const useMenu = () => {
                 },
                 {
                     label: 'Reportes',
-                    icon: 'pi pi-file-export',
+                    icon: 'pi pi-chart-bar',
                     items: [
                         {
                             label: 'Refacciones',
@@ -388,45 +563,178 @@ export const useMenu = () => {
         case Roles.Almacen:
             items.value.push(
                 {
-                    label: 'Dashboard',
-                    icon: 'pi pi-home',
-                    route: '/'
+                    label: 'Catálogos',
+                    icon: 'pi pi-tags',
+                    items: [
+                        {
+                            label: 'Proveedor',
+                            icon: 'pi pi-users',
+                            route: '/catalogos/proveedores'
+                        },
+                        {
+                            label: 'Refacciones',
+                            icon: 'pi pi-wrench',
+                            route: '/catalogos/refacciones'
+                        },
+                        {
+                            label: 'Paquete',
+                            icon: 'pi pi-box',
+                            route: '/catalogos/packages'
+                        },
+                        {
+                            label: 'Origen de recursos',
+                            icon: 'pi pi-dollar',
+                            route: '/catalogos/origen-recursos'
+                        },
+                        {
+                            label: 'Verificación de autos',
+                            icon: 'pi pi-car',
+                            route: '/catalogos/verificacion-autos'
+                        },
+                    ],
                 },
                 {
-                    label: 'Almacen',
-                    icon: 'pi pi-inbox',
-                    route: '/almacen'
-                },
-                {
-                    label: 'Herramientas',
+                    label: 'Consultas',
                     icon: 'pi pi-search',
                     items: [
                         {
-                            label: 'Components',
-                            icon: 'pi pi-bolt'
+                            label: 'Ordenes de entrada',
+                            icon: 'pi pi-file-import',
+                            route: '/consultas/ordenes-entrada'
                         },
                         {
-                            label: 'Blocks',
-                            icon: 'pi pi-server'
+                            label: 'Imágenes',
+                            icon: 'pi pi-image',
+                            route: '/consultas/imagenes'
                         },
                         {
-                            label: 'UI Kit',
-                            icon: 'pi pi-pencil'
+                            label: 'Compras',
+                            icon: 'pi pi-wallet',
+                            route: '/consultas/compras'
                         },
                         {
-                            label: 'Templates',
-                            icon: 'pi pi-palette',
-                            items: [
-                                {
-                                    label: 'Apollo',
-                                    icon: 'pi pi-palette'
-                                },
-                                {
-                                    label: 'Ultima',
-                                    icon: 'pi pi-palette'
-                                }
-                            ]
-                        }
+                            label: 'Refacciones',
+                            icon: 'pi pi-wrench',
+                            route: '/consultas/refacciones'
+                        },
+                        {
+                            label: 'Servicios',
+                            icon: 'pi pi-file-check',
+                            route: '/consultas/servicios'
+                        },
+                    ]
+                },
+                {
+                    label: 'Nóminas',
+                    icon: 'pi pi-users',
+                    items: [
+                        {
+                            label: 'Periodos de nómina',
+                            icon: 'pi pi-calendar-times',
+                            route: '/nominas/periodos-nomina'
+                        },
+                        {
+                            label: 'Personal',
+                            icon: 'pi pi-users',
+                            route: '/nominas/personal'
+                        },
+                        {
+                            label: 'Generar nómina',
+                            icon: 'pi pi-pencil',
+                            route: '/nominas/generar-nomina'
+                        },
+                        {
+                            label: 'Calcular nómina',
+                            icon: 'pi pi-calculator',
+                            route: '/nominas/calcular-nomina'
+                        },
+                        {
+                            label: 'Reporte de nómina',
+                            icon: 'pi pi-file',
+                            route: '/nominas/reporte-nomina'
+                        },
+                        {
+                            label: 'Cierre de nómina',
+                            icon: 'pi pi-times-circle',
+                            route: '/nominas/cierre-nomina'
+                        },
+                    ]
+                },
+                {
+                    label: 'Procesos',
+                    icon: 'pi pi-cog',
+                    items: [
+                        {
+                            label: 'Entradas y salidas',
+                            icon: 'pi pi-sign-in',
+                            route: '/procesos/entradas-salidas'
+                        },
+                        {
+                            label: 'Salidas de almacén',
+                            icon: 'pi pi-sign-out',
+                            route: '/procesos/salidas-almacen'
+                        },
+                        {
+                            label: 'Registro de pagos',
+                            icon: 'pi pi-money-bill',
+                            route: '/procesos/registro-pagos'
+                        },
+                        {
+                            label: 'Cierre mensual de caja',
+                            icon: 'pi pi-check-circle',
+                            route: '/procesos/cierre-mensual-caja'
+                        },
+                        {
+                            label: 'Registro de imágenes',
+                            icon: 'pi pi-image',
+                            route: '/procesos/registro-imagenes'
+                        },
+                        {
+                            label: 'Otros ingresos y egresos',
+                            icon: 'pi pi-money-bill',
+                            route: '/procesos/otros-ingresos-egresos'
+                        },
+                        {
+                            label: 'Registro de diagnóstico',
+                            icon: 'pi pi-money-bill',
+                            route: '/procesos/registro-diagnostico'
+                        },
+                    ]
+                },
+                {
+                    label: 'Reportes',
+                    icon: 'pi pi-chart-bar',
+                    items: [
+                        {
+                            label: 'Refacciones',
+                            icon: 'pi pi-wrench',
+                            route: '/reports/refactions'
+                        },
+                        {
+                            label: 'Entradas/Salidas',
+                            icon: 'pi pi-arrow-right-arrow-left',
+                            route: '/reports/entries-exits'
+                        },
+                        {
+                            label: 'Insumos OE',
+                            icon: 'pi pi-shop',
+                            route: '/reports/insumos'
+                        },
+                        {
+                            label: 'Saldo caja',
+                            icon: 'pi pi-dollar',
+                            route: '/reports/cash-balance'
+                        },
+                        {
+                            label: 'Cuentas por pagar',
+                            icon: 'pi pi-file-check',
+                            route: '/reports/accounts-payable'
+                        },
+                        {
+                            label: 'Reporte almacen facturas',
+                            icon: 'pi pi-file',
+                            route: '/reportes/reporte-almacen-facturas'
+                        },
                     ]
                 },
                 {
@@ -441,24 +749,6 @@ export const useMenu = () => {
         case Roles.JefeTaller:
         case Roles.User:
     }
-
-    items.value.push(
-        {
-            label: 'Administrar usuarios',
-            icon: 'pi pi-users',
-            items: [
-                {
-                    label: 'Lista de Usuarios',
-                    icon: 'pi pi-user',
-                    route: '/users'
-                },
-                {
-                    label: 'Solicitudes de cambios de contraseña',
-                    icon: 'pi pi-lock',
-                    route: '/password-requests'
-                }
-            ]
-        });
 
     const toolsData = () => {
         if (toolsStore.$state.tools.length > 0) {
