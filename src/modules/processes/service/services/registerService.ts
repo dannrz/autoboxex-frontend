@@ -37,6 +37,6 @@ export const RegisterService = {
     },
 
     async getPlacas(idCliente: string): Promise<AxiosResponse<Array<{ Placas: string }>>> {
-        return await api.get<Array<{ Placas: string }>>('/plates', { params: { idCliente } });
+        return await api.get<Array<{ Placas: string }>>('/services/plates', { params: { idCliente } });
     }
 }
