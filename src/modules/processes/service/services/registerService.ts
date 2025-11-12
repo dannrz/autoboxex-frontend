@@ -1,5 +1,5 @@
 import { api } from "@/api/baseApi"
-import type { ClientServicesResponse, Insumo, Precios, ServiceType, Servicio } from "../interfaces"
+import type { ClientServicesResponse, InOrderResponse, Insumo, Precios, ServiceType, Servicio } from "../interfaces"
 import type { AxiosResponse } from "axios"
 import type { Clientes } from "../interfaces/Clientes.interface"
 
@@ -33,6 +33,10 @@ export const RegisterService = {
     },
 
     async getClientAndVehicle(inOrder: number) {
-        return await api.get<Clientes>('/services/clients', { params: { inOrder } });
+        return await api.get<InOrderResponse>('/services/clients', { params: { inOrder } });
+    },
+
+    async getPlacas(idCliente: string): Promise<AxiosResponse<Array<{ Placas: string }>>> {
+        return await api.get<Array<{ Placas: string }>>('/plates', { params: { idCliente } });
     }
 }

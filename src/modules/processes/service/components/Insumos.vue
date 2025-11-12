@@ -3,7 +3,7 @@
         <template #title>Tabla de insumos</template>
         <template #content>
             <div class="card">
-                <SkeletonTable v-if="loading" :rows="5"
+                <SkeletonTable v-if="loading" :rows="5" styles="width: 100%; min-width: 50rem"
                     :headers="['Refacción', 'Tipo', 'Cantidad', 'Precio', 'Importe']" />
                 <DataTable v-else :value="refax" paginator :rows="15" :rowsPerPageOptions="[5, 15, 20, 50]"
                     tableStyle="min-width: 50rem">

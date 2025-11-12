@@ -8,7 +8,7 @@ export interface FormRegister {
     rfc: string;
     credito: string;
     direccion: string;
-    placas: string;
+    placas: { Placas: string };
     marca: string;
     modelo: string;
     ordenEntrada: string;
@@ -32,5 +32,5 @@ export interface FormRegister {
     total: string;
     servicios: Array<Servicio>;
     servicio: Servicio;
-    placasList: string[];
+    placasList: Array<{ Placas: string }>;
 }

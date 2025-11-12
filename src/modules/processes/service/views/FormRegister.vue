@@ -1,6 +1,6 @@
 <template>
     <div class="grid grid-cols-2 gap-5 my-5">
-        <InsertClientCard @insumos="getInsumos($event)" />
+        <InsertClientCard @insumos="getInsumos($event)" @loader="setLoading($event)" />
         <Insumos :refax="insumos" :loading="isLoadingInsumos" />
         <FactList :costos="costos" :loading="costosLoading" />
         <PreciosList :precios="precios" :loading="preciosLoading" @selection="onEmitedSelection" />
@@ -32,5 +32,8 @@ onMounted(() => {
 
 const getInsumos = (e: Insumo[]) => {
     insumos.value = e;
+}
+const setLoading = (e: boolean) => {
+    isLoadingInsumos.value = e;
 }
 </script>
