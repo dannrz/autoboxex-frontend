@@ -53,8 +53,9 @@
                 </Divider>
                 <template v-if="!isLoadingForm">
                     <FloatLabel v-if="!isLoadingPlacas" variant="on" class="col-span-4">
-                        <Select v-model="form.placas" id="placas" filter :options="form.placasList" class="w-full"
-                            size="small" @value-change="onPlacasChange($event, emits)" />
+                        <Select v-model="form.placas" id="placas" filter :options="form.placasList" optionLabel="Placas"
+                            :virtualScrollerOptions="{ itemSize: 38 }" class="w-full" size="small"
+                            @value-change="onPlacasChange($event, emits)" />
                         <label for="placas">Placas</label>
                     </FloatLabel>
                     <Select v-else placeholder="Cargando placas..." class="col-span-4" loading size="small" />
@@ -102,7 +103,7 @@
                 <FloatLabel v-if="!isLoadingFolios" variant="on" class="col-span-3">
                     <Select v-model="form.ordenEntrada" id="entradaOrden" class="w-full" size="small"
                         optionLabel="FolioOE" filter :options="folios" :virtualScrollerOptions="{ itemSize: 38 }"
-                        @value-change="onSelectedFolio" />
+                        @value-change="onSelectedFolio($event, emits)" />
                     <label for="entradaOrden">Orden entrada</label>
                 </FloatLabel>
                 <Select v-else placeholder="Cargando folios de entradas..." loading size="small" class="col-span-3" />
@@ -173,6 +174,7 @@ onMounted((): void => {
 });
 
 const emits = defineEmits<{
-    insumos: [value: Insumo[]]
+    insumos: [value: Insumo[]],
+    loader: [value: boolean]
 }>()
 </script>

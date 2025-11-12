@@ -1,14 +1,15 @@
-import { ref } from "vue"
+import { ref, type Ref } from "vue"
 import { useToast } from "primevue";
 import { RegisterService } from "@/modules/processes/service/services/registerService";
-import { useFormStore } from "@/stores/useFormStore";
 import type { Clientes, FormRegister, Insumo, ServiceType, Servicio } from "@/modules/processes/service/interfaces";
-import { useClientStore } from "@/stores/useClientStore";
+import { useClientStore, useFormStore, useVehicleStore } from "@/stores";
+import { is } from "zod/v4/locales";
 
 export const useForm = () => {
     const toast = useToast();
     const formStore = useFormStore();
     const clientStore = useClientStore();
+    const vehicleStore = useVehicleStore();
 
     const items = ref<string[]>([]);
     const form = ref<FormRegister>({} as FormRegister);
@@ -17,13 +18,13 @@ export const useForm = () => {
     const insumos = ref<Insumo[]>([]);
     const folios = ref<Array<{ FolioOE: string }>>([]);
 
-    const isLoadingTipos = ref<boolean>(false);
-    const isLoadingStates = ref<boolean>(false);
-    const isLoadingPlacas = ref<boolean>(false);
-    const isLoadingClients = ref<boolean>(false);
-    const isLoadingInsumos = ref<boolean>(false);
-    const isLoadingFolios = ref<boolean>(false);
-    const isLoadingForm = ref<boolean>(false);
+    const isLoadingTipos: Ref<boolean> = ref<boolean>(false);
+    const isLoadingStates: Ref<boolean> = ref<boolean>(false);
+    const isLoadingPlacas: Ref<boolean> = ref<boolean>(false);
+    const isLoadingClients: Ref<boolean> = ref<boolean>(false);
+    const isLoadingInsumos: Ref<boolean> = ref<boolean>(false);
+    const isLoadingFolios: Ref<boolean> = ref<boolean>(false);
+    const isLoadingForm: Ref<boolean> = ref<boolean>(false);
 
     const search = (event: { query: string }) => {
         items.value = [...Array(10).keys()].map((item) => event.query + '-' + item);
@@ -51,9 +52,9 @@ export const useForm = () => {
                 form.value.direccion = data.direccionFull!;
                 form.value.servicios = data.servicios;
 
-                let listPlacas: string[] = [];
+                let listPlacas: Array<{ Placas: string }> = [];
                 data.servicios.forEach((service) => {
-                    listPlacas.push(service.vehiculo.Placas);
+                    listPlacas.push({ Placas: service.vehiculo.Placas });
                 });
                 form.value.placasList = listPlacas;
             })
@@ -88,8 +89,9 @@ export const useForm = () => {
         form.value.fechaEntrada = new Date(servicio!.FEntrada!);
     }
 
-    const onSelectedFolio = (folio: { FolioOE: string }) => {
+    const onSelectedFolio = (folio: { FolioOE: string }, emit: ((evt: "insumos", value: Insumo[]) => void) & ((evt: "loader", value: boolean) => void)) => {
         isLoadingForm.value = true;
+        emit('loader', true);
 
         RegisterService.getClientAndVehicle(Number(folio.FolioOE))
             .then(({ data }) => {
@@ -102,9 +104,38 @@ export const useForm = () => {
 
                 form.value.sucursal = data.Sucursal!;
                 form.value.rfc = data.RFC!;
-                form.value.credito = `${data.Credito!} ${data.Credito! == 1 ? 'día' : 'días'}`;
+                form.value.credito = `${data.Credito!} ${data.Credito! == '1' ? 'día' : 'días'}`;
                 form.value.direccion = data.direccionFull!;
-                // form.value.servicios = data.servicios;
+
+                const servicio = data.servicios[0];
+                form.value.marca = servicio.vehiculo.marca.Marca;
+                form.value.modelo = servicio.vehiculo.Modelo;
+                form.value.year = servicio.vehiculo.Año;
+                form.value.color = servicio.vehiculo.Color!;
+                form.value.serie = servicio.vehiculo.Serie!;
+                form.value.kilometraje = servicio.Kms!;
+
+                RegisterService.getInsumos({ IdMovimiento: servicio.IdMovimiento } as Servicio)
+                    .then(({ data }) => {
+                        emit('insumos', data);
+                    })
+                    .finally(() => {
+                        emit('loader', false);
+                    });
+
+                RegisterService.getPlacas(data.IdCliente)
+                    .then(({ data }) => {
+                        form.value.placasList = data;
+
+                        const currentPlate = form.value.placasList.find(p => p.Placas === servicio.vehiculo.Placas);
+                        if (currentPlate) {
+                            form.value.placas = { Placas: currentPlate.Placas };
+                        }
+                    })
+
+
+                form.value.fechaEntrada = new Date(servicio.FEntrada!);
+
             })
             .finally(() => {
                 isLoadingForm.value = false;
@@ -116,6 +147,7 @@ export const useForm = () => {
             lists.value[0] = formStore.$state.tipoServicios;
             lists.value[1] = formStore.$state.state;
             clientes.value = clientStore.$state.clients;
+            folios.value = vehicleStore.$state.inOrders;
 
             return;
         }
@@ -152,6 +184,7 @@ export const useForm = () => {
         isLoadingFolios.value = true;
         RegisterService.getInOrders()
             .then(({ data }) => {
+                vehicleStore.$state.inOrders = data;
                 folios.value = data;
             })
             .finally(() => {
