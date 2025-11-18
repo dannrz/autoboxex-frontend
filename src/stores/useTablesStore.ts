@@ -1,4 +1,4 @@
-import type { Costos, Insumo, Precios } from "@/modules/register/interfaces";
+import type { Costos, Insumo, Precios } from "@/modules/processes/service/interfaces";
 import { defineStore } from "pinia";
 
 export const useTablesStore = defineStore('tables', {
