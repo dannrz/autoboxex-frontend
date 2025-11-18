@@ -1,4 +1,4 @@
-import type { Clientes } from "@/modules/register/interfaces/Clientes.interface";
+import type { Clientes } from "@/modules/processes/service/interfaces";
 import { defineStore } from "pinia";
 
 export const useClientStore = defineStore('client', {

@@ -107,26 +107,24 @@
                     <label for="entradaOrden">Orden entrada</label>
                 </FloatLabel>
                 <Select v-else placeholder="Cargando folios de entradas..." loading size="small" class="col-span-3" />
-                <FloatLabel v-if="!isLoadingTipos" variant="on" class="col-span-3">
+                <FloatLabel variant="on" class="col-span-3">
                     <Select v-model="form.tipo" id="tipo" :options="lists[0]" optionLabel="name" class="w-full"
                         size="small" />
                     <label for="tipo">Tipo</label>
                 </FloatLabel>
-                <Select v-else placeholder="Cargando tipos..." loading size="small" class="col-span-3" />
                 <FloatLabel variant="on" class="col-span-3">
                     <DatePicker v-model="form.fechaEntrada" id="fechaEntrada" update-model-type="date" showIcon
                         iconDisplay="input" dateFormat="dd/mm/yy" size="small" class="w-full" />
                     <label for="fechaEntrada">Fecha de entrada</label>
                 </FloatLabel>
 
-                <FloatLabel v-if="!isLoadingStates" variant="on" class="col-span-3">
+                <FloatLabel variant="on" class="col-span-3">
                     <Select v-model="form.estado" id="estado" :options="lists[1]" optionLabel="name" class="w-full"
                         size="small" />
                     <label for="estado">Estado</label>
                 </FloatLabel>
-                <Select v-else placeholder="Cargando estados..." loading size="small" class="col-span-3" />
                 <FloatLabel variant="on" class="col-span-12">
-                    <InputText id="autorizacion" size="small" class="w-full" />
+                    <InputText v-model="form.autorizacion" id="autorizacion" size="small" class="w-full" />
                     <label for="autorizacion">Nombre de quien autoriza</label>
                 </FloatLabel>
 
@@ -167,7 +165,7 @@ import { onMounted } from 'vue';
 import { useForm } from '@/utils/forms/composables/useForm';
 import type { Insumo } from '../interfaces';
 
-const { form, items, search, onSubmit, onClear, fetchLists, lists, isLoadingStates, isLoadingTipos, isLoadingClients, isLoadingPlacas, isLoadingFolios, isLoadingForm, clientes, onClientChange, onPlacasChange, onSelectedFolio, folios } = useForm();
+const { form, items, search, onSubmit, onClear, fetchLists, lists, isLoadingClients, isLoadingPlacas, isLoadingFolios, isLoadingForm, clientes, onClientChange, onPlacasChange, onSelectedFolio, folios } = useForm();
 
 onMounted((): void => {
     fetchLists();

@@ -2,12 +2,10 @@ import { ref, type Ref } from "vue"
 import { useToast } from "primevue";
 import { RegisterService } from "@/modules/processes/service/services/registerService";
 import type { Clientes, FormRegister, Insumo, ServiceType, Servicio } from "@/modules/processes/service/interfaces";
-import { useClientStore, useFormStore, useVehicleStore } from "@/stores";
-import { is } from "zod/v4/locales";
+import { useClientStore, useVehicleStore } from "@/stores";
 
 export const useForm = () => {
     const toast = useToast();
-    const formStore = useFormStore();
     const clientStore = useClientStore();
     const vehicleStore = useVehicleStore();
 
@@ -18,8 +16,6 @@ export const useForm = () => {
     const insumos = ref<Insumo[]>([]);
     const folios = ref<Array<{ FolioOE: string }>>([]);
 
-    const isLoadingTipos: Ref<boolean> = ref<boolean>(false);
-    const isLoadingStates: Ref<boolean> = ref<boolean>(false);
     const isLoadingPlacas: Ref<boolean> = ref<boolean>(false);
     const isLoadingClients: Ref<boolean> = ref<boolean>(false);
     const isLoadingInsumos: Ref<boolean> = ref<boolean>(false);
@@ -114,6 +110,8 @@ export const useForm = () => {
                 form.value.color = servicio.vehiculo.Color!;
                 form.value.serie = servicio.vehiculo.Serie!;
                 form.value.kilometraje = servicio.Kms!;
+                form.value.fechaEntrada = new Date(servicio.FEntrada!);
+                form.value.autorizacion = servicio.Autoriza!;
 
                 RegisterService.getInsumos({ IdMovimiento: servicio.IdMovimiento } as Servicio)
                     .then(({ data }) => {
@@ -128,48 +126,45 @@ export const useForm = () => {
                         form.value.placasList = data;
 
                         const currentPlate = form.value.placasList.find(p => p.Placas === servicio.vehiculo.Placas);
-                        if (currentPlate) {
-                            form.value.placas = { Placas: currentPlate.Placas };
+                        if (!currentPlate) {
+                            form.value.placas = {} as { Placas: string };
+                            return;
                         }
+
+                        form.value.placas = { Placas: currentPlate.Placas };
                     })
-
-
-                form.value.fechaEntrada = new Date(servicio.FEntrada!);
-
             })
             .finally(() => {
                 isLoadingForm.value = false;
             });
     }
 
-    const fetchLists = (): void => {
-        if (formStore.$state.tipoServicios.length > 0) {
-            lists.value[0] = formStore.$state.tipoServicios;
-            lists.value[1] = formStore.$state.state;
+    const listsTypeAndService = (): void => {
+        if (clientStore.$state.clients.length > 0) {
             clientes.value = clientStore.$state.clients;
             folios.value = vehicleStore.$state.inOrders;
 
             return;
         }
-        isLoadingTipos.value = true;
-        RegisterService.serviceType()
-            .then(({ data }): void => {
-                formStore.$state.tipoServicios = data;
-                lists.value[0] = data;
-            })
-            .finally(() => {
-                isLoadingTipos.value = false;
-            });
 
-        isLoadingStates.value = true;
-        RegisterService.states()
-            .then(({ data }): void => {
-                formStore.$state.state = data;
-                lists.value[1] = data;
-            })
-            .finally(() => {
-                isLoadingStates.value = false;
-            });
+        lists.value[0] = [
+            { name: 'Servicio', code: 'NY' },
+            { name: 'Mantenimiento', code: 'RM' },
+            { name: 'Refacciones', code: 'LDN' },
+            { name: 'Pintura', code: 'IST' },
+            { name: 'Talacha', code: 'PRS' },
+        ];
+        lists.value[1] = [
+            { name: 'Emitida', code: 'EM' },
+            { name: 'Retenida', code: 'RE' },
+            { name: 'Cancelada', code: 'CA' },
+            { name: 'En pausa', code: 'PA' },
+            { name: 'Ausente', code: 'AU' },
+        ];
+    }
+
+    const fetchLists = (): void => {
+        listsTypeAndService();
 
         isLoadingClients.value = true;
         RegisterService.getClients()
@@ -201,8 +196,6 @@ export const useForm = () => {
         onClear,
         fetchLists,
         lists,
-        isLoadingTipos,
-        isLoadingStates,
         isLoadingClients,
         isLoadingPlacas,
         isLoadingFolios,
