@@ -406,32 +406,32 @@ export const useMenu = () => {
                         {
                             label: 'Marcas de vehículos',
                             icon: 'pi pi-car',
-                            route: '/brands'
+                            route: '/catalogs/brands'
                         },
                         {
                             label: 'Modelos de vehículos',
                             icon: 'pi pi-truck',
-                            route: '/models'
+                            route: '/catalogs/models'
                         },
                         {
                             label: 'Refacciones',
                             icon: 'pi pi-wrench',
-                            route: '/refacs'
+                            route: '/catalogs/refacs'
                         },
                         {
                             label: 'Paquete',
                             icon: 'pi pi-box',
-                            route: '/packages'
+                            route: '/catalogs/packages'
                         },
                         {
                             label: 'Cliente',
                             icon: 'pi pi-users',
-                            route: '/clients'
+                            route: '/catalogs/clients'
                         },
                         {
                             label: 'Precio',
                             icon: 'pi pi-money-bill',
-                            route: '/prices'
+                            route: '/catalogs/prices'
                         }
                     ]
                 },
