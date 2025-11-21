@@ -4,17 +4,26 @@ import { BrandService } from "../services/BrandService";
 
 export const useBrands = () => {
     const brands: Ref<Brand[]> = ref([]);
+    const showAddBrandDialog = ref(false);
 
     const fetchBrands = () => {
         BrandService.getBrands()
-            .then(({ data }) => {
+            .then(({ data }): void => {
                 brands.value = data;
-
-                console.warn(data)
             })
     }
+
+    const onSavedBrand = (newBrand: Brand) => {
+        BrandService.addBrand(newBrand.Marca)
+            .then(({ data }): void => {
+                brands.value.push(data);
+            })
+    }
+
     return {
         brands,
-        fetchBrands
+        fetchBrands,
+        showAddBrandDialog,
+        onSavedBrand,
     }
 }
