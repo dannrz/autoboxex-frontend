@@ -20,6 +20,14 @@
                 </template>
                 <Column field="IdMarca" header="Id Marca"></Column>
                 <Column field="Marca" header="Marca"></Column>
+                <Column header="Acciones" style="width: 8rem">
+                    <template #body="slotProps">
+                        <div class="flex gap-4">
+                            <Button icon="pi pi-pencil" severity="success" rounded />
+                            <Button icon="pi pi-trash" severity="danger" outlined rounded />
+                        </div>
+                    </template>
+                </Column>
             </DataTable>
         </template>
     </Card>
