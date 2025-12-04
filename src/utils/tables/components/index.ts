@@ -1,0 +1,1 @@
+export { default as EditableButtons } from './EditableButtons.vue';
