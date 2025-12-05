@@ -1,0 +1,1 @@
+export { default as ModelsTable } from './ModelsTable.vue';

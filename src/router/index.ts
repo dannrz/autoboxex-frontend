@@ -47,6 +47,11 @@ const router = createRouter({
               path: 'brands',
               name: 'brands',
               component: () => import('@/modules/catalogs/brands/views/BrandsView.vue'),
+            },
+            {
+              path: 'models',
+              name: 'models',
+              component: () => import('@/modules/catalogs/models/views/ModelsView.vue'),
             }
           ],
           meta: {

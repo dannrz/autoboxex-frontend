@@ -16,6 +16,6 @@ export const BrandService = {
     },
 
     async updateBrand({ IdMarca }: Brand, brand: string): Promise<AxiosResponse<Brand>> {
-        return await api.put(`/catalogs/brands/${IdMarca}`, { brand });
+        return await api.put<Brand>(`/catalogs/brands/${IdMarca}`, { brand });
     }
 }
