@@ -1,11 +1,11 @@
 <template>
     <div class="flex gap-4">
         <ConfirmPopup />
-        <Button icon="pi pi-pencil" severity="success" rounded @click="emit('onEditedBrand', $event, data)"
+        <Button icon="pi pi-pencil" severity="success" rounded @click="$emit('onEditedBrand', $event, data)"
             v-tooltip.top="{
                 value: `Editar ${data.Marca}`
             }" />
-        <Button icon="pi pi-trash" severity="danger" outlined rounded @click="emit('onDeletedBrand', $event, data)"
+        <Button icon="pi pi-trash" severity="danger" outlined rounded @click="$emit('onDeletedBrand', $event, data)"
             v-tooltip.bottom="{
                 value: `Eliminar la marca: ${data.Marca}`,
             }" />
@@ -19,8 +19,8 @@ defineProps<{
     data: Brand
 }>();
 
-const emit = defineEmits<{
-    (e: 'onDeletedBrand', event: Event, brand: Brand): void;
-    (e: 'onEditedBrand', event: Event, brand: Brand): void;
+defineEmits<{
+    onDeletedBrand: [event: Event, brand: Brand];
+    onEditedBrand: [event: Event, brand: Brand];
 }>();
 </script>
