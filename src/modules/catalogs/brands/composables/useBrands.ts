@@ -3,6 +3,7 @@ import type { Brand } from "../interfaces/Brand.interface";
 import { BrandService } from "../services/BrandService";
 import { useCatalogStore } from "@/stores/useCatalogStore";
 import { useConfirm, useToast } from "primevue";
+import type { ModelResponse } from "../../models/interfaces";
 
 export const useBrands = () => {
     const brands = ref<Brand[]>([]);
@@ -47,7 +48,7 @@ export const useBrands = () => {
         showEditBrandDialog.value = false;
     }
 
-    const onDeletedBrand = (event: any, brand: Brand) => {
+    const onDeletedBrand = (event: any, brand: Brand | ModelResponse) => {
         confirm.require({
             target: event.currentTarget,
             message: `¿Desea proceder con la eliminación de la marca: ${brand.Marca}?`,
@@ -61,9 +62,10 @@ export const useBrands = () => {
                 label: 'Proceder'
             },
             accept: () => {
-                BrandService.deleteBrand(brand)
-                    .then(({ data }): void => {
-                        brands.value = brands.value.filter(b => b.IdMarca !== brand.IdMarca);
+                const br = brand as Brand;
+                BrandService.deleteBrand(brand as Brand)
+                    .then((): void => {
+                        brands.value = brands.value.filter(b => b.IdMarca !== br.IdMarca);
                         catalogStore.$state.brands = brands.value;
 
                         toast.add({ severity: 'success', summary: 'Éxito', detail: `La marca ${brand.Marca} ha sido eliminada`, life: import.meta.env.VITE_TOAST_LIFETIME });
@@ -78,9 +80,9 @@ export const useBrands = () => {
         });
     }
 
-    const onEditedBrand = (event: any, brand: Brand) => {
+    const onEditedBrand = (event: any, brand: Brand | ModelResponse) => {
         showEditBrandDialog.value = true;
-        selectedBrand.value = brand;
+        selectedBrand.value = brand as Brand;
     }
 
     const onUpdateBrand = (currentBrand: Brand, updatedName: string, dialog: boolean) => {
