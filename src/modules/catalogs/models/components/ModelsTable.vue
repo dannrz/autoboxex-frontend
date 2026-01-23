@@ -20,25 +20,18 @@
             </template>
         </Column>
     </DataTable>
-    <AddModelDialog :dialog="showAddModelDialog" :brands @update:dialog="showAddModelDialog = $event" :saveData />
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { useModels } from '../composables/useModels';
 import { EditableButtons } from '@/utils/tables/components';
 import { SkeletonTable } from '@/modules/user/components';
-import type { Brand } from '../../brands/interfaces';
 import type { ModelResponse } from '../interfaces';
-import { AddModelDialog } from '.';
+import type { Brand } from '../../brands/interfaces';
 
-const { initData, models, isLoadingModels, showAddModelDialog, onAddModel, brands, saveData } = useModels();
-
-onMounted(() => {
-    initData();
-});
-
-const deleted = (event: any, deleted: Brand | ModelResponse): void => {
-    console.log(event, deleted)
-}
+defineProps<{
+    deleted: (event: any, deleted: ModelResponse | Brand) => void,
+    onAddModel: () => void,
+    isLoadingModels: boolean,
+    models: Array<ModelResponse>,
+}>();
 </script>
