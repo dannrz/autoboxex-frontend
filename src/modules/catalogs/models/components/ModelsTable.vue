@@ -16,7 +16,8 @@
         <Column header="Acciones">
             <template #body="{ data }">
                 <EditableButtons :data="data" :editLabel="`Editar ${data.Modelo}`"
-                    :deleteLabel="`Eliminar el modelo: ${data.Modelo}`" @on-deleted-brand="deleted" />
+                    :deleteLabel="`Eliminar el modelo: ${data.Modelo}`"
+                    @onDeletedBrand="$emit('delete', $event, data)" />
             </template>
         </Column>
     </DataTable>
@@ -26,12 +27,14 @@
 import { EditableButtons } from '@/utils/tables/components';
 import { SkeletonTable } from '@/modules/user/components';
 import type { ModelResponse } from '../interfaces';
-import type { Brand } from '../../brands/interfaces';
 
 defineProps<{
-    deleted: (event: any, deleted: ModelResponse | Brand) => void,
     onAddModel: () => void,
     isLoadingModels: boolean,
     models: Array<ModelResponse>,
+}>();
+
+defineEmits<{
+    delete: [event: any, deleted: ModelResponse],
 }>();
 </script>

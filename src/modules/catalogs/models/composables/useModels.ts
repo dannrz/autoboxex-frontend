@@ -1,10 +1,11 @@
 import { ref } from "vue"
 import type { AxiosError } from "axios";
-import { useToast } from "primevue";
+import { useConfirm, useToast } from "primevue";
 import type { ModelRequest, ModelResponse } from "../interfaces"
 import { ModelService } from "../services/ModelService"
 import { BrandService } from "../../brands/services/BrandService";
 import type { Brand } from "../../brands/interfaces";
+
 
 export const useModels = () => {
     const models = ref<Array<ModelResponse>>([]);
@@ -17,6 +18,7 @@ export const useModels = () => {
     const model = ref<ModelRequest>({} as ModelRequest);
 
     const toast = useToast();
+    const confirm = useConfirm();
 
     const initData = (): void => {
         loadModels();
@@ -46,7 +48,6 @@ export const useModels = () => {
             });
     }
 
-
     const saveData = (): void => {
         isLoadingSaveModel.value = true;
         const { value } = model;
@@ -66,6 +67,39 @@ export const useModels = () => {
             });
     }
 
+
+    const confirm2 = (event: any, data: ModelResponse) => {
+        confirm.require({
+            target: event.currentTarget,
+            message: `¿Está seguro de que desea eliminar el modelo ${data.Modelo} de la marca ${data.Marca}?`,
+            icon: 'pi pi-info-circle',
+            rejectProps: {
+                label: 'Cancelar',
+                severity: 'secondary',
+                text: true,
+                raised: true
+            },
+            acceptProps: {
+                label: 'Sí, borrar',
+                severity: 'danger',
+                outlined: true
+            },
+            accept: () => {
+                ModelService.deleteModel(data)
+                    .then(() => {
+                        models.value = models.value.filter(m => !(m.Marca === data.Marca && m.Modelo === data.Modelo));
+                        toast.add({ severity: 'info', summary: 'Confirmado', detail: 'Registro eliminado', life: import.meta.env.VITE_TOAST_LIFETIME });
+                    })
+                    .catch(({ response }: AxiosError<{ message: string }>) => {
+                        toast.add({ severity: 'error', summary: 'Error', detail: response?.data.message, life: import.meta.env.VITE_TOAST_LIFETIME });
+                    });
+            },
+            reject: () => {
+                toast.add({ severity: 'error', summary: 'Cancelado', detail: 'Has cancelado la acción', life: import.meta.env.VITE_TOAST_LIFETIME });
+            }
+        });
+    };
+
     return {
         models,
         isLoadingModels,
@@ -76,5 +110,6 @@ export const useModels = () => {
         initData,
         model,
         saveData,
+        confirm2,
     }
 }
