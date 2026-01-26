@@ -10,5 +10,9 @@ export const ModelService = {
     async createModel({ Marca, Modelo }: ModelRequest): Promise<AxiosResponse> {
         let marca: number = Marca.IdMarca;
         return await api.post('/catalogs/models', { marca, Modelo });
+    },
+
+    async deleteModel({ Marca, Modelo }: ModelResponse): Promise<AxiosResponse> {
+        return await api.delete(`/catalogs/models`, { data: { Marca, Modelo } });
     }
 }
