@@ -14,5 +14,15 @@ export const ModelService = {
 
     async deleteModel({ Marca, Modelo }: ModelResponse): Promise<AxiosResponse> {
         return await api.delete(`/catalogs/models`, { data: { Marca, Modelo } });
+    },
+
+    async updateModel(oldData: ModelResponse, newData: ModelRequest): Promise<AxiosResponse> {
+        let marca: string = newData.Marca.Marca;
+        return await api.put(`/catalogs/models`, {
+            oldMarca: oldData.Marca,
+            oldModelo: oldData.Modelo,
+            marca: marca,
+            Modelo: newData.Modelo
+        });
     }
 }

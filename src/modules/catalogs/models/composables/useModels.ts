@@ -14,8 +14,10 @@ export const useModels = () => {
     const isLoadingModels = ref<boolean>(false);
     const showAddModelDialog = ref<boolean>(false);
     const isLoadingSaveModel = ref<boolean>(false);
+    const isUpdatingModel = ref<boolean>(false);
 
     const model = ref<ModelRequest>({} as ModelRequest);
+    const oldModelData = ref<ModelResponse>({} as ModelResponse);
 
     const toast = useToast();
     const confirm = useConfirm();
@@ -52,17 +54,38 @@ export const useModels = () => {
         isLoadingSaveModel.value = true;
         const { value } = model;
 
+        if (isUpdatingModel.value) {
+            ModelService.updateModel(oldModelData.value, value)
+                .then(() => {
+                    const index = models.value.findIndex(m => m.Marca === oldModelData.value.Marca && m.Modelo === oldModelData.value.Modelo);
+                    if (index !== -1) {
+                        models.value[index] = { Marca: value.Marca.Marca, Modelo: value.Modelo };
+                    }
+                    toast.add({ severity: 'success', summary: 'Modelo actualizado', detail: `Modelo ${oldModelData.value.Modelo} actualizado a ${value.Modelo} correctamente. Y para la marca ${oldModelData.value.Marca} actualizada a ${value.Marca.Marca}`, life: import.meta.env.VITE_TOAST_LIFETIME });
+                })
+                .catch(({ response }: AxiosError<{ Modelo: string[] }>) => {
+                    toast.add({ severity: 'error', summary: 'Error', detail: response?.data.Modelo[0], life: import.meta.env.VITE_TOAST_LIFETIME });
+                })
+                .finally(() => {
+                    showAddModelDialog.value = false
+                    model.value = {} as ModelRequest;
+                    isUpdatingModel.value = false;
+                    isLoadingSaveModel.value = false;
+                });
+            return;
+        }
+
         ModelService.createModel(value)
             .then(() => {
                 models.value.push({ Marca: value.Marca.Marca, Modelo: value.Modelo });
                 toast.add({ severity: 'success', summary: 'Modelo creado', detail: `Modelo ${value.Modelo} creado correctamente para la marca ${value.Marca.Marca}`, life: import.meta.env.VITE_TOAST_LIFETIME });
-                isLoadingSaveModel.value = false;
             })
             .catch(({ response }: AxiosError<{ Modelo: string[] }>) => {
                 toast.add({ severity: 'error', summary: 'Error', detail: response?.data.Modelo[0], life: import.meta.env.VITE_TOAST_LIFETIME });
             })
             .finally(() => {
                 showAddModelDialog.value = false
+                isLoadingSaveModel.value = false;
                 model.value = {} as ModelRequest;
             });
     }
@@ -100,6 +123,24 @@ export const useModels = () => {
         });
     };
 
+    const confirm3 = (event: any, data: ModelResponse) => {
+        showAddModelDialog.value = true;
+        isUpdatingModel.value = true;
+
+        oldModelData.value = {
+            Marca: data.Marca,
+            Modelo: data.Modelo,
+        };
+
+        model.value = {
+            Marca: {
+                IdMarca: brands.value.find(b => b.Marca === data.Marca)?.IdMarca as number,
+                Marca: data.Marca
+            },
+            Modelo: data.Modelo
+        }
+    }
+
     return {
         models,
         isLoadingModels,
@@ -111,5 +152,6 @@ export const useModels = () => {
         model,
         saveData,
         confirm2,
+        confirm3,
     }
 }
