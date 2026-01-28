@@ -16,8 +16,8 @@
         <Column header="Acciones">
             <template #body="{ data }">
                 <EditableButtons :data="data" :editLabel="`Editar ${data.Modelo}`"
-                    :deleteLabel="`Eliminar el modelo: ${data.Modelo}`"
-                    @onDeletedBrand="$emit('delete', $event, data)" />
+                    :deleteLabel="`Eliminar el modelo: ${data.Modelo}`" @onDeletedBrand="$emit('delete', $event, data)"
+                    @onEditedBrand="$emit('update', $event, data)" />
             </template>
         </Column>
     </DataTable>
@@ -36,5 +36,6 @@ defineProps<{
 
 defineEmits<{
     delete: [event: any, deleted: ModelResponse],
+    update: [event: any, deleted: ModelResponse],
 }>();
 </script>
