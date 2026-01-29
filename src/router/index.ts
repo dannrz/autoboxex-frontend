@@ -52,6 +52,11 @@ const router = createRouter({
               path: 'models',
               name: 'models',
               component: () => import('@/modules/catalogs/models/views/ModelsView.vue'),
+            },
+            {
+              path: 'refacs',
+              name: 'refacs',
+              component: () => import('@/modules/catalogs/refacs/views/RefacsView.vue'),
             }
           ],
           meta: {
