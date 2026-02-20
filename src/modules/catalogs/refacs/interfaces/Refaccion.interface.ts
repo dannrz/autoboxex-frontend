@@ -2,7 +2,7 @@ export interface Refaccion {
     IdRefaccion: number;
     Refacción: string;
     Unidad: string;
-    Codigo: number;
+    Codigo: number | string;
     Tipo: string;
     Cantidad: number;
     Precio: number;
