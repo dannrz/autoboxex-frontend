@@ -27,9 +27,38 @@ const router = createRouter({
       component: () => import('@/layout/main/views/MainPage.vue'),
       children: [
         {
-          path: '/processes/service',
-          name: 'register',
-          component: () => import('@/modules/register/views/FormRegister.vue'),
+          path: 'processes',
+          children: [
+            {
+              path: 'service',
+              name: 'register',
+              component: () => import('@/modules/processes/service/views/FormRegister.vue'),
+            }
+          ],
+          meta: {
+            requiresAuth: true,
+            roles: ['admin', 'admtivo'],
+          }
+        },
+        {
+          path: 'catalogs',
+          children: [
+            {
+              path: 'brands',
+              name: 'brands',
+              component: () => import('@/modules/catalogs/brands/views/BrandsView.vue'),
+            },
+            {
+              path: 'models',
+              name: 'models',
+              component: () => import('@/modules/catalogs/models/views/ModelsView.vue'),
+            },
+            {
+              path: 'refacs',
+              name: 'refacs',
+              component: () => import('@/modules/catalogs/refacs/views/RefacsView.vue'),
+            }
+          ],
           meta: {
             requiresAuth: true,
             roles: ['admin', 'admtivo'],
