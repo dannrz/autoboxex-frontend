@@ -1,0 +1,1 @@
+export { default as PackagesTable } from './PackagesTable.vue';
