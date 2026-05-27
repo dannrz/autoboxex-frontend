@@ -4,7 +4,7 @@ import router from "@/router";
 axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
 
-export const api: AxiosInstance = axios.create({
+const api: AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
     headers: {
         "Content-Type": "application/json",
@@ -32,3 +32,5 @@ api.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
+export { api };
