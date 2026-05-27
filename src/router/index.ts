@@ -63,7 +63,12 @@ const router = createRouter({
               path: 'packages',
               name: 'packages',
               component: () => import('@/modules/catalogs/packages/views/PackageView.vue'),
-            }
+            },
+            {
+              path: 'clients',
+              name: 'clients',
+              component: () => import('@/modules/catalogs/client/views/ClientsView.vue'),
+            },
           ],
           meta: {
             requiresAuth: true,
