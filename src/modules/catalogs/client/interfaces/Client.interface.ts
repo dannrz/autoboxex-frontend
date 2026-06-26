@@ -1,3 +1,22 @@
+export interface ClientForm {
+    Nombre: string;
+    RFC?: string | null;
+    CP?: string | null;
+    eMail?: string | null;
+    Direccion?: string | null;
+    Colonia?: string | null;
+    Poblacion?: string | null;
+    Estado?: string | null;
+    Contacto?: string | null;
+    Sucursal?: string | null;
+    Credito?: number | null;
+    Telefono?: string | null;
+    Telefono2?: string | null;
+    Telefono3?: string | null;
+    Descuento?: number | null;
+    ManoObra?: number | null;
+}
+
 export interface Client {
     IdCliente: number;
     Nombre: string;

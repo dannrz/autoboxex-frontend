@@ -49,11 +49,6 @@ export const useMenu = () => {
                             route: '/catalogs/models'
                         },
                         {
-                            label: 'Proveedor',
-                            icon: 'pi pi-users',
-                            route: '/catalogs/providers'
-                        },
-                        {
                             label: 'Refacción',
                             icon: 'pi pi-cog',
                             route: '/catalogs/refacs'
@@ -61,58 +56,12 @@ export const useMenu = () => {
                         {
                             label: 'Paquete',
                             icon: 'pi pi-box',
-                            route: '/catalogs/package'
+                            route: '/catalogs/packages'
                         },
                         {
                             label: 'Cliente',
                             icon: 'pi pi-user',
-                            route: '/catalogs/client'
-                        },
-                        {
-                            label: 'Precio',
-                            icon: 'pi pi-dollar',
-                            route: '/catalogs/price'
-                        },
-                        {
-                            label: 'Origen de recursos',
-                            icon: 'pi pi-money-bill',
-                            route: '/catalogs/resources'
-                        },
-                        {
-                            label: 'Verificación de vehículo',
-                            icon: 'pi pi-car',
-                            route: '/catalogs/verify-car'
-                        },
-                    ]
-                },
-                {
-                    label: 'Consulta',
-                    icon: 'pi pi-search',
-                    items: [
-                        {
-                            label: 'Orden de entrada',
-                            icon: 'pi pi-file-import',
-                            route: '/consult/in-orders'
-                        },
-                        {
-                            label: 'Imágenes',
-                            icon: 'pi pi-image',
-                            route: '/consult/images'
-                        },
-                        {
-                            label: 'Compras',
-                            icon: 'pi pi-tags',
-                            route: '/consult/buy'
-                        },
-                        {
-                            label: 'Refacciones',
-                            icon: 'pi pi-wrench',
-                            route: '/catalogs/refacs'
-                        },
-                        {
-                            label: 'Servicios',
-                            icon: 'pi pi-briefcase',
-                            route: '/consult/services'
+                            route: '/catalogs/clients'
                         },
                     ]
                 },
@@ -456,8 +405,8 @@ export const useMenu = () => {
                         },
                         {
                             label: 'Servicios',
-                            icon: 'pi pi-bolt',
-                            route: '/consultas/services'
+                            icon: 'pi pi-file-check',
+                            route: '/consultas/servicios'
                         }
                     ]
                 },

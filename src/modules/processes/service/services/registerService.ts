@@ -30,5 +30,17 @@ export const RegisterService = {
 
     async getPlacas(idCliente: string): Promise<AxiosResponse<Array<{ Placas: string }>>> {
         return await api.get<Array<{ Placas: string }>>('/services/plates', { params: { idCliente } });
+    },
+
+    async getMarcas(): Promise<AxiosResponse<Array<{ IdMarca: number; Marca: string }>>> {
+        return await api.get('/services/marcas');
+    },
+
+    async getModelos(idMarca?: number): Promise<AxiosResponse<Array<{ IdMarca: number; Modelo: string }>>> {
+        return await api.get('/services/modelos', idMarca ? { params: { idMarca } } : undefined);
+    },
+
+    async storeService(payload: Record<string, any>) {
+        return await api.post('/services', payload);
     }
 }

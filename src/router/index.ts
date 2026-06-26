@@ -77,48 +77,17 @@ const router = createRouter({
           }
         },
         {
-          path: '/clientes',
-          name: 'clientes',
-          component: () => import('@/modules/catalogos/views/Clientes.vue'),
+          path: 'consultas',
+          children: [
+            {
+              path: 'servicios',
+              name: 'consultas-servicios',
+              component: () => import('@/modules/consultas/views/servicios.vue'),
+            }
+          ],
           meta: {
             requiresAuth: true,
-            role: 'admin',
-          }
-        },
-        {
-          path: '/vehicles',
-          name: 'vehicles',
-          component: () => import('@/modules/catalogos/views/Vehicles.vue'),
-          meta: {
-            requiresAuth: true,
-            role: 'admin',
-          }
-        },
-        {
-          path: '/spare',
-          name: 'spare',
-          component: () => import('@/modules/catalogos/views/Spare.vue'),
-          meta: {
-            requiresAuth: true,
-            role: 'admin',
-          }
-        },
-        {
-          path: '/paquetes',
-          name: 'paquetes',
-          component: () => import('@/modules/catalogos/views/Paquetes.vue'),
-          meta: {
-            requiresAuth: true,
-            role: 'admin',
-          }
-        },
-        {
-          path: '/servicios',
-          name: 'servicios',
-          component: () => import('@/modules/consultas/views/servicios.vue'),
-          meta: {
-            requiresAuth: true,
-            role: 'admin',
+            roles: ['admin', 'admtivo'],
           }
         },
         {
