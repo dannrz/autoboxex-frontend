@@ -56,7 +56,7 @@ export const useMenu = () => {
                         {
                             label: 'Refacción',
                             icon: 'pi pi-cog',
-                            route: '/catalogs/parts'
+                            route: '/catalogs/refacs'
                         },
                         {
                             label: 'Paquete',
@@ -107,7 +107,7 @@ export const useMenu = () => {
                         {
                             label: 'Refacciones',
                             icon: 'pi pi-wrench',
-                            route: '/consult/parts'
+                            route: '/catalogs/refacs'
                         },
                         {
                             label: 'Servicios',
@@ -452,7 +452,7 @@ export const useMenu = () => {
                         {
                             label: 'Refacciones',
                             icon: 'pi pi-wrench',
-                            route: '/consultas/refacs'
+                            route: '/catalogs/refacs'
                         },
                         {
                             label: 'Servicios',
@@ -574,7 +574,7 @@ export const useMenu = () => {
                         {
                             label: 'Refacciones',
                             icon: 'pi pi-wrench',
-                            route: '/catalogos/refacciones'
+                            route: '/catalogs/refacs'
                         },
                         {
                             label: 'Paquete',
@@ -615,7 +615,7 @@ export const useMenu = () => {
                         {
                             label: 'Refacciones',
                             icon: 'pi pi-wrench',
-                            route: '/consultas/refacciones'
+                            route: '/catalogs/refacs'
                         },
                         {
                             label: 'Servicios',

@@ -58,6 +58,7 @@ const router = createRouter({
               path: 'refacs',
               name: 'refacs',
               component: () => import('@/modules/catalogs/refacs/views/RefacsView.vue'),
+              meta: { requiresAuth: true, roles: ['admin', 'admtivo', 'almacen'] },
             },
             {
               path: 'packages',
