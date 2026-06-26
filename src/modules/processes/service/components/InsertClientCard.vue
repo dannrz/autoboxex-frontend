@@ -200,7 +200,9 @@
         <template #footer>
             <div class="flex justify-evenly" style="margin-top: 2rem;">
                 <Button severity="contrast" label="Insertar vehículo" icon="pi pi-save" iconPos="right" size="small"
-                    @click="onSubmit" />
+                    @click="onSubmit(props.costos ?? [])" />
+                <Button severity="success" label="Generar orden de servicio" icon="pi pi-file-plus" iconPos="right" size="small"
+                    @click="onSubmitMovimiento(props.costos ?? [])" />
                 <Button severity="info" label="Limpiar Formulario" icon="pi pi-undo" iconPos="right" size="small"
                     @click="onClear" />
             </div>
@@ -214,7 +216,11 @@ import { useForm } from '@/utils/forms/composables/useForm';
 import type { Insumo } from '../interfaces';
 import ClientAutocomplete from './ClientAutocomplete.vue';
 
-const { form, onSubmit, onClear, fetchLists, lists, isLoadingClients, isLoadingPlacas, isLoadingFolios, isLoadingForm, clientes, onClientChange, onPlacasChange, onSelectedFolio, folios, marcas, modelos } = useForm();
+const { form, onSubmit, onSubmitMovimiento, onClear, fetchLists, lists, isLoadingClients, isLoadingPlacas, isLoadingFolios, isLoadingForm, clientes, onClientChange, onPlacasChange, onSelectedFolio, folios, marcas, modelos } = useForm();
+
+const props = defineProps<{
+    costos?: Array<{ producto: string; cantidad: number; precio: number }>
+}>();
 
 const emits = defineEmits<{
     insumos: [value: Insumo[]],

@@ -77,6 +77,17 @@ const router = createRouter({
           }
         },
         {
+          path: 'reports',
+          children: [
+            {
+              path: 'services-budget',
+              name: 'services-budget',
+              component: () => import('@/modules/reports/services-budget/views/ServicesBudgetView.vue'),
+            }
+          ],
+          meta: { requiresAuth: true, roles: ['admin', 'admtivo'] }
+        },
+        {
           path: 'consultas',
           children: [
             {

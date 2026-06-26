@@ -2,7 +2,7 @@
     <div class="grid grid-cols-12 gap-4 my-4">
         <!-- Formulario cliente/vehículo/OT — columna izquierda -->
         <div class="col-span-12 lg:col-span-5">
-            <InsertClientCard @insumos="getInsumos($event)" @loader="setLoading($event)" />
+            <InsertClientCard :costos="costos" @insumos="getInsumos($event)" @loader="setLoading($event)" />
         </div>
 
         <!-- Columna derecha: insumos + tablas -->

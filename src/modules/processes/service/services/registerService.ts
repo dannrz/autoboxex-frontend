@@ -42,5 +42,9 @@ export const RegisterService = {
 
     async storeService(payload: Record<string, any>) {
         return await api.post('/services', payload);
+    },
+
+    async storeMovimiento(payload: Record<string, any>) {
+        return await api.post('/services/movimiento', payload);
     }
 }

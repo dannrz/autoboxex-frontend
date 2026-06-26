@@ -228,7 +228,5 @@ const exportExcelFolio  = (row: ServicioConsulta) =>
         : ExportService.excelByFolio(row.IdMovimiento));
 
 const exportPdf         = (row: ServicioConsulta) =>
-    handleExport(() => row.FolioOE
-        ? ExportService.pdfByFolio(row.FolioOE)
-        : ExportService.pdfById(row.IdMovimiento));
+    handleExport(() => ExportService.pdfById(row.IdMovimiento));
 </script>
