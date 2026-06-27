@@ -12,6 +12,7 @@ export const useRefac = () => {
     const showDialog = ref<boolean>(false);
     const isCreating = ref<boolean>(false);
     const isLoading = ref<boolean>(false);
+    const isTableLoading = ref<boolean>(false);
     const titleDialog = ref<string>("");
     const refaccion = ref<Refaccion>({} as Refaccion);
 
@@ -54,10 +55,14 @@ export const useRefac = () => {
     ];
 
     const loadRefacciones = async (): Promise<void> => {
+        isTableLoading.value = true;
         RefacService.getRefacciones()
             .then(({ data }) => {
                 refacciones.value = data;
             })
+            .finally(() => {
+                isTableLoading.value = false;
+            });
     }
 
     const handleEdit = (refaccion1: Refaccion): void => {
@@ -202,6 +207,7 @@ export const useRefac = () => {
         saveData,
         updatePrecioIva,
         isLoading,
+        isTableLoading,
         submit,
         create,
         resolver,

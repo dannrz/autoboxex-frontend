@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useLoginGuard } from '@/guards/useLoginGuard';
 import LoginView from '@/layout/login/views/LoginView.vue'
 
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -57,6 +58,7 @@ const router = createRouter({
               path: 'refacs',
               name: 'refacs',
               component: () => import('@/modules/catalogs/refacs/views/RefacsView.vue'),
+              meta: { requiresAuth: true, roles: ['admin', 'admtivo', 'almacen'] },
             },
             {
               path: 'packages',
@@ -68,6 +70,31 @@ const router = createRouter({
               name: 'clients',
               component: () => import('@/modules/catalogs/client/views/ClientsView.vue'),
             },
+          ],
+          meta: {
+            requiresAuth: true,
+            roles: ['admin', 'admtivo'],
+          }
+        },
+        {
+          path: 'reports',
+          children: [
+            {
+              path: 'services-budget',
+              name: 'services-budget',
+              component: () => import('@/modules/reports/services-budget/views/ServicesBudgetView.vue'),
+            }
+          ],
+          meta: { requiresAuth: true, roles: ['admin', 'admtivo'] }
+        },
+        {
+          path: 'consultas',
+          children: [
+            {
+              path: 'servicios',
+              name: 'consultas-servicios',
+              component: () => import('@/modules/consultas/views/servicios.vue'),
+            }
           ],
           meta: {
             requiresAuth: true,
@@ -105,6 +132,25 @@ const router = createRouter({
         requiresAuth: true,
       }
     },
+    // {
+    //   path: '/tablas',
+    //   name: 'tablas',
+    //   component: () => import('@/layout/main/views/MainPage.vue'),
+    //   children: [
+    //     {
+    //       path: '/tabla',
+    //       name: 'tabla',
+    //       component: () => import('@/modules/tablas/interfaces/tabla.vue'),
+    //       meta: {
+    //         requiresAuth: true,
+    //         role: 'admin',
+    //       }
+    //     }
+    //   ],
+    //   meta: {
+    //     requiresAuth: true,
+    //   }
+    // },
     {
       path: '/unauthorized',
       name: 'unauthorized',

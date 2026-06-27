@@ -15,6 +15,8 @@ export const useForm = () => {
     const clientes = ref<Clientes[]>([]);
     const insumos = ref<Insumo[]>([]);
     const folios = ref<Array<{ FolioOE: string }>>([]);
+    const marcas = ref<Array<{ IdMarca: number; Marca: string }>>([]);
+    const modelos = ref<Array<{ IdMarca: number; Modelo: string }>>([]);
 
     const isLoadingPlacas: Ref<boolean> = ref<boolean>(false);
     const isLoadingClients: Ref<boolean> = ref<boolean>(false);
@@ -26,13 +28,108 @@ export const useForm = () => {
         items.value = [...Array(10).keys()].map((item) => event.query + '-' + item);
     }
 
+    const onSubmitMovimiento = (costos: Array<{ producto: string; cantidad: number; precio: number }> = []): void => {
+        const f = form.value;
+
+        if (!f.idCliente) {
+            toast.add({ severity: 'warn', summary: 'Campo requerido', detail: 'Selecciona un cliente.', life: Number(import.meta.env.VITE_TOAST_LIFETIME) });
+            return;
+        }
+        if (!f.idVehiculo) {
+            toast.add({ severity: 'warn', summary: 'Campo requerido', detail: 'Selecciona las placas de un vehículo existente.', life: Number(import.meta.env.VITE_TOAST_LIFETIME) });
+            return;
+        }
+
+        const folioOE = f.ordenEntrada
+            ? (typeof f.ordenEntrada === 'object' ? (f.ordenEntrada as any).FolioOE : f.ordenEntrada)
+            : null;
+
+        const payload = {
+            IdCliente:    Number(f.idCliente),
+            IdVehiculo:   Number(f.idVehiculo),
+            FolioOE:      folioOE ? Number(folioOE) : null,
+            TipMov:       f.tipo ? Number((f.tipo as any).code) || null : null,
+            Estado:       f.estado ? (f.estado as any).name ?? f.estado : null,
+            FEntrada:     f.fechaEntrada ?? null,
+            FSalida:      f.fechaSalida ?? null,
+            Kms:          f.kilometraje ? Number(f.kilometraje) : null,
+            Autoriza:     f.autorizacion ?? null,
+            Ingreso:      f.ingresaPor ?? null,
+            'Observación': f.observaciones ?? null,
+            DiasPS:       null,
+            costos:       costos.map(c => ({ producto: c.producto, cantidad: c.cantidad, precio: c.precio })),
+        };
+
+        RegisterService.storeMovimiento(payload)
+            .then(() => {
+                toast.add({ severity: 'success', summary: '¡Orden generada!', detail: 'Orden de servicio registrada correctamente.', life: Number(import.meta.env.VITE_TOAST_LIFETIME) });
+                form.value = {} as FormRegister;
+            })
+            .catch((err) => {
+                const msg = err?.response?.data
+                    ? Object.values(err.response.data).flat().join(' | ')
+                    : 'Error al generar la orden. Revisa los datos.';
+                toast.add({ severity: 'error', summary: 'Error', detail: msg, life: Number(import.meta.env.VITE_TOAST_LIFETIME) });
+            });
+    }
+
     const onClear = (): void => {
         form.value = {} as FormRegister;
         toast.add({ severity: 'info', summary: '¡Listo!', detail: 'Formulario limpiado', life: import.meta.env.VITE_TOAST_LIFETIME });
     }
 
-    const onSubmit = (): void => {
-        console.log(form.value);
+    const onSubmit = (costos: Array<{ producto: string; cantidad: number; precio: number }> = []): void => {
+        const f = form.value;
+
+        if (!f.idCliente) {
+            toast.add({ severity: 'warn', summary: 'Campo requerido', detail: 'Selecciona un cliente antes de registrar.', life: Number(import.meta.env.VITE_TOAST_LIFETIME) });
+            return;
+        }
+        if (!f.placas?.Placas) {
+            toast.add({ severity: 'warn', summary: 'Campo requerido', detail: 'Ingresa las placas del vehículo.', life: Number(import.meta.env.VITE_TOAST_LIFETIME) });
+            return;
+        }
+
+        const folioOE = f.ordenEntrada
+            ? (typeof f.ordenEntrada === 'object' ? (f.ordenEntrada as any).FolioOE : f.ordenEntrada)
+            : null;
+
+        const payload = {
+            IdCliente:    Number(f.idCliente),
+            Placas:       f.placas.Placas,
+            Marca:        f.marca ?? null,
+            Modelo:       f.modelo ?? null,
+            Año:          f.year ? Number(f.year) : null,
+            Color:        f.color ?? null,
+            Serie:        f.serie ?? null,
+            Kms:          f.kilometraje ? Number(f.kilometraje) : null,
+            FolioOE:      folioOE ? Number(folioOE) : null,
+            TipMov:       f.tipo ? Number((f.tipo as any).code) || null : null,
+            Estado:       f.estado ? (f.estado as any).name ?? f.estado : null,
+            FEntrada:     f.fechaEntrada ?? null,
+            FSalida:      f.fechaSalida ?? null,
+            Autoriza:     f.autorizacion ?? null,
+            Ingreso:      f.ingresaPor ?? null,
+            'Observación': f.observaciones ?? null,
+            DiasPS:       null,
+            costos:       costos.map(c => ({
+                producto: c.producto,
+                cantidad: c.cantidad,
+                precio:   c.precio,
+            })),
+        };
+
+        RegisterService.storeService(payload)
+            .then(() => {
+                toast.add({ severity: 'success', summary: '¡Registrado!', detail: 'Vehículo y servicio registrados correctamente.', life: Number(import.meta.env.VITE_TOAST_LIFETIME) });
+                form.value = {} as FormRegister;
+            })
+            .catch((err) => {
+                const msg = err?.response?.data
+                    ? Object.values(err.response.data).flat().join(' | ')
+                    : 'Error al registrar. Revisa los datos.';
+                toast.add({ severity: 'error', summary: 'Error', detail: msg, life: Number(import.meta.env.VITE_TOAST_LIFETIME) });
+            });
     }
 
     const onClientChange = (e: Clientes) => {
@@ -81,6 +178,7 @@ export const useForm = () => {
         form.value.serie = servicio!.vehiculo.Serie!;
         form.value.kilometraje = servicio!.Kms!;
 
+        form.value.idVehiculo   = servicio!.vehiculo.IdVehiculo;
         form.value.ordenEntrada = servicio!.FolioOE;
         form.value.fechaEntrada = new Date(servicio!.FEntrada!);
     }
@@ -140,19 +238,12 @@ export const useForm = () => {
     }
 
     const listsTypeAndService = (): void => {
-        if (clientStore.$state.clients.length > 0) {
-            clientes.value = clientStore.$state.clients;
-            folios.value = vehicleStore.$state.inOrders;
-
-            return;
-        }
-
         lists.value[0] = [
-            { name: 'Servicio', code: 'NY' },
-            { name: 'Mantenimiento', code: 'RM' },
-            { name: 'Refacciones', code: 'LDN' },
-            { name: 'Pintura', code: 'IST' },
-            { name: 'Talacha', code: 'PRS' },
+            { name: 'Servicio', code: 1 },
+            { name: 'Mantenimiento', code: 2 },
+            { name: 'Refacciones', code: 3 },
+            { name: 'Pintura', code: 4 },
+            { name: 'Talacha', code: 5 },
         ];
         lists.value[1] = [
             { name: 'Emitida', code: 'EM' },
@@ -185,6 +276,9 @@ export const useForm = () => {
             .finally(() => {
                 isLoadingFolios.value = false;
             });
+
+        RegisterService.getMarcas().then(({ data }) => { marcas.value = data; });
+        RegisterService.getModelos().then(({ data }) => { modelos.value = data; });
     }
 
     return {
@@ -192,6 +286,8 @@ export const useForm = () => {
         form,
         search,
         clientes,
+        marcas,
+        modelos,
         onSubmit,
         onClear,
         fetchLists,
@@ -206,5 +302,6 @@ export const useForm = () => {
         isLoadingInsumos,
         folios,
         onSelectedFolio,
+        onSubmitMovimiento,
     }
 }

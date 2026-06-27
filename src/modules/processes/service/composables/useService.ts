@@ -116,11 +116,17 @@ export const useService = () => {
         return n !== Infinity && String(n) === str && n >= 0;
     }
 
+    const clearCostos = () => {
+        costos.value = [];
+        tableStore.$state.costos = [];
+    };
+
     return {
         refax,
         precios,
         costos,
         getTables,
+        clearCostos,
         refaxLoading,
         preciosLoading,
         costosLoading,
