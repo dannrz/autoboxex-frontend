@@ -21,8 +21,8 @@
             <Column field="ManoObra" header="Mano de Obra" />
             <Column field="Descuento" header="Descuento" />
             <template #expansion="slotProps">
-                <div class="p-4">
-                    <h5 class="text-2xl text-center text-teal-500">Vehiculos de {{ slotProps.data.Nombre }}</h5>
+                <div class="flex flex-col gap-4 py-4 px-24">
+                    <h5 class="text-xl text-teal-500">Vehiculos de {{ slotProps.data.Nombre }}</h5>
                     <DataTable :value="slotProps.data.vehiculos">
                         <Column field="IdVehiculo" header="ID" sortable />
                         <Column field="Placas" header="Placas" sortable />
