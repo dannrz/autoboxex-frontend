@@ -75,6 +75,16 @@ const router = createRouter({
           }
         },
         {
+          path: 'consults',
+          children:[
+            {
+              path: 'service',
+              name: 'service',
+              component: () => import('@/modules/consults/service/views/ServiceView.vue'),
+            }
+          ]
+        },
+        {
           path: '/user/:user',
           name: 'profile',
           component: () => import('@/modules/user/views/ProfileView.vue'),

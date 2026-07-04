@@ -1,9 +1,9 @@
-import { ref, type Ref } from "vue";
+import { ref } from "vue";
 
 import { AxiosError, type AxiosResponse } from "axios";
 import { useToast } from "primevue/usetoast";
 import Swal, { type SweetAlertResult } from 'sweetalert2';
-import z, { ZodError } from "zod";
+import { ZodError } from "zod";
 
 import { api } from "@/api/baseApi";
 import { loginService } from "../services/login";
@@ -11,82 +11,58 @@ import { UserService } from "@/modules/user/services/UserService";
 import router from "@/router";
 import type { ErrorResponse, LoginUser, PasswordRestoreRequest, ValidateLoginForm } from "../interfaces";
 import type { PasswordInterface } from "@/modules/user/interfaces";
+import { useValidation } from ".";
 
 export const useLogin = () => {
     const toast = useToast();
+    const { loginSchema, restoreSchema } = useValidation();
 
-    const loginVars: Ref<LoginUser> = ref<LoginUser>({
+    const loginVars = ref<LoginUser>({
         username: '',
         password: ''
     });
 
-    const validateLoginForm: Ref<ValidateLoginForm[]> = ref<Array<ValidateLoginForm>>([])
+    const validateLoginForm = ref<ValidateLoginForm[]>([])
     const isLoading = ref<boolean>(false);
-
-    const loginSchema = z.object({
-        username: z.string().nonempty('El usuario es requerido'),
-        password: z.string()
-            .nonempty('La contraseña es requerida')
-            // .min(6, 'La contraseña debe tener al menos 6 caracteres')
-            .pipe(z.string().regex(/^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+$/, 'La contraseña solo puede contener letras, números y caracteres especiales'))
-            .refine((val) => !val.includes(' '), {
-                message: 'La contraseña no debe contener espacios en blanco',
-            })
-    });
-
-    const restoreSchema = z.object({
-        username: z.string().min(1, 'El usuario es requerido'),
-        newPassword: z.string()
-            .nonempty('La contraseña es requerida')
-            .min(6, 'La contraseña debe tener al menos 6 caracteres')
-            .pipe(z.string().regex(/^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+$/, 'La contraseña solo puede contener letras, números y caracteres especiales'))
-            .refine((val) => !val.includes(' '), {
-                message: 'La contraseña no debe contener espacios en blanco',
-            }),
-        confirmPassword: z.string()
-            .nonempty('La confirmación de la contraseña es requerida')
-    })
-        .refine((data) => data.newPassword === data.confirmPassword, {
-            message: 'Las contraseñas no coinciden',
-        })
+    const load = ref<boolean>(false);
 
     const onLogin = async (): Promise<void> => {
         loginSchema.parseAsync(loginVars.value)
-            .then(async (data: LoginUser): Promise<void> => {
+            .then(data => {
                 isLoading.value = true;
 
-                loginService.login(data)
-                    .then(({ data }) => {
-                        const { access_token, user, expires_at } = data;
+                return loginService.login(data)
+            })
+            .then(({ data }) => {
+                const { access_token, user, expires_at } = data;
 
-                        localStorage.setItem("access_token", access_token)
-                        localStorage.setItem("expires_at", expires_at.toString())
-                        localStorage.setItem("user", JSON.stringify(user))
+                localStorage.setItem("access_token", access_token)
+                localStorage.setItem("expires_at", expires_at.toString())
+                localStorage.setItem("user", JSON.stringify(user))
 
-                        api.interceptors.request.use(config => {
-                            if (access_token) {
-                                config.headers.Authorization = `Bearer ${access_token}`
-                            }
-                            return config
-                        })
+                api.interceptors.request.use(config => {
+                    if (access_token) {
+                        config.headers.Authorization = `Bearer ${access_token}`
+                    }
+                    return config
+                })
 
-                        router.push({ name: 'home' });
-                    })
-                    .catch(({ response }: AxiosError<ErrorResponse>) => {
-                        isLoading.value = false;
+                router.push({ name: 'home' });
+            })
+            .catch(({ response }: AxiosError<ErrorResponse>) => {
+                isLoading.value = false;
 
-                        validateLoginForm.value.push({
-                            showMessageError: true,
-                            messageError: response?.data.message || 'Error al iniciar sesión',
-                            path: response?.data.mismatch!
-                        });
+                validateLoginForm.value.push({
+                    showMessageError: true,
+                    messageError: response?.data.message || 'Error al iniciar sesión',
+                    path: response?.data.mismatch!
+                });
 
-                        toast.add({ severity: 'error', summary: 'Error de inicio de sesión', detail: response?.data.message!, life: import.meta.env.VITE_TOAST_LIFETIME });
+                toast.add({ severity: 'error', summary: 'Error de inicio de sesión', detail: response?.data.message!, life: import.meta.env.VITE_TOAST_LIFETIME });
 
-                        setTimeout((): void => {
-                            validateLoginForm.value = []
-                        }, 3500)
-                    })
+                setTimeout((): void => {
+                    validateLoginForm.value = []
+                }, 500)
             })
             .catch((error: ZodError) => {
                 error.issues.forEach(issue => {
@@ -101,34 +77,29 @@ export const useLogin = () => {
 
                 setTimeout((): void => {
                     validateLoginForm.value = []
-                }, 3500)
+                }, 500)
             });
+    }
+
+    const clearLocalStorage = (): void => {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("expires_at");
+        localStorage.removeItem("user");
     }
 
     const onLogout = async (): Promise<void> => {
         const closeEverything = () => {
-            localStorage.removeItem("access_token");
-            localStorage.removeItem("expires_at");
-            localStorage.removeItem("user");
+            clearLocalStorage();
 
             router.push({ name: "login" });
         }
         loginService.logout()
-            .then(() => {
-                closeEverything();
-            })
-            .catch(() => {
-                closeEverything();
-            });
+            .finally(() => closeEverything());
     }
 
     const onExpiredSession = (): void => {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("expires_at");
-        localStorage.removeItem("user");
-
+        clearLocalStorage();
         toast.add({ severity: 'warn', summary: 'La sesión ha expirado', detail: 'Por favor, inicie sesión nuevamente', life: import.meta.env.VITE_TOAST_LIFETIME });
-
         router.push({ name: "login" });
     }
 
@@ -140,54 +111,58 @@ export const useLogin = () => {
 
         if (expiresAtDate <= now) {
             onExpiredSession();
-        } else {
-            onLogout();
+            return;
         }
 
+        onLogout();
+    }
+
+    const closeSession = (): void => {
+        load.value = true;
+        onLogout();
     }
 
     const onRestorePassword = async (restoreData: PasswordRestoreRequest): Promise<void> => {
         await restoreSchema.parseAsync(restoreData)
-            .then(async (data: PasswordRestoreRequest): Promise<void> => {
+            .then(data => {
                 isLoading.value = true;
-                await loginService.restorePassword(data)
-                    .then(() => {
-                        Swal.fire({
-                            title: 'Éxito',
-                            text: 'Se realizó la solicitud de cambio de contraseña, por favor contacte al administrador para que la apruebe.',
-                            icon: 'success',
-                            confirmButtonText: 'Aceptar',
-                        }).then((accepted: SweetAlertResult) => {
-                            if (accepted.isConfirmed) {
-                                router.push({ name: 'login' });
-                            }
-                        });
-                    })
-                    .catch(({ response }: AxiosError<ErrorResponse>) => {
-                        isLoading.value = false;
-                        toast.add({ severity: 'error', summary: 'Error', detail: response?.data.message || 'Error al cambiar la contraseña', life: import.meta.env.VITE_TOAST_LIFETIME });
-                    });
+                return loginService.restorePassword(data)
+
+            })
+            .then(() => {
+                return Swal.fire({
+                    title: 'Éxito',
+                    text: 'Se realizó la solicitud de cambio de contraseña, por favor contacte al administrador para que la apruebe.',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar',
+                })
+            })
+            .then((accepted: SweetAlertResult) => {
+                if (accepted.isConfirmed) {
+                    router.push({ name: 'login' });
+                }
+            })
+            .catch(({ response }: AxiosError<ErrorResponse>) => {
+                isLoading.value = false;
+                toast.add({ severity: 'error', summary: 'Error', detail: response?.data.message || 'Error al cambiar la contraseña', life: import.meta.env.VITE_TOAST_LIFETIME });
             })
             .catch((error: ZodError) => {
                 error.issues.forEach(issue => {
                     toast.add({ severity: 'error', summary: 'Error en el formulario', detail: issue.message, life: import.meta.env.VITE_TOAST_LIFETIME });
                     isLoading.value = false;
                 });
+            })
+            .finally(() => {
+                isLoading.value = false;
             });
-
-        setTimeout((): void => {
-            isLoading.value = false;
-        }, 2000);
     }
 
-    const onChangePassword = (pwd: PasswordInterface) => {
-        UserService.changePassword(pwd)
+    const onChangePassword = (pwd: PasswordInterface): Promise<void> => {
+        return UserService.changePassword(pwd)
             .then(({ data }: AxiosResponse) => {
                 toast.add({ severity: 'success', summary: 'Cambio realizado correctamente', detail: data.message, life: import.meta.env.VITE_TOAST_LIFETIME });
-                setTimeout((): void => {
-                    onLogout();
-                }, import.meta.env.VITE_TOAST_LIFETIME);
             })
+            .then(() => onLogout())
             .catch(({ response }: AxiosError<{ message: string }>) => {
                 toast.add({ severity: 'error', summary: 'Error', detail: response?.data.message, life: import.meta.env.VITE_TOAST_LIFETIME });
             });
@@ -201,6 +176,8 @@ export const useLogin = () => {
         onLogout,
         onExpiredSession,
         onCloseSession,
+        closeSession,
+        load,
         onRestorePassword,
         onChangePassword
     }

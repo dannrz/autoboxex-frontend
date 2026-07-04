@@ -12,8 +12,8 @@
                             {{ user?.role.description }}
                         </span>
                     </div>
-                    <Button type="button" @click="changeVisibility" icon="pi pi-times" severity="danger" rounded
-                        outlined />
+                    <Button type="button" @click="changeVisibility" icon="pi pi-times" severity="danger" rounded text
+                        raised />
                 </div>
             </template>
             <ItemsMenu :items="items" :visible="visible" @visibility="changeVisibility" />
@@ -54,12 +54,3 @@ const changeVisibility = () => {
     emits('visibility', !props.visible);
 }
 </script>
-
-<style scoped>
-#avatar {
-    width: 2.5rem;
-    height: 2.5rem;
-    background-color: #ece9fc;
-    color: #2a1261
-}
-</style>

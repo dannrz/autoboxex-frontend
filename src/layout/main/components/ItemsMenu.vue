@@ -2,9 +2,10 @@
     <div class="card flex justify-center">
         <PanelMenu :model="items" class="w-full md:w-80">
             <template #item="{ item }">
-                <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" @click="changeVisibility"
-                    custom>
-                    <a v-ripple class="flex items-center cursor-pointer text-surface-700 dark:text-surface-0 px-4 py-2 gap-2"
+                <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route"
+                    @click="$emit('visibility', !visible)" active-class="bg-blue-500" custom>
+                    <a v-ripple
+                        class="flex items-center cursor-pointer text-surface-700 dark:text-surface-0 px-4 py-2 gap-2"
                         :href="href" @click="navigate">
                         <span :class="item.icon" />
                         <span>{{ item.label }}</span>
@@ -31,11 +32,7 @@ const props = defineProps<{
     visible: boolean | undefined
 }>();
 
-const emits = defineEmits<{
+defineEmits<{
     visibility: [value: boolean]
 }>();
-
-const changeVisibility = () => {
-    emits('visibility', !props.visible);
-}
 </script>
