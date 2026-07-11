@@ -17,7 +17,7 @@ export const useLogin = () => {
     const toast = useToast();
     const { loginSchema, restoreSchema } = useValidation();
 
-    const loginVars = ref<LoginUser>({
+    const loginForm = ref<LoginUser>({
         username: '',
         password: ''
     });
@@ -27,7 +27,8 @@ export const useLogin = () => {
     const load = ref<boolean>(false);
 
     const onLogin = async (): Promise<void> => {
-        loginSchema.parseAsync(loginVars.value)
+        validateLoginForm.value = [];
+        loginSchema.parseAsync(loginForm.value)
             .then(data => {
                 isLoading.value = true;
 
@@ -49,21 +50,6 @@ export const useLogin = () => {
 
                 router.push({ name: 'home' });
             })
-            .catch(({ response }: AxiosError<ErrorResponse>) => {
-                isLoading.value = false;
-
-                validateLoginForm.value.push({
-                    showMessageError: true,
-                    messageError: response?.data.message || 'Error al iniciar sesión',
-                    path: response?.data.mismatch!
-                });
-
-                toast.add({ severity: 'error', summary: 'Error de inicio de sesión', detail: response?.data.message!, life: import.meta.env.VITE_TOAST_LIFETIME });
-
-                setTimeout((): void => {
-                    validateLoginForm.value = []
-                }, 500)
-            })
             .catch((error: ZodError) => {
                 error.issues.forEach(issue => {
                     isLoading.value = false;
@@ -74,10 +60,22 @@ export const useLogin = () => {
                         path: issue.path.join('.')
                     })
                 })
+            })
+            .catch(({ response }: AxiosError<ErrorResponse>) => {
+                isLoading.value = false;
 
+                validateLoginForm.value.push({
+                    showMessageError: true,
+                    messageError: response?.data.message || 'Error al iniciar sesión',
+                    path: response?.data.mismatch!
+                });
+
+                toast.add({ severity: 'error', summary: 'Error de inicio de sesión', detail: response?.data.message!, life: import.meta.env.VITE_TOAST_LIFETIME });
+            })
+            .finally(() => {
                 setTimeout((): void => {
                     validateLoginForm.value = []
-                }, 500)
+                }, 3000);
             });
     }
 
@@ -169,7 +167,7 @@ export const useLogin = () => {
     }
 
     return {
-        loginVars,
+        loginForm,
         validateLoginForm,
         isLoading,
         onLogin,

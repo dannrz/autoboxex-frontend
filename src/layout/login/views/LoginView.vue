@@ -7,40 +7,22 @@
             <template #title>Autoboxex</template>
             <template #subtitle>Admin system</template>
             <template #content>
-                <InputFormLogin type="username" v-model:login-form="loginVars"
-                    :validation="v.find(v => v.path == 'username')" @enter="onLogin" />
-                <InputFormLogin type="password" v-model:login-form="loginVars"
-                    :validation="v.find(v => v.path == 'password')" @enter="onLogin" />
+                <LoginForm @enter="onLogin" :login="loginForm" :errors="v" />
             </template>
             <template #footer>
-                <div class="flex justify-center">
-                    <Button label="Ingresar" icon="pi pi-sign-in" class="w-2xs" v-if="!isLoading" @click="onLogin"
-                        outlined />
-                    <Button class="w-2xs" v-else disabled outlined>
-                        <ProgressSpinner id="spinner" />
-                    </Button>
-                </div>
+                <LoginFooter :isLoading="isLoading" @login="onLogin" />
             </template>
         </Card>
-        <div class="w-120 login">
-            <Divider layout="horizontal" align="center" type="dashed">
-                <b class="text-gray-400">O si olvidaste tu contraseña</b>
-            </Divider>
-        </div>
-        <div class="w-120 login">
-            <Button severity="info" label="Cambiar contraseña" icon="pi pi-sync" class="w-full"
-                @click="router.push({ name: 'change-password' })" outlined />
-        </div>
+        <ChangePassword />
     </div>
 </template>
 
 <script setup lang="ts">
 import Card from 'primevue/card';
-import InputFormLogin from '../components/InputFormLogin.vue';
-import { useLogin } from '../composables/useLogin';
-import router from '@/router';
+import { useLogin } from '../composables';
+import { LoginForm, ChangePassword, LoginFooter } from "../components";
 
-const { loginVars, validateLoginForm: v, onLogin, isLoading } = useLogin();
+const { loginForm, validateLoginForm: v, onLogin, isLoading } = useLogin();
 </script>
 
-<style scoped src="../styles/login.css" />
+<style src="../styles/login.css" />
