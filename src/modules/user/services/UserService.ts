@@ -1,4 +1,4 @@
-import { api } from "@/api/baseApi";
+import api from "@/api";
 import type { PasswordInterface, PasswordRequest } from "../interfaces";
 import type { User } from "@/layout/login/interfaces";
 import type { AxiosResponse } from "axios";

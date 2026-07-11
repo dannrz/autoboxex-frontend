@@ -5,7 +5,7 @@ import { useToast } from "primevue/usetoast";
 import Swal, { type SweetAlertResult } from 'sweetalert2';
 import { ZodError } from "zod";
 
-import { api } from "@/api/baseApi";
+import api from "@/api";
 import { loginService } from "../services/login";
 import { UserService } from "@/modules/user/services/UserService";
 import router from "@/router";

@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import Menu from '@/layout/main/components/Menu.vue';
+import { Menu } from '../components';
 import { useMenu, useUser } from '../composables';
 
 const { items } = useMenu();

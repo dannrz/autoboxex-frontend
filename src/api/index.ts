@@ -33,4 +33,4 @@ api.interceptors.response.use(
     }
 );
 
-export { api };
+export default api;

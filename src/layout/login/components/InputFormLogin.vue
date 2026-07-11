@@ -3,11 +3,12 @@
         {{ validation?.messageError }}
     </Message>
     <FloatLabel variant="on" style="margin-bottom: 2rem;" v-if="type === 'username'">
-        <InputText id="username" class="w-full" v-model="model.username" fluid />
+        <InputText id="username" class="w-full" v-model="model.username" fluid @keyup.enter="$emit('enter')" />
         <label for="username">Usuario</label>
     </FloatLabel>
     <FloatLabel variant="on" v-else>
-        <Password type="text" id="password" style="margin-bottom: 2rem;" v-model="model.password" :feedback="false" toggleMask fluid />
+        <Password type="text" id="password" style="margin-bottom: 2rem;" v-model="model.password" :feedback="false"
+            toggleMask fluid @keyup.enter="$emit('enter')" />
         <label for="password">Contraseña</label>
     </FloatLabel>
 </template>
@@ -16,7 +17,7 @@
 import Password from 'primevue/password';
 import type { LoginUser, ValidateLoginForm } from '../interfaces';
 
-const props = defineProps<{
+defineProps<{
     type?: 'username' | 'password';
     messageError?: string;
     customClass?: string;
@@ -27,4 +28,8 @@ const model = defineModel('loginForm', {
     type: Object as () => LoginUser,
     default: { username: '', password: '' }
 });
+
+defineEmits<{
+    enter: [];
+}>();
 </script>

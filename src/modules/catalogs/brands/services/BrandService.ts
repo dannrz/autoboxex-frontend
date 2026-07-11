@@ -1,5 +1,5 @@
 import type { AxiosResponse } from "axios"
-import { api } from "@/api/baseApi"
+import api from "@/api"
 import type { Brand } from "../interfaces/Brand.interface";
 
 export const BrandService = {

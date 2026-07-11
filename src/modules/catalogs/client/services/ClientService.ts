@@ -1,4 +1,4 @@
-import { api } from "@/api/baseApi";
+import api from "@/api";
 import type { AxiosResponse } from "axios";
 import type { Client } from "../interfaces/Client.interface";
 
