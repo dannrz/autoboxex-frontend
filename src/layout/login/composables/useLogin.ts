@@ -55,7 +55,6 @@ export const useLogin = () => {
                     isLoading.value = false;
 
                     validateLoginForm.value.push({
-                        showMessageError: true,
                         messageError: issue.message,
                         path: issue.path.join('.')
                     })
@@ -65,17 +64,18 @@ export const useLogin = () => {
                 isLoading.value = false;
 
                 validateLoginForm.value.push({
-                    showMessageError: true,
                     messageError: response?.data.message || 'Error al iniciar sesión',
                     path: response?.data.mismatch!
                 });
+
+                console.warn(response?.data.message);
 
                 toast.add({ severity: 'error', summary: 'Error de inicio de sesión', detail: response?.data.message!, life: import.meta.env.VITE_TOAST_LIFETIME });
             })
             .finally(() => {
                 setTimeout((): void => {
                     validateLoginForm.value = []
-                }, 3000);
+                }, 4000);
             });
     }
 
