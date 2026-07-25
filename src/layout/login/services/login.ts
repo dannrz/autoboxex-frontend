@@ -21,7 +21,7 @@ export const loginService = {
     },
 
     async restorePassword(data: PasswordRestoreRequest): Promise<AxiosResponse> {
-        return await api.post("/auth/restore-password", data)
+        return await api.post("/auth/request-password-change", data)
             .catch((error) => {
                 throw error;
             });

@@ -25,6 +25,8 @@ export const useLogin = () => {
     const validateLoginForm = ref<ValidateLoginForm[]>([])
     const isLoading = ref<boolean>(false);
     const load = ref<boolean>(false);
+    const restoreData = ref<PasswordRestoreRequest>({} as PasswordRestoreRequest);
+
 
     const onLogin = async (): Promise<void> => {
         validateLoginForm.value = [];
@@ -124,17 +126,14 @@ export const useLogin = () => {
         await restoreSchema.parseAsync(restoreData)
             .then(data => {
                 isLoading.value = true;
-                return loginService.restorePassword(data)
-
+                return loginService.restorePassword(data);
             })
-            .then(() => {
-                return Swal.fire({
-                    title: 'Éxito',
-                    text: 'Se realizó la solicitud de cambio de contraseña, por favor contacte al administrador para que la apruebe.',
-                    icon: 'success',
-                    confirmButtonText: 'Aceptar',
-                })
-            })
+            .then(() => Swal.fire({
+                title: 'Éxito',
+                text: 'Se realizó la solicitud de cambio de contraseña, por favor contacte al administrador para que la apruebe.',
+                icon: 'success',
+                confirmButtonText: 'Aceptar',
+            }))
             .then((accepted: SweetAlertResult) => {
                 if (accepted.isConfirmed) {
                     router.push({ name: 'login' });
@@ -155,8 +154,12 @@ export const useLogin = () => {
             });
     }
 
-    const onChangePassword = (pwd: PasswordInterface): Promise<void> => {
-        return UserService.changePassword(pwd)
+    const onRestore = async (): Promise<void> => {
+        onRestorePassword(restoreData.value).then(() => restoreData.value = {} as PasswordRestoreRequest);
+    }
+
+    const onChangePassword = (password: PasswordInterface): Promise<void> => {
+        return UserService.changePassword(password)
             .then(({ data }: AxiosResponse) => {
                 toast.add({ severity: 'success', summary: 'Cambio realizado correctamente', detail: data.message, life: import.meta.env.VITE_TOAST_LIFETIME });
             })
@@ -177,6 +180,8 @@ export const useLogin = () => {
         closeSession,
         load,
         onRestorePassword,
+        onRestore,
+        restoreData,
         onChangePassword
     }
 }
