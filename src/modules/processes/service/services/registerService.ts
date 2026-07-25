@@ -1,4 +1,4 @@
-import { api } from "@/api/baseApi"
+import api from "@/api"
 import type { ClientServicesResponse, InOrderResponse, Insumo, Precios, Servicio } from "../interfaces"
 import type { AxiosResponse } from "axios"
 import type { Clientes } from "../interfaces/Clientes.interface"

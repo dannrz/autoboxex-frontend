@@ -77,29 +77,14 @@ const router = createRouter({
           }
         },
         {
-          path: 'reports',
-          children: [
+          path: 'consults',
+          children:[
             {
-              path: 'services-budget',
-              name: 'services-budget',
-              component: () => import('@/modules/reports/services-budget/views/ServicesBudgetView.vue'),
+              path: 'service',
+              name: 'service',
+              component: () => import('@/modules/consults/service/views/ServiceView.vue'),
             }
-          ],
-          meta: { requiresAuth: true, roles: ['admin', 'admtivo'] }
-        },
-        {
-          path: 'consultas',
-          children: [
-            {
-              path: 'servicios',
-              name: 'consultas-servicios',
-              component: () => import('@/modules/consultas/views/servicios.vue'),
-            }
-          ],
-          meta: {
-            requiresAuth: true,
-            roles: ['admin', 'admtivo'],
-          }
+          ]
         },
         {
           path: '/user/:user',

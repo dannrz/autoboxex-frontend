@@ -37,11 +37,9 @@
                 </template>
             </Column>
             <template #expansion="slotProps">
-                <div class="p-4">
-                    <h5 class="text-xl text-center text-teal-500 mb-3">
-                        Vehículos de {{ slotProps.data.Nombre }}
-                    </h5>
-                    <DataTable :value="slotProps.data.vehiculos" size="small">
+                <div class="flex flex-col gap-4 py-4 px-24">
+                    <h5 class="text-xl text-teal-500">Vehiculos de {{ slotProps.data.Nombre }}</h5>
+                    <DataTable :value="slotProps.data.vehiculos">
                         <Column field="IdVehiculo" header="ID" sortable />
                         <Column field="Placas" header="Placas" sortable />
                         <Column field="marca.Marca" header="Marca" sortable />

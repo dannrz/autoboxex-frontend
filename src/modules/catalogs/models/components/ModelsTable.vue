@@ -4,7 +4,7 @@
     <DataTable v-else :value="models" rowGroupMode="rowspan" groupRowsBy="Marca" sortMode="single" sortField="Marca"
         :sortOrder="1" tableStyle="min-width: 50rem" paginator :rows="10" :rowsPerPageOptions="[10, 20, 50, 100]">
         <template #header>
-            <Button label="Agregar modelo" icon="pi pi-plus" severity="info" rounded outlined @click="onAddModel" />
+            <Button label="Agregar modelo" icon="pi pi-plus" severity="info" rounded text @click="onAddModel" />
         </template>
         <Column header="#" headerStyle="width:3rem">
             <template #body="{ index }">

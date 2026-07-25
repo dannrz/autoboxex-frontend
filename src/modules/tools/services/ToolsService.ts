@@ -1,4 +1,4 @@
-import { api } from "@/api/baseApi"
+import api from "@/api"
 import type { ToolResponse } from "../interfaces/ToolResponse.interface"
 import type { AxiosResponse } from "axios"
 

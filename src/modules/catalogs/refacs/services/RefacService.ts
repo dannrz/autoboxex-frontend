@@ -1,4 +1,4 @@
-import { api } from "@/api/baseApi"
+import api from "@/api"
 import type { Refaccion } from "../interfaces";
 import type { AxiosResponse } from "axios";
 

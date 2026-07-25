@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-between">
-        <Button label="Agregar marca" severity="secondary" icon="pi pi-plus" class="mr-2"
+        <Button label="Agregar marca" severity="info" icon="pi pi-plus" class="mr-2" text rounded
             @click="showAddBrandDialog = true" />
         <IconField>
             <InputIcon>

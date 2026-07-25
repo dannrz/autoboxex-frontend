@@ -10,12 +10,12 @@
                     {{ data.Paquete }}
                 </span>
             </template>
+            <Column field="Paquete" header="Paquete"></Column>
             <Column field="IdPaquete" header="ID Paquete"></Column>
             <Column field="IdRefaccion" header="ID Refacción"></Column>
             <Column field="refaccion" header="Refacción"></Column>
             <Column field="Cantidad" header="Cantidad"></Column>
         </DataTable>
-        <Toast />
     </div>
 </template>
 
@@ -27,7 +27,6 @@ import { SkeletonTable } from '@/modules/user/components';
 const expandedRowGroups = ref<any[]>([]);
 
 defineProps<{
-    // expandedRowGroups: any[],
     packages: Package[],
     isLoadingPackages: boolean,
 }>();

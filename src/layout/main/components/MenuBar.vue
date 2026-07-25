@@ -26,7 +26,7 @@
                 <ModeToggler />
                 <Avatar id="avatar" :label="avatarLabel" shape="circle" @click="toggle" />
                 <Popover ref="op">
-                    <UserPopover :label="props.avatarLabel" />
+                    <UserPopover :label="props.avatarLabel" :closeSession="closeSession" :load="load" />
                 </Popover>
                 <Popover ref="op2">
                     <NotificationPopover :requests="requests" />
@@ -42,8 +42,10 @@ import { Menubar, Popover } from 'primevue';
 import type { MenuItem } from 'primevue/menuitem';
 import { ModeToggler, UserPopover, NotificationPopover } from '.';
 import { useMenu } from '../composables/useMenu';
+import { useLogin } from '@/layout/login/composables/useLogin';
 
 const { overlayBadge, badgeValue, toggle, toggleNotification, op, op2, requests } = useMenu();
+const { closeSession, load } = useLogin();
 
 const props = defineProps<{
     visible: boolean;
@@ -59,13 +61,3 @@ onMounted(() => {
     overlayBadge();
 });
 </script>
-
-<style scoped>
-#avatar {
-    width: 2.5rem;
-    height: 2.5rem;
-    background-color: #ece9fc;
-    color: #2a1261;
-    cursor: pointer;
-}
-</style>
