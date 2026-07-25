@@ -1,5 +1,5 @@
 <template>
-    <section class="flex flex-col gap-4 pb-5">
+    <section class="flex flex-col gap-4">
         <Message v-for="err in filteredErrors('username')" :key="err.path" severity="error" size="small"
             variant="simple" closable>
             {{ err.messageError }}

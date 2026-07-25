@@ -2,7 +2,7 @@
     <div class="flex flex-col justify-content-center place-content-center">
         <Card id="card" class="w-120">
             <template #header>
-                <img alt="Autoboxex" class="w-full" src="../../../assets/autoboxex.jpg" />
+                <img alt="Autoboxex" class="w-full" :src="logo" />
             </template>
             <template #title>Autoboxex</template>
             <template #subtitle>Admin system</template>
@@ -21,8 +21,9 @@
 import Card from 'primevue/card';
 import { useLogin } from '../composables';
 import { LoginForm, ChangePassword, LoginFooter } from "../components";
+import logo from "@/assets/autoboxex.jpg";
 
 const { loginForm, validateLoginForm: v, onLogin, isLoading } = useLogin();
 </script>
 
-<style src="../styles/login.css" />
+<style src="../styles/login.sass" lang="sass" />
