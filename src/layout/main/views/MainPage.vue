@@ -15,4 +15,4 @@ const { items } = useMenu();
 const { avatarLabel, user } = useUser()
 </script>
 
-<style src="../styles/main.css" />
+<style src="../styles/main.sass" lang="sass" />

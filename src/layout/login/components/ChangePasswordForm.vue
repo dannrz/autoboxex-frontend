@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col gap-6">
+    <div class="flex flex-col gap-6 pb-4">
         <FloatLabel variant="on">
             <InputText v-model="restoreData.username" class="w-full" :input-style="{ 'width': '100%' }" />
             <label for="newPassword">Nombre de usuario</label>

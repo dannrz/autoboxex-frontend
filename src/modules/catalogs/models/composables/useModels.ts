@@ -5,6 +5,7 @@ import type { ModelRequest, ModelResponse } from "../interfaces"
 import { ModelService } from "../services/ModelService"
 import { BrandService } from "../../brands/services/BrandService";
 import type { Brand } from "../../brands/interfaces";
+import { useCatalogStore } from "@/stores/useCatalogStore";
 
 
 export const useModels = () => {
@@ -21,6 +22,7 @@ export const useModels = () => {
 
     const toast = useToast();
     const confirm = useConfirm();
+    const store = useCatalogStore();
 
     const initData = (): void => {
         loadModels();
@@ -28,11 +30,16 @@ export const useModels = () => {
     }
 
     const loadModels = (): void => {
+        if (store.$state.models.length !== 0) {
+            models.value = store.$state.models;
+            return;
+        }
         isLoadingModels.value = true;
 
         ModelService.getModels()
             .then(({ data }) => {
-                models.value = data
+                store.$state.models = data;
+                models.value = store.$state.models;
             })
             .finally(() => {
                 isLoadingModels.value = false
