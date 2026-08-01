@@ -54,7 +54,7 @@ const router = createRouter({
               component: () => import('@/modules/catalogs/models/views/ModelsView.vue'),
             },
             {
-              path: 'refacs',
+              path: 'spare-parts',
               name: 'refacs',
               component: () => import('@/modules/catalogs/refacs/views/RefacsView.vue'),
             },

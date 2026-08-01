@@ -1,10 +1,12 @@
 import { ref } from "vue";
 import { useConfirm, useToast } from "primevue";
+import { z } from 'zod';
 import { zodResolver } from '@primevue/forms/resolvers/zod';
 import type { FormSubmitEvent } from '@primevue/forms';
-import { z } from 'zod';
-import type { Refaccion, RefaccionColumns } from "../interfaces";
 import { RefacService } from "../services/RefacService";
+import { useCatalogStore } from "@/stores";
+import type { Refaccion, RefaccionColumns } from "../interfaces";
+import type { AxiosError } from "axios";
 
 
 export const useRefac = () => {
@@ -17,6 +19,7 @@ export const useRefac = () => {
 
     const confirm = useConfirm();
     const toast = useToast();
+    const store = useCatalogStore();
 
     const columns: RefaccionColumns = {
         IdRefaccion: 'ID',
@@ -54,9 +57,14 @@ export const useRefac = () => {
     ];
 
     const loadRefacciones = async (): Promise<void> => {
+        if (store.spareParts.length > 0) {
+            refacciones.value = store.spareParts;
+            return;
+        }
         RefacService.getRefacciones()
             .then(({ data }) => {
                 refacciones.value = data;
+                store.$state.spareParts = data;
             })
     }
 
@@ -169,10 +177,13 @@ export const useRefac = () => {
         RefacService.createRefaccion(refaccion.value)
             .then(({ data }) => {
                 showDialog.value = false;
-                refacciones.value.push(refaccion.value);
+                refacciones.value.unshift(data);
+                toast.add({ severity: 'success', summary: 'Creado', detail: 'La refacción ha sido creada', life: import.meta.env.VITE_TOAST_LIFETIME });
             })
-            .catch((error) => {
-                toast.add({ severity: 'error', summary: 'Error', detail: error.message, life: import.meta.env.VITE_TOAST_LIFETIME });
+            .catch((error: AxiosError<any>) => {
+                const detail = Object.values<any>(error.response?.data ?? {})[0]?.[0] ?? error.message;
+
+                toast.add({ severity: 'error', summary: 'Error', detail, life: import.meta.env.VITE_TOAST_LIFETIME });
             })
             .finally(() => {
                 isLoading.value = false;

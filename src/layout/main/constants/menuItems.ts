@@ -95,7 +95,7 @@ export const MENU_BY_ROLE: Record<string, MenuItem[]> = {
             items: [
                 { label: 'Marcas de vehículos', icon: 'pi pi-car', route: '/catalogs/brands' },
                 { label: 'Modelos de vehículos', icon: 'pi pi-truck', route: '/catalogs/models' },
-                { label: 'Refacciones', icon: 'pi pi-wrench', route: '/catalogs/refacs' },
+                { label: 'Refacciones', icon: 'pi pi-wrench', route: '/catalogs/spare-parts' },
                 { label: 'Paquete', icon: 'pi pi-box', route: '/catalogs/packages' },
                 { label: 'Cliente', icon: 'pi pi-users', route: '/catalogs/clients' },
                 { label: 'Precio', icon: 'pi pi-money-bill', route: '/catalogs/prices' }

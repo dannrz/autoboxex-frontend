@@ -1,18 +1,9 @@
 <template>
-    <DataTable v-model:filters="$props.filters" :value="refacciones" paginator :rows="10"
-        :loading="$props.refacciones.length === 0" responsiveLayout="scroll" :rowsPerPageOptions="[10, 20, 50, 100]"
-        :globalFilterFields="['Refacción', 'Codigo']">
+    <SkeletonTable v-if="$props.refacciones.length === 0" :headers="Object.values($props.columns)" :rows="4" />
+    <DataTable v-else v-model:filters="$props.filters" :value="refacciones" paginator :rows="10"
+        responsiveLayout="scroll" :rowsPerPageOptions="[10, 20, 50, 100]" :globalFilterFields="['Refacción', 'Codigo']">
         <template #header>
-            <div class="flex justify-between">
-                <Button icon="pi pi-plus" severity="success" label="Agregar refacción" text rounded
-                    @click="$emit('create')" />
-                <IconField>
-                    <InputIcon>
-                        <i class="pi pi-search" />
-                    </InputIcon>
-                    <InputText v-model="filters['global'].value" placeholder="Buscar..." />
-                </IconField>
-            </div>
+            <RefacsTableHeader :filters="$props.filters" @create="$emit('create')" />
         </template>
         <Column v-for="(value, key) in columns" :key="key" :field="key" :header="value" />
         <Column header="Acciones" style="width: 8rem">
@@ -25,7 +16,9 @@
 </template>
 
 <script setup lang="ts">
+import { SkeletonTable } from '@/modules/user/components';
 import type { Refaccion, RefaccionColumns } from '../interfaces';
+import { RefacsTableHeader } from '.';
 
 defineProps<{
     refacciones: Array<Refaccion>,

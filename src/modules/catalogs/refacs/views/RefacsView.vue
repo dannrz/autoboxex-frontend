@@ -1,5 +1,5 @@
 <template>
-    <h1 class="text-emerald-700 text-2xl text-center pb-1.5">
+    <h1 class="text-shadow-emerald-700 font-bold text-2xl text-center pb-6">
         Refacciones
     </h1>
 
