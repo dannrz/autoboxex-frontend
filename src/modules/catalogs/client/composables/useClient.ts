@@ -1,21 +1,27 @@
-import { ref, type Ref } from "vue";
+import { ref } from "vue";
+import { useCatalogStore } from "@/stores";
 import { ClientService } from "../services/ClientService"
 import type { Client } from "../interfaces/Client.interface";
+import { columns } from "../constants/columns";
 
 export const useClient = () => {
-    const clients: Ref<Array<Client>> = ref<Client[]>([]);
-    const isLoadingClients: Ref<boolean> = ref<boolean>(false);
+    const clients = ref<Client[]>([]);
+    const isLoadingClients = ref<boolean>(false);
 
-    const initData = () => {
-        getClients();
-    }
+    const store = useCatalogStore();
 
-    const getClients = async (): Promise<void> => {
+    const getClients = (): void => {
+        if (store.clients.length > 0) {
+            clients.value = store.clients;
+            return;
+        }
+
         isLoadingClients.value = true;
 
         ClientService.getClients()
-            .then((response) => {
-                clients.value = response.data;
+            .then(({ data }) => {
+                clients.value = data;
+                store.$state.clients = data;
             })
             .catch((error) => {
                 console.error("Error fetching clients:", error);
@@ -26,8 +32,9 @@ export const useClient = () => {
     }
 
     return {
-        initData,
+        getClients,
         clients,
         isLoadingClients,
+        columns,
     }
 }

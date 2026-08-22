@@ -1,6 +1,6 @@
 <template>
     <div class="card flex justify-center">
-        <Drawer :visible="visible" :show-close-icon="false">
+        <Drawer :visible="visible" :show-close-icon="false" @update:visible="onUpdateVisible">
             <template #header>
                 <div class="flex justify-content-between w-full">
                     <div class="flex items-center">
@@ -12,8 +12,6 @@
                             {{ user?.role.description }}
                         </span>
                     </div>
-                    <Button type="button" @click="changeVisibility" icon="pi pi-times" severity="danger" rounded text
-                        raised />
                 </div>
             </template>
             <ItemsMenu :items="items" :visible="visible" @visibility="changeVisibility" />
@@ -52,5 +50,9 @@ const emits = defineEmits<{
 
 const changeVisibility = () => {
     emits('visibility', !props.visible);
+}
+
+const onUpdateVisible = (value: boolean) => {
+    emits('visibility', value);
 }
 </script>

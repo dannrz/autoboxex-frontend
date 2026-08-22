@@ -1,44 +1,16 @@
 <template>
     <div class="card">
-        <SkeletonTable v-if="isLoadingClients" :rows="5"
-            :headers="['ID', 'Nombre', 'RFC', 'Sucursal', 'Calle y Núm.', 'Colonia', 'Alcaldía/Municipio', 'Estado', 'Código Postal', 'Telefono', 'Correo Electrónico', 'Crédito', 'Contacto', 'Mano de Obra', 'Descuento']" />
+        <SkeletonTable v-if="isLoadingClients" :rows="5" :headers="columns.map(col => col.header)" />
         <DataTable v-else v-model:expandedRows="expandedRows" :value="clients" dataKey="IdCliente" paginator :rows="10"
-            :rowsPerPageOptions="[5, 10, 20, 50]">
+            :rowsPerPageOptions="[5, 10, 20, 50]" v-model:filters="$props.filters"
+            :globalFilterFields="columns.map(col => col.field)">
+            <template #header>
+                <ClientsTableHeader :filters />
+            </template>
             <Column expander style="width: 5rem" />
-            <Column field="IdCliente" header="ID" />
-            <Column field="Nombre" header="Nombre" />
-            <Column field="RFC" header="RFC" />
-            <Column field="Sucursal" header="Sucursal" />
-            <Column field="Direccion" header="Calle y Núm." />
-            <Column field="Colonia" header="Colonia" />
-            <Column field="Poblacion" header="Alcaldía/Municipio" />
-            <Column field="Estado" header="Estado" />
-            <Column field="CP" header="Código Postal" />
-            <Column field="Telefono" header="Telefono" />
-            <Column field="eMail" header="Correo Electrónico" />
-            <Column field="Credito" header="Crédito" />
-            <Column field="Contacto" header="Contacto" />
-            <Column field="ManoObra" header="Mano de Obra" />
-            <Column field="Descuento" header="Descuento" />
+            <Column v-for="col in columns" :key="col.field" :field="col.field" :header="col.header" />
             <template #expansion="slotProps">
-                <div class="flex flex-col gap-4 py-4 px-24">
-                    <h5 class="text-xl text-teal-500">Vehiculos de {{ slotProps.data.Nombre }}</h5>
-                    <DataTable :value="slotProps.data.vehiculos">
-                        <Column field="IdVehiculo" header="ID" sortable />
-                        <Column field="Placas" header="Placas" sortable />
-                        <Column field="marca.Marca" header="Marca" sortable />
-                        <Column field="Modelo" header="Modelo" sortable />
-                        <Column field="Año" header="Año" sortable />
-                        <Column field="Color" header="Color" sortable />
-                        <Column field="VIN" header="VIN" sortable />
-                        <Column field="Serie" header="Serie" sortable />
-                        <template #empty>
-                            <div class="text-center text-gray-500">
-                                No se encontraron vehículos para este cliente.
-                            </div>
-                        </template>
-                    </DataTable>
-                </div>
+                <ClientCarsDatail :nombre="slotProps.data.Nombre" :vehiculos="slotProps.data.vehiculos" />
             </template>
         </DataTable>
     </div>
@@ -48,11 +20,15 @@
 import { ref } from 'vue';
 import type { Client } from '../interfaces';
 import { SkeletonTable } from '@/modules/user/components';
+import { ClientCarsDatail, ClientsTableHeader } from '.';
+import type { Columns } from '@/utils/tables/interfaces/Colums.interface';
 
 const expandedRows = ref<any[]>([]);
 
 defineProps<{
     clients: Array<Client>,
     isLoadingClients: boolean,
+    filters: any,
+    columns: Array<Columns>,
 }>();
 </script>

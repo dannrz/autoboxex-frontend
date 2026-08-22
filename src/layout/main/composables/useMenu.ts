@@ -61,6 +61,10 @@ export const useMenu = () => {
         op2.value.toggle(event);
     }
 
+    const hide = () => {
+        op.value.hide();
+    }
+
     return {
         items,
         asideItems,
@@ -70,6 +74,7 @@ export const useMenu = () => {
         op2,
         toggle,
         toggleNotification,
+        hide,
         requests
     }
 }

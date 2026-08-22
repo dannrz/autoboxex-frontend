@@ -10,7 +10,8 @@ const router = createRouter({
       name: 'login',
       component: LoginView,
       meta: {
-        requiresAuth: false
+        requiresAuth: false,
+        title: "Autoboxex - Iniciar sesión"
       },
     },
     {
@@ -18,7 +19,8 @@ const router = createRouter({
       name: 'change-password',
       component: () => import('@/layout/login/views/ChangePasswordView.vue'),
       meta: {
-        requiresAuth: false
+        requiresAuth: false,
+        title: "Cambiar contraseña"
       }
     },
     {
@@ -33,6 +35,9 @@ const router = createRouter({
               path: 'service',
               name: 'register',
               component: () => import('@/modules/processes/service/views/FormRegister.vue'),
+              meta: {
+                title: "Procesos - Servicio",
+              }
             }
           ],
           meta: {
@@ -47,26 +52,41 @@ const router = createRouter({
               path: 'brands',
               name: 'brands',
               component: () => import('@/modules/catalogs/brands/views/BrandsView.vue'),
+              meta: {
+                title: "Catálogos - Marcas",
+              }
             },
             {
               path: 'models',
               name: 'models',
               component: () => import('@/modules/catalogs/models/views/ModelsView.vue'),
+              meta: {
+                title: "Catálogos - Modelos",
+              }
             },
             {
               path: 'spare-parts',
               name: 'refacs',
               component: () => import('@/modules/catalogs/refacs/views/RefacsView.vue'),
+              meta: {
+                title: "Catálogos - Refacciones",
+              }
             },
             {
               path: 'packages',
               name: 'packages',
               component: () => import('@/modules/catalogs/packages/views/PackageView.vue'),
+              meta: {
+                title: "Catálogos - Paquetes",
+              }
             },
             {
               path: 'clients',
               name: 'clients',
               component: () => import('@/modules/catalogs/client/views/ClientsView.vue'),
+              meta: {
+                title: "Catálogos - Clientes",
+              }
             },
           ],
           meta: {
@@ -90,6 +110,8 @@ const router = createRouter({
           component: () => import('@/modules/user/views/ProfileView.vue'),
           meta: {
             requiresAuth: true,
+            ownOnly: true,
+            title: "Perfil de usuario"
           }
         },
         {
@@ -99,6 +121,7 @@ const router = createRouter({
           meta: {
             requiresAuth: true,
             roles: ['admin', 'admtivo'],
+            title: "Administrar Usuarios"
           }
         },
         {
@@ -108,11 +131,13 @@ const router = createRouter({
           meta: {
             requiresAuth: true,
             roles: ['admin', 'admtivo'],
+            title: "Solicitudes de cambio de contraseña"
           }
         }
       ],
       meta: {
         requiresAuth: true,
+        title: "Inicio"
       }
     },
     {
@@ -121,6 +146,7 @@ const router = createRouter({
       component: () => import('@/layout/errors/views/401Page.vue'),
       meta: {
         requiresAuth: true,
+        title: "No autorizado"
       }
     },
     {
@@ -129,6 +155,7 @@ const router = createRouter({
       component: () => import('@/layout/errors/views/404Page.vue'),
       meta: {
         requiresAuth: true,
+        title: "Página no encontrada"
       }
     }
   ],

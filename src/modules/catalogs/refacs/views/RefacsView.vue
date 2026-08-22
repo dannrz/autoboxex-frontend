@@ -17,7 +17,7 @@ import { useRefac } from '../composables/useRefac';
 import { useService } from '@/modules/processes/service/composables/useService';
 
 const { loadRefacciones, calidades, refacciones, refaccion, columns, unidades, tipos, isLoading, handleEdit, handleDelete, showDialog: dialog, titleDialog, handleCreate, saveData, updatePrecioIva, submit, create, resolver } = useRefac();
-const { filters } = useService()
+const { filters } = useService();
 
 onMounted(() => {
     loadRefacciones();
