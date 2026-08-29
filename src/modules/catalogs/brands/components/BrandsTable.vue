@@ -4,8 +4,9 @@
         <template #content>
             <SkeletonTable v-if="!brands.length" :rows="5" :headers="['Id Marca', 'Marca']"
                 table-style="min-width: 110rem" />
-            <DataTable v-else v-model:filters="filters" :value="brands" table-style="min-width: 110rem" paginator
-                :rows="10" :rowsPerPageOptions="[10, 20, 50, 100]" :globalFilterFields="['IdMarca', 'Marca']">
+            <DataTable v-else v-model:filters="filters" v-model:first="first" :value="brands"
+                table-style="min-width: 110rem" paginator :rows="rows" @update:rows="rows = $event"
+                :rowsPerPageOptions="[10, 20, 50, 100]" :globalFilterFields="['IdMarca', 'Marca']">
                 <template #header>
                     <BrandHeaderTable :filters v-model:showAddBrandDialog="showAddBrandDialog" />
                 </template>
@@ -20,8 +21,8 @@
         </template>
     </Card>
     <AddBrandDialog :dialog="showAddBrandDialog" @update:dialog="hideDialog" @save-brand="saveBrand($event)" />
-    <EditBrandDialog :dialog="showEditBrandDialog" :brand :isLoading="isLoading" @update:dialog="showEditBrandDialog = $event"
-        @save-brand="onUpdateBrand" />
+    <EditBrandDialog :dialog="showEditBrandDialog" :brand :isLoading="isLoading"
+        @update:dialog="showEditBrandDialog = $event" @save-brand="onUpdateBrand" />
 </template>
 
 <script setup lang="ts">
@@ -32,7 +33,7 @@ import { useService } from '@/modules/processes/service/composables/useService';
 import { AddBrandDialog, EditBrandDialog, BrandHeaderTable } from './';
 import { EditableButtons } from '@/utils/tables/components';
 
-const { brands, fetchBrands, showAddBrandDialog, showEditBrandDialog, saveBrand, hideDialog, onUpdateBrand, onDeletedBrand, onEditedBrand, selectedBrand: brand, isLoading } = useBrands();
+const { brands, fetchBrands, showAddBrandDialog, showEditBrandDialog, saveBrand, hideDialog, onUpdateBrand, onDeletedBrand, onEditedBrand, selectedBrand: brand, isLoading, first, rows } = useBrands();
 const { filters } = useService();
 
 onMounted(() => {
