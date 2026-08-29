@@ -88,6 +88,14 @@ const router = createRouter({
                 title: "Catálogos - Clientes",
               }
             },
+            {
+              path: 'prices',
+              name: 'prices',
+              component: () => import('@/modules/catalogs/prices/views/PricesView.vue'),
+              meta: {
+                title: "Catálogos - Precios",
+              }
+            }
           ],
           meta: {
             requiresAuth: true,
