@@ -10,7 +10,7 @@
             <Column expander style="width: 5rem" />
             <Column v-for="col in columns" :key="col.field" :field="col.field" :header="col.header" />
             <template #expansion="slotProps">
-                <ClientCarsDatail :nombre="slotProps.data.Nombre" :vehiculos="slotProps.data.vehiculos" />
+                <ClientCarsDatail :id-cliente="slotProps.data.IdCliente" :nombre="slotProps.data.Nombre" />
             </template>
         </DataTable>
     </div>

@@ -16,11 +16,18 @@ export interface Client {
     Contacto: null | string;
     ManoObra: null | string;
     Descuento: Descuento | null;
-    vehiculos: Vehiculo[];
 }
 
 export enum Descuento {
     The00 = ".00",
+}
+
+export interface PaginatedVehiculos {
+    data: Vehiculo[];
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
 }
 
 export interface Vehiculo {
