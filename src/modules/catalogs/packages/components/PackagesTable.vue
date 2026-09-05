@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { Package } from '../interfaces';
-import { SkeletonTable } from '@/modules/user/components';
+import { SkeletonTable } from '@/utils/tables/components';
 
 const expandedRowGroups = ref<any[]>([]);
 

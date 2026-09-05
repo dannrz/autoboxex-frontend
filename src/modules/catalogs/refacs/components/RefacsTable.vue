@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { SkeletonTable } from '@/modules/user/components';
+import { SkeletonTable } from '@/utils/tables/components';
 import type { Refaccion, RefaccionColumns } from '../interfaces';
 import { RefacsTableHeader } from '.';
 

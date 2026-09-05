@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useBrands } from '../composables/useBrands';
-import { SkeletonTable } from '@/modules/user/components';
+import { SkeletonTable } from '@/utils/tables/components';
 import { useService } from '@/modules/processes/service/composables/useService';
 import { AddBrandDialog, EditBrandDialog, BrandHeaderTable } from './';
 import { EditableButtons } from '@/utils/tables/components';

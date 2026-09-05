@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { Client } from '../interfaces';
-import { SkeletonTable } from '@/modules/user/components';
+import { SkeletonTable } from '@/utils/tables/components';
 import { ClientCarsDatail, ClientsTableHeader } from '.';
 import type { Columns } from '@/utils/tables/interfaces/Colums.interface';
 

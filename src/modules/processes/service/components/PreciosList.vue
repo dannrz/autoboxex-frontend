@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { SkeletonTable } from '@/modules/user/components';
+import { SkeletonTable } from '@/utils/tables/components';
 import type { Precios } from '../interfaces';
 import { useService } from '../composables/useService';
 
