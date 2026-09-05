@@ -1,7 +1,8 @@
 <template>
     <SkeletonTable v-if="loading" :rows="5" :headers="['ID', 'Producto', 'Precio']" />
 
-    <DataTable v-else :value="prices" paginator :rows="10" :loading="loading" :rowsPerPageOptions="[5, 10, 20, 50]">
+    <DataTable v-else :value="prices" v-model:filters="$props.filters" paginator :rows="10" :loading="loading"
+        :rowsPerPageOptions="[5, 10, 20, 50]" :globalFilterFields="searchables">
         <template #header>
             <TableSearchHeader :filters="filters" placeholder="Buscar cliente..." />
         </template>
@@ -20,4 +21,6 @@ defineProps<{
     loading: boolean;
     filters: any;
 }>();
+
+const searchables = ['Producto', 'PrecioBusqueda'];
 </script>

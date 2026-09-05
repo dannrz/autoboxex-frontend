@@ -12,7 +12,10 @@ export const usePrice = () => {
 
         PriceService.getPrices()
             .then(({ data }) => {
-                prices.value = data;
+                prices.value = data.map(price => ({
+                    ...price,
+                    PrecioBusqueda: price.Precio.replace(/,/g, ''),
+                }));
             })
             .catch(({ response }: AxiosError) => {
                 console.error('Error fetching prices:', response?.data || response);
