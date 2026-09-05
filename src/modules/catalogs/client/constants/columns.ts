@@ -1,4 +1,4 @@
-import type { Columns } from "@/utils/tables/interfaces/Colums.interface";
+import type { Columns } from "@table/interfaces/Colums.interface";
 
 export const columns: Array<Columns> = [
     { field: 'IdCliente', header: 'ID' },

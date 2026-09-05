@@ -5,7 +5,7 @@
             :rowsPerPageOptions="[5, 10, 20, 50]" v-model:filters="$props.filters"
             :globalFilterFields="columns.map(col => col.field)">
             <template #header>
-                <ClientsTableHeader :filters />
+                <TableSearchHeader :filters="filters" placeholder="Buscar cliente..." />
             </template>
             <Column expander style="width: 5rem" />
             <Column v-for="col in columns" :key="col.field" :field="col.field" :header="col.header" />
@@ -19,9 +19,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { Client } from '../interfaces';
-import { SkeletonTable } from '@/utils/tables/components';
-import { ClientCarsDatail, ClientsTableHeader } from '.';
-import type { Columns } from '@/utils/tables/interfaces/Colums.interface';
+import { SkeletonTable, TableSearchHeader } from '@table/components';
+import { ClientCarsDatail } from '.';
+import type { Columns } from '@table/interfaces/Colums.interface';
 
 const expandedRows = ref<any[]>([]);
 

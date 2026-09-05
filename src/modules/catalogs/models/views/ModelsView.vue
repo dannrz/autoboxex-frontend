@@ -13,9 +13,9 @@
 import { onMounted } from 'vue';
 import { useModels } from '../composables/useModels';
 import { AddModelDialog, ModelsTable } from '../components';
-import { useService } from '@/modules/processes/service/composables/useService';
+import { useFilter } from '@table/composables';
 
-const { filters } = useService();
+const { filters } = useFilter();
 const { initData, models, model, isLoadingModels, isLoadingSaveModel, showAddModelDialog, onAddModel, brands, saveData, confirm2, confirm3 } = useModels();
 
 onMounted(() => {

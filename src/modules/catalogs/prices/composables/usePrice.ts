@@ -1,7 +1,7 @@
 import { ref } from "vue"
+import type { AxiosError } from "axios";
 import { PriceService } from "../services/PriceService"
 import type { Price } from "../interfaces"
-import type { AxiosError } from "axios";
 
 export const usePrice = () => {
     const prices = ref<Price[]>([]);
@@ -21,7 +21,6 @@ export const usePrice = () => {
                 loadingTable.value = false;
             });
     }
-
 
     return {
         getAllPrices,

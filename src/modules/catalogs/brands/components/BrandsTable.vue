@@ -28,13 +28,12 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useBrands } from '../composables/useBrands';
-import { SkeletonTable } from '@/utils/tables/components';
-import { useService } from '@/modules/processes/service/composables/useService';
+import { SkeletonTable, EditableButtons } from '@table/components';
+import { useFilter } from '@table/composables';
 import { AddBrandDialog, EditBrandDialog, BrandHeaderTable } from './';
-import { EditableButtons } from '@/utils/tables/components';
 
 const { brands, fetchBrands, showAddBrandDialog, showEditBrandDialog, saveBrand, hideDialog, onUpdateBrand, onDeletedBrand, onEditedBrand, selectedBrand: brand, isLoading, first, rows } = useBrands();
-const { filters } = useService();
+const { filters } = useFilter();
 
 onMounted(() => {
     fetchBrands();

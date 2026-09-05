@@ -2,16 +2,13 @@
     <div class="flex justify-between">
         <Button label="Agregar marca" severity="info" icon="pi pi-plus" class="mr-2" text rounded
             @click="showAddBrandDialog = true" />
-        <IconField>
-            <InputIcon>
-                <i class="pi pi-search" />
-            </InputIcon>
-            <InputText v-model="filters.global.value" placeholder="Buscar marca..." />
-        </IconField>
+        <TableSearchHeader :filters="filters" placeholder="Buscar marca..." />
     </div>
 </template>
 
 <script setup lang="ts">
+import { TableSearchHeader } from '@table/components';
+
 defineProps<{
     filters: any;
 }>();

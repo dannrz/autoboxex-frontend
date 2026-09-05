@@ -14,10 +14,10 @@
 import { onMounted } from 'vue';
 import { RefacDialog, RefacsTable } from '../components';
 import { useRefac } from '../composables/useRefac';
-import { useService } from '@/modules/processes/service/composables/useService';
+import { useFilter } from '@table/composables';
 
 const { loadRefacciones, calidades, refacciones, refaccion, columns, unidades, tipos, isLoading, handleEdit, handleDelete, showDialog: dialog, titleDialog, handleCreate, saveData, updatePrecioIva, submit, create, resolver } = useRefac();
-const { filters } = useService();
+const { filters } = useFilter();
 
 onMounted(() => {
     loadRefacciones();

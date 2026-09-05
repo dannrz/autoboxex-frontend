@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useUser } from '@/layout/main/composables/useUser';
-import SkeletonTable from '@/utils/tables/components/SkeletonTable.vue';
+import { SkeletonTable } from '@table/components';
 
 const { allUsers, getAllUsers, handleStatusChange, tooltipMessage, disableRules } = useUser();
 

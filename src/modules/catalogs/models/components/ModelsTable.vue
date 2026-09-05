@@ -25,8 +25,8 @@
 </template>
 
 <script setup lang="ts">
-import { EditableButtons } from '@/utils/tables/components';
-import { SkeletonTable } from '@/utils/tables/components';
+import { EditableButtons } from '@table/components';
+import { SkeletonTable } from '@table/components';
 import type { ModelResponse } from '../interfaces';
 import ModelsTableHeader from './ModelsTableHeader.vue';
 

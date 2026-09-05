@@ -4,13 +4,16 @@
             <InputIcon>
                 <i class="pi pi-search" />
             </InputIcon>
-            <InputText v-model="filters['global'].value" placeholder="Buscar cliente..." />
+            <InputText v-model="filters['global'].value" :placeholder="placeholder" />
         </IconField>
     </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{
+withDefaults(defineProps<{
     filters: any,
-}>();
+    placeholder?: string,
+}>(), {
+    placeholder: 'Buscar...',
+});
 </script>

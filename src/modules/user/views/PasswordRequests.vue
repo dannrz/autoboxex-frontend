@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import SkeletonTable from '@/utils/tables/components/SkeletonTable.vue';
+import { SkeletonTable } from '@table/components';
 import { usePassword } from '../composables/usePassword';
 import { onMounted } from 'vue';
 

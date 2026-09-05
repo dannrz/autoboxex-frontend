@@ -1,5 +1,4 @@
 import { ref } from "vue";
-import { FilterMatchMode } from '@primevue/core/api';
 import type { Costos, Insumo, Precios } from "../interfaces";
 import { RegisterService } from "../services/registerService";
 import { useTablesStore } from "@/stores/useTablesStore";
@@ -38,10 +37,6 @@ export const useService = () => {
             return;
         }
     }
-
-    const filters = ref({
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS }
-    });
 
     const onEmitedSelection = (ev: Precios) => {
         if (costos.value.includes(costos.value.find(c => c.id === ev.IdProducto)!)) {
@@ -125,7 +120,6 @@ export const useService = () => {
         preciosLoading,
         costosLoading,
         selectedPrecio,
-        filters,
         onEmitedSelection,
         editableColumns,
         tableProps,

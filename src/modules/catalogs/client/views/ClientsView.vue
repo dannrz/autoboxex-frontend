@@ -10,10 +10,10 @@
 import { onMounted } from 'vue';
 import { ClientsTable } from '../components';
 import { useClient } from '../composables/useClient';
-import { useService } from '@/modules/processes/service/composables/useService';
+import { useFilter } from '@table/composables';
 
 const { getClients, clients, isLoadingClients, columns } = useClient();
-const { filters } = useService();
+const { filters } = useFilter();
 
 onMounted(() => {
     getClients();
