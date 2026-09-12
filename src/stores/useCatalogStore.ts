@@ -2,6 +2,7 @@ import type { Brand } from "@/modules/catalogs/brands/interfaces/Brand.interface
 import type { Client } from "@/modules/catalogs/client/interfaces";
 import type { ModelResponse } from "@/modules/catalogs/models/interfaces";
 import type { Package } from "@/modules/catalogs/packages/interfaces";
+import type { Price } from "@/modules/catalogs/prices/interfaces";
 import type { Refaccion } from "@/modules/catalogs/refacs/interfaces";
 import { defineStore } from "pinia";
 
@@ -12,5 +13,6 @@ export const useCatalogStore = defineStore("catalogStore", {
         spareParts: [] as Array<Refaccion>,
         packages: [] as Array<Package>,
         clients: [] as Array<Client>,
+        prices: [] as Array<Price>
     }),
 });
