@@ -1,6 +1,6 @@
 import api from "@/api"
 import type { AxiosResponse } from "axios"
-import type { Price } from "../interfaces";
+import type { Price, PriceCreated } from "../interfaces";
 
 export const PriceService = {
     async getPrices(): Promise<AxiosResponse<Omit<Price, 'PrecioBusqueda'>[]>> {
@@ -8,5 +8,8 @@ export const PriceService = {
     },
     async getLastId(): Promise<AxiosResponse<{ lastId: number }>> {
         return api.get<{ lastId: number }>('/catalogs/prices/last-id');
+    },
+    async createPrice(data: { Producto: string; Precio: number }): Promise<AxiosResponse> {
+        return api.post<PriceCreated>('/catalogs/prices', data);
     },
 }

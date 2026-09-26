@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useLoginGuard } from '@/guards/useLoginGuard';
 import LoginView from '@/layout/login/views/LoginView.vue'
+import MainPage from '@/layout/main/views/MainPage.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,7 +27,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('@/layout/main/views/MainPage.vue'),
+      component: MainPage,
       children: [
         {
           path: 'processes',
@@ -104,7 +105,7 @@ const router = createRouter({
         },
         {
           path: 'consults',
-          children:[
+          children: [
             {
               path: 'service',
               name: 'service',
