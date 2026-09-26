@@ -94,6 +94,16 @@ export const usePrice = () => {
         dialog.value = value;
     }
 
+    const handleDelete = (id: number) => {
+        PriceService.deletePrice(id)
+            .then(() => {
+                store.prices = store.prices.filter(price => price.IdProducto !== id);
+            })
+            .catch(({ response }: AxiosError) => {
+                console.error('Error deleting price:', response?.data || response);
+            });
+    }
+
     return {
         getAllPrices,
         prices,
@@ -108,5 +118,6 @@ export const usePrice = () => {
         precio,
         saving,
         errors,
+        handleDelete,
     }
 }

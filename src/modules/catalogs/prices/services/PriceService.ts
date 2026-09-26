@@ -9,7 +9,10 @@ export const PriceService = {
     async getLastId(): Promise<AxiosResponse<{ lastId: number }>> {
         return api.get<{ lastId: number }>('/catalogs/prices/last-id');
     },
-    async createPrice(data: { Producto: string; Precio: number }): Promise<AxiosResponse> {
+    async createPrice(data: { Producto: string; Precio: number }): Promise<AxiosResponse<PriceCreated>> {
         return api.post<PriceCreated>('/catalogs/prices', data);
     },
+    async deletePrice(id: number): Promise<AxiosResponse> {
+        return api.delete(`/catalogs/prices/${id}`);
+    }
 }

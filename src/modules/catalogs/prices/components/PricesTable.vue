@@ -10,6 +10,15 @@
         <Column field="IdProducto" header="ID" />
         <Column field="Producto" header="Producto" />
         <Column field="Precio" header="Precio" />
+        <Column header="Acciones">
+            <template #body="slotProps">
+                <section class="flex gap-8">
+                    <Button severity="info" icon="pi pi-pencil" rounded text raised />
+                    <Button severity="danger" icon="pi pi-trash" rounded text raised
+                        @click="handleDelete(slotProps.data.IdProducto)" />
+                </section>
+            </template>
+        </Column>
     </DataTable>
 
     <AddPriceDialog :dialog="dialog" @close="handleDialog" />
@@ -26,7 +35,7 @@ defineProps<{
     loading: boolean;
     filters: any;
 }>();
-const { handleDialog, dialog } = usePrice();
+const { handleDialog, dialog, handleDelete } = usePrice();
 
 const searchables = ['Producto', 'PrecioBusqueda'];
 
