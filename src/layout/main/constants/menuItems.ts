@@ -7,13 +7,13 @@ export const MENU_BY_ROLE: Record<string, MenuItem[]> = {
             label: 'Catálogos',
             icon: 'pi pi-tags',
             items: [
-                { label: 'Marca de vehículo', icon: 'pi pi-book', route: '/catalogs/brands' },
-                { label: 'Modelo de la marca', icon: 'pi pi-gauge', route: '/catalogs/models' },
+                { label: 'Marca de vehículo', icon: 'pi pi-book', route: { name: 'brands' } },
+                { label: 'Modelo de la marca', icon: 'pi pi-gauge', route: { name: 'models' } },
                 { label: 'Proveedor', icon: 'pi pi-users', route: '/catalogs/providers' },
-                { label: 'Refacción', icon: 'pi pi-cog', route: '/catalogs/parts' },
-                { label: 'Paquete', icon: 'pi pi-box', route: '/catalogs/package' },
-                { label: 'Cliente', icon: 'pi pi-user', route: '/catalogs/client' },
-                { label: 'Precio', icon: 'pi pi-dollar', route: '/catalogs/price' },
+                { label: 'Refacción', icon: 'pi pi-cog', route: { name: 'refacs' } },
+                { label: 'Paquete', icon: 'pi pi-box', route: { name: 'packages' } },
+                { label: 'Cliente', icon: 'pi pi-user', route: { name: 'clients' } },
+                { label: 'Precio', icon: 'pi pi-dollar', route: { name: 'prices' } },
                 { label: 'Origen de recursos', icon: 'pi pi-money-bill', route: '/catalogs/resources' },
                 { label: 'Verificación de vehículo', icon: 'pi pi-car', route: '/catalogs/verify-car' },
             ]
@@ -26,7 +26,7 @@ export const MENU_BY_ROLE: Record<string, MenuItem[]> = {
                 { label: 'Imágenes', icon: 'pi pi-image', route: '/consult/images' },
                 { label: 'Compras', icon: 'pi pi-tags', route: '/consult/buy' },
                 { label: 'Refacciones', icon: 'pi pi-wrench', route: '/consult/parts' },
-                { label: 'Servicios', icon: 'pi pi-briefcase', route: '/consult/services' },
+                { label: 'Servicios', icon: 'pi pi-briefcase', route: { name: 'service' } },
             ]
         },
         {
@@ -45,7 +45,7 @@ export const MENU_BY_ROLE: Record<string, MenuItem[]> = {
             label: 'Procesos',
             icon: 'pi pi-cog',
             items: [
-                { label: 'Servicio', icon: 'pi pi-wrench', route: '/processes/service' },
+                { label: 'Servicio', icon: 'pi pi-wrench', route: { name: 'register' } },
                 { label: 'Entradas y salidas', icon: 'pi pi-arrow-right-arrow-left', route: '/processes/entries-exits' },
                 { label: 'Cuentas por cobrar', icon: 'pi pi-money-bill', route: '/processes/accounts-receivable' },
                 { label: 'Registro de pagos', icon: 'pi pi-dollar', route: '/processes/payment-registration' },
@@ -83,8 +83,8 @@ export const MENU_BY_ROLE: Record<string, MenuItem[]> = {
             label: 'Administrar usuarios',
             icon: 'pi pi-users',
             items: [
-                { label: 'Lista de Usuarios', icon: 'pi pi-user', route: '/users' },
-                { label: 'Solicitudes de cambios de contraseña', icon: 'pi pi-lock', route: '/password-requests' }
+                { label: 'Lista de Usuarios', icon: 'pi pi-user', route: { name: 'users' } },
+                { label: 'Solicitudes de cambios de contraseña', icon: 'pi pi-lock', route: { name: 'password-requests' } }
             ]
         }
     ],
@@ -93,12 +93,12 @@ export const MENU_BY_ROLE: Record<string, MenuItem[]> = {
             label: 'Catálogos',
             icon: 'pi pi-book',
             items: [
-                { label: 'Marcas de vehículos', icon: 'pi pi-car', route: '/catalogs/brands' },
-                { label: 'Modelos de vehículos', icon: 'pi pi-truck', route: '/catalogs/models' },
-                { label: 'Refacciones', icon: 'pi pi-wrench', route: '/catalogs/spare-parts' },
-                { label: 'Paquete', icon: 'pi pi-box', route: '/catalogs/packages' },
-                { label: 'Cliente', icon: 'pi pi-users', route: '/catalogs/clients' },
-                { label: 'Precio', icon: 'pi pi-money-bill', route: '/catalogs/prices' }
+                { label: 'Marcas de vehículos', icon: 'pi pi-car', route: { name: 'brands' } },
+                { label: 'Modelos de vehículos', icon: 'pi pi-truck', route: { name: 'models' } },
+                { label: 'Refacciones', icon: 'pi pi-wrench', route: { name: 'refacs' } },
+                { label: 'Paquete', icon: 'pi pi-box', route: { name: 'packages' } },
+                { label: 'Cliente', icon: 'pi pi-users', route: { name: 'clients' } },
+                { label: 'Precio', icon: 'pi pi-money-bill', route: { name: 'prices' } }
             ]
         },
         {
@@ -108,14 +108,14 @@ export const MENU_BY_ROLE: Record<string, MenuItem[]> = {
                 { label: 'Imágenes', icon: 'pi pi-image', route: '/consultas/images' },
                 { label: 'Compras', icon: 'pi pi-shopping-bag', route: '/consultas/buys' },
                 { label: 'Refacciones', icon: 'pi pi-wrench', route: '/consultas/refacs' },
-                { label: 'Servicios', icon: 'pi pi-bolt', route: '/consultas/services' }
+                { label: 'Servicios', icon: 'pi pi-bolt', route: { name: 'service' } }
             ]
         },
         {
             label: 'Procesos',
             icon: 'pi pi-cog',
             items: [
-                { label: 'Servicio', icon: 'pi pi-car', route: '/processes/service' },
+                { label: 'Servicio', icon: 'pi pi-car', route: { name: 'register' } },
                 { label: 'Cuentas por cobrar', icon: 'pi pi-dollar', route: '/processes/counts' },
                 { label: 'Servicios complementarios', icon: 'pi pi-briefcase', route: '/processes/complementary-services' },
                 { label: 'Registro de imágenes', icon: 'pi pi-image', route: '/processes/image-registration' },

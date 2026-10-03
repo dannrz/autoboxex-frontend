@@ -1,11 +1,16 @@
 import { computed, ref } from "vue"
+import { useConfirm } from "primevue";
+import { useToast } from "primevue";
 import type { AxiosError } from "axios";
+import type { ToastMessageOptions } from "primevue/toast";
 import { PriceService } from "../services/PriceService"
-import type { Price } from "../interfaces"
 import { useCatalogStore } from "@/stores";
+import type { Price } from "../interfaces"
 
 export const usePrice = () => {
     const store = useCatalogStore();
+    const confirm = useConfirm();
+    const toast = useToast();
 
     const prices = computed<Price[]>(() => store.prices);
 
@@ -67,14 +72,14 @@ export const usePrice = () => {
         saving.value = true;
 
         return PriceService.createPrice({ Producto: servicio.value.trim(), Precio: precio.value as number })
-            .then(() => {
+            .then(({ data }) => {
                 const precioFormateado = '$' + new Intl.NumberFormat('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                 }).format(precio.value as number);
 
                 store.prices.unshift({
-                    IdProducto: lastId.value as number,
+                    IdProducto: Number(data.IdProducto),
                     Producto: servicio.value.trim(),
                     Precio: precioFormateado,
                     PrecioBusqueda: precioFormateado.replace(/,/g, ''),
@@ -94,14 +99,42 @@ export const usePrice = () => {
         dialog.value = value;
     }
 
-    const handleDelete = (id: number) => {
-        PriceService.deletePrice(id)
-            .then(() => {
-                store.prices = store.prices.filter(price => price.IdProducto !== id);
-            })
-            .catch(({ response }: AxiosError) => {
-                console.error('Error deleting price:', response?.data || response);
-            });
+    const handleDeleteItem = (event: any, id: number) => {
+        const item = prices.value.find(price => price.IdProducto === id)!;
+
+        confirm.require({
+            target: event.currentTarget,
+            message: `¿Desea eliminar el producto ${item.Producto}?`,
+            icon: 'pi pi-exclamation-triangle',
+            rejectProps: {
+                label: 'Cancelar',
+                severity: 'secondary',
+                text: true,
+                raised: true,
+            },
+            acceptProps: {
+                label: 'Sí, eliminar',
+                severity: 'danger',
+                outlined: true,
+            },
+            accept: () => {
+                const loadingToast: ToastMessageOptions = { severity: 'contrast', summary: 'Eliminacion en curso', detail: 'El producto se está eliminando...' };
+                toast.add(loadingToast);
+
+                PriceService.deletePrice(id)
+                    .then(() => {
+                        store.prices = store.prices.filter(price => price.IdProducto !== id);
+                        toast.add({ severity: 'success', summary: 'Éxito', detail: 'Producto eliminado correctamente', life: import.meta.env.VITE_TOAST_LIFETIME });
+                    })
+                    .catch(({ response }: AxiosError) => {
+                        console.error('Error deleting price:', response?.data || response);
+                        toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar el producto', life: import.meta.env.VITE_TOAST_LIFETIME });
+                    })
+                    .finally(() => {
+                        toast.remove(loadingToast);
+                    });
+            }
+        });
     }
 
     return {
@@ -118,6 +151,6 @@ export const usePrice = () => {
         precio,
         saving,
         errors,
-        handleDelete,
+        handleDeleteItem,
     }
 }

@@ -4,7 +4,7 @@
     <DataTable v-else :value="prices" v-model:filters="$props.filters" paginator :rows="10"
         :rowsPerPageOptions="[5, 10, 20, 50]" :globalFilterFields="searchables">
         <template #header>
-            <TableSearchHeader :filters="filters" placeholder="Buscar cliente..." :addButton="true"
+            <TableSearchHeader :filters="filters" placeholder="Buscar producto..." :addButton="true"
                 buttonLabel="Agregar precio" @dialog="handleDialog" />
         </template>
         <Column field="IdProducto" header="ID" />
@@ -12,10 +12,11 @@
         <Column field="Precio" header="Precio" />
         <Column header="Acciones">
             <template #body="slotProps">
+                <ConfirmPopup />
                 <section class="flex gap-8">
                     <Button severity="info" icon="pi pi-pencil" rounded text raised />
-                    <Button severity="danger" icon="pi pi-trash" rounded text raised
-                        @click="handleDelete(slotProps.data.IdProducto)" />
+                    <Button severity="danger" icon="pi pi-trash" @click="deleteItem($event, slotProps.data.IdProducto)"
+                        rounded text raised />
                 </section>
             </template>
         </Column>
@@ -35,7 +36,7 @@ defineProps<{
     loading: boolean;
     filters: any;
 }>();
-const { handleDialog, dialog, handleDelete } = usePrice();
+const { handleDialog, dialog, handleDeleteItem: deleteItem } = usePrice();
 
 const searchables = ['Producto', 'PrecioBusqueda'];
 
