@@ -3,7 +3,7 @@ import type { User } from "@/layout/login/interfaces";
 import type { Router } from "vue-router";
 
 export const useLoginGuard = (router: Router): void => {
-    router.beforeEach((to, from, next) => {
+    router.beforeEach((to, _from, next) => {
         const { onExpiredSession } = useLogin();
 
         const requiresAuth: boolean = to.matched.some(record => record.meta.requiresAuth);
@@ -22,17 +22,21 @@ export const useLoginGuard = (router: Router): void => {
         document.title = title ? title : "Autoboxex";
 
         if (!token && requiresAuth) {
+            localStorage.setItem("last_route", to.fullPath);
             next({ name: 'login' });
             return
         }
 
         if (!requiresAuth && token) {
-            next({ name: 'home' });
+            next(localStorage.getItem("last_route") || { name: 'home' });
             return
         }
 
         if (requiresAuth && expiresAtDate <= now) {
+            localStorage.setItem("last_route", to.fullPath);
             onExpiredSession();
+            next(false);
+            return
         }
 
         if (requiresAuth && role && user?.role.role_name !== role) {
@@ -47,6 +51,10 @@ export const useLoginGuard = (router: Router): void => {
         if (requiresAuth && ownOnly && to.params.user !== user?.username) {
             next({ name: 'unauthorized' });
             return
+        }
+
+        if (requiresAuth) {
+            localStorage.setItem("last_route", to.fullPath);
         }
 
         next();

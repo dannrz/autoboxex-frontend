@@ -50,7 +50,7 @@ export const useLogin = () => {
                     return config
                 })
 
-                router.push({ name: 'home' });
+                router.push(localStorage.getItem("last_route") || { name: 'home' });
             })
             .catch((error: ZodError) => {
                 error.issues.forEach(issue => {
