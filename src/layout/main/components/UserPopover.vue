@@ -11,8 +11,8 @@
         </template>
         <template #footer>
             <div class="flex gap-4">
-                <Button severity="info" label="Editar perfil" icon="pi pi-user" @click="profile" text />
-                <Button v-if="!load" severity="danger" label="Cerrar sesión" icon="pi pi-sign-out" @click="closeSession"
+                <Button severity="info" label="Editar perfil" icon="pi pi-user" @click="onProfile" text />
+                <Button v-if="!load" severity="danger" label="Cerrar sesión" icon="pi pi-sign-out" @click="onCloseSession"
                     text raised />
                 <Button severity="danger" v-else disabled outlined>
                     <ProgressSpinner id="spinner" />
@@ -26,16 +26,23 @@
 import type { User } from '@/layout/login/interfaces';
 import router from '@/router';
 
-defineProps<{
+const props = defineProps<{
     label?: string;
     closeSession: () => void;
     load: boolean;
+    hide: () => void;
 }>();
 
 const { name, role, username }: User = JSON.parse(localStorage.getItem('user') || '{}');
 
-const profile = (): void => {
-    router.push({ name: 'profile', params: { user: username } })
+const onProfile = (): void => {
+    router.push({ name: 'profile', params: { user: username } });
+    props.hide();
+}
+
+const onCloseSession = (): void => {
+    props.closeSession();
+    props.hide();
 }
 
 

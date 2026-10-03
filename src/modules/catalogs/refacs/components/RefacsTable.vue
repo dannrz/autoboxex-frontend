@@ -87,7 +87,7 @@
 import { ref } from 'vue';
 import { FilterMatchMode } from '@primevue/core/api';
 import Tag from 'primevue/tag';
-import { SkeletonTable } from '@/modules/user/components';
+import { SkeletonTable } from '@/utils/tables/components';
 import type { Refaccion } from '../interfaces';
 
 defineProps<{

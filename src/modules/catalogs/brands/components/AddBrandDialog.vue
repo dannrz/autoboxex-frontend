@@ -1,8 +1,9 @@
 <template>
-    <Dialog v-model:visible="props.dialog" :style="{ width: '450px' }" header="Agregar marca" modal :closable="false">
+    <Dialog :visible="props.dialog" @update:visible="emit('update:dialog', $event)" :style="{ width: '450px' }"
+        header="Agregar marca" modal :closable="false">
         <div class="flex flex-col gap-6">
             <FloatLabel variant="in" class="col-span-3">
-                <InputText v-model="brandName" id="marca" class="w-full" size="small" />
+                <InputText v-model="brandName" id="marca" class="w-full" size="small" @keypress.enter="save" />
                 <label for="marca">Marca</label>
             </FloatLabel>
         </div>

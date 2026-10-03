@@ -25,12 +25,12 @@
 </template>
 
 <script setup lang="ts">
-import { useService } from '@/modules/processes/service/composables/useService';
+import { useFilter } from '@table/composables';
 import type { ToolResponse } from '../interfaces';
 
 defineProps<{
     tools: ToolResponse[]
 }>();
 
-const { filters } = useService();
+const { filters } = useFilter();
 </script>

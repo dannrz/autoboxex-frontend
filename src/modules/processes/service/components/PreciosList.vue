@@ -40,7 +40,8 @@
 </template>
 
 <script setup lang="ts">
-import { SkeletonTable } from '@/modules/user/components';
+import { SkeletonTable } from '@table/components';
+import { useFilter } from '@table/composables';
 import type { Precios } from '../interfaces';
 import { useService } from '../composables/useService';
 
@@ -57,5 +58,6 @@ const onSelection = (value: Precios) => {
     emits('selection', value);
 }
 
-const { filters, selectedPrecio } = useService();
+const { selectedPrecio } = useService();
+const { filters } = useFilter();
 </script>

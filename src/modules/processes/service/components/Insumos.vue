@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { SkeletonTable } from '@/modules/user/components';
+import { SkeletonTable } from '@table/components';
 import type { Insumo } from '../interfaces';
 
 defineProps<{

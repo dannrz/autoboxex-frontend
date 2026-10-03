@@ -26,7 +26,7 @@
                 <ModeToggler />
                 <Avatar id="avatar" :label="avatarLabel" shape="circle" @click="toggle" />
                 <Popover ref="op">
-                    <UserPopover :label="props.avatarLabel" :closeSession="closeSession" :load="load" />
+                    <UserPopover :label="props.avatarLabel" :closeSession="closeSession" :load="load" :hide="hide" />
                 </Popover>
                 <Popover ref="op2">
                     <NotificationPopover :requests="requests" />
@@ -44,7 +44,7 @@ import { ModeToggler, UserPopover, NotificationPopover } from '.';
 import { useMenu } from '../composables/useMenu';
 import { useLogin } from '@/layout/login/composables/useLogin';
 
-const { overlayBadge, badgeValue, toggle, toggleNotification, op, op2, requests } = useMenu();
+const { overlayBadge, badgeValue, toggle, toggleNotification, op, op2, hide, requests } = useMenu();
 const { closeSession, load } = useLogin();
 
 const props = defineProps<{

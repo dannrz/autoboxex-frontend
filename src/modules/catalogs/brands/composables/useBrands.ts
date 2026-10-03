@@ -4,6 +4,7 @@ import { BrandService } from "../services/BrandService";
 import { useCatalogStore } from "@/stores/useCatalogStore";
 import { useConfirm, useToast } from "primevue";
 import type { ModelResponse } from "../../models/interfaces";
+import type { AxiosError } from "axios";
 
 export const useBrands = () => {
     const brands = ref<Brand[]>([]);
@@ -11,6 +12,8 @@ export const useBrands = () => {
     const showEditBrandDialog = ref<boolean>(false);
     const isLoading = ref<boolean>(false);
     const selectedBrand = ref<Brand>({} as Brand);
+    const first = ref(0);
+    const rows = ref(10);
 
     const toast = useToast();
     const catalogStore = useCatalogStore();
@@ -30,14 +33,24 @@ export const useBrands = () => {
     }
 
     const onSavedBrand = (newBrand: Brand) => {
-        BrandService.addBrand(newBrand.Marca)
+        return BrandService.addBrand(newBrand.Marca)
             .then(({ data }): void => {
                 brands.value.push(data);
+                toast.add({ severity: 'success', summary: 'Éxito', detail: `La marca ${data.Marca} ha sido agregada`, life: import.meta.env.VITE_TOAST_LIFETIME });
+            })
+            .catch(({ response }: AxiosError<{ Marca: string[] }>): void => {
+                const [brandError] = response?.data.Marca ?? [];
+                
+                toast.add({ severity: 'error', summary: 'Error al agregar', detail: brandError, life: import.meta.env.VITE_TOAST_LIFETIME });
             })
     }
 
     const saveBrand = (name: string) => {
-        onSavedBrand({ Marca: name } as Brand);
+        return onSavedBrand({ Marca: name } as Brand).then(() => {
+            // Mueve la paginación a la última página para mostrar la marca recién agregada
+            const lastPage = Math.max(0, Math.ceil(brands.value.length / rows.value) - 1);
+            first.value = lastPage * rows.value;
+        });
     }
 
     const hideDialog = () => {
@@ -118,5 +131,7 @@ export const useBrands = () => {
         selectedBrand,
         onUpdateBrand,
         isLoading,
+        first,
+        rows,
     }
 }

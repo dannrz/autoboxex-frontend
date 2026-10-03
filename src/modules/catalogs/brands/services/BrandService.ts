@@ -8,7 +8,7 @@ export const BrandService = {
     },
 
     async addBrand(Marca: string): Promise<AxiosResponse<Brand>> {
-        return await api.post('/catalogs/brands', { Marca });
+        return await api.post<Brand>('/catalogs/brands', { Marca });
     },
 
     async deleteBrand({ IdMarca }: Brand): Promise<AxiosResponse<void>> {
