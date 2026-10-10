@@ -1,11 +1,22 @@
 import { computed, ref } from "vue"
+
 import { useConfirm } from "primevue";
 import { useToast } from "primevue";
 import type { AxiosError } from "axios";
 import type { ToastMessageOptions } from "primevue/toast";
+
 import { PriceService } from "../services/PriceService"
 import { useCatalogStore } from "@/stores";
+import { useFormat } from "@/utils/forms/composables/useFormat";
 import type { Price } from "../interfaces"
+
+const dialog = ref<boolean>(false);
+const lastId = ref<number | null>(null);
+const editingId = ref<number | null>(null);
+const servicio = ref<string>('');
+const precio = ref<number | null>(null);
+const submitted = ref<boolean>(false);
+const saving = ref<boolean>(false);
 
 export const usePrice = () => {
     const store = useCatalogStore();
@@ -13,14 +24,10 @@ export const usePrice = () => {
     const toast = useToast();
 
     const prices = computed<Price[]>(() => store.prices);
+    const { formatPrice } = useFormat();
 
     const loadingTable = ref<boolean>(false);
-    const dialog = ref<boolean>(false);
-    const lastId = ref<number | null>(null);
-    const servicio = ref<string>('');
-    const precio = ref<number | null>(null);
-    const submitted = ref<boolean>(false);
-    const saving = ref<boolean>(false);
+    const isEditing = computed(() => editingId.value !== null);
 
     const errors = computed(() => ({
         servicio: submitted.value && !servicio.value.trim(),
@@ -71,12 +78,9 @@ export const usePrice = () => {
 
         saving.value = true;
 
-        return PriceService.createPrice({ Producto: servicio.value.trim(), Precio: precio.value as number })
+        return PriceService.createPrice({ Producto: servicio.value.trim(), Precio: String(precio.value) })
             .then(({ data }) => {
-                const precioFormateado = '$' + new Intl.NumberFormat('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                }).format(precio.value as number);
+                const precioFormateado = formatPrice(precio.value as number);
 
                 store.prices.unshift({
                     IdProducto: Number(data.IdProducto),
@@ -96,6 +100,7 @@ export const usePrice = () => {
     }
 
     const handleDialog = (value: boolean) => {
+        if (value) editingId.value = null;
         dialog.value = value;
     }
 
@@ -137,6 +142,40 @@ export const usePrice = () => {
         });
     }
 
+    const handleEditItem = (id: number) => {
+        const item = prices.value.find(price => price.IdProducto === id)!;
+        editingId.value = id;
+        servicio.value = item.Producto;
+        precio.value = Number(item.Precio.replace(/[$,]/g, ''));
+        submitted.value = false;
+
+        dialog.value = true;
+    }
+
+    const saveEditedPrice = () => {
+        dialog.value = false;
+
+        const loadingToast: ToastMessageOptions = { severity: 'contrast', summary: 'Actualización en curso', detail: 'El producto se está actualizando...' };
+        toast.add(loadingToast);
+
+        PriceService.updatePrice(editingId.value!, { Producto: servicio.value.trim(), Precio: String(precio.value) })
+            .then(() => {
+                toast.add({ severity: 'success', summary: 'Éxito', detail: 'Producto actualizado correctamente', life: import.meta.env.VITE_TOAST_LIFETIME });
+                const index = prices.value.findIndex(price => price.IdProducto === editingId.value);
+                const precioFormateado = formatPrice(precio.value as number);
+
+                if (index !== -1) {
+                    prices.value[index] = { ...prices.value[index], Producto: servicio.value.trim(), Precio: precioFormateado, PrecioBusqueda: String(precio.value) };
+                }
+            })
+            .catch(({ response }: AxiosError) => {
+                toast.add({ severity: 'error', summary: 'Error', detail: 'No se pudo actualizar el producto', life: import.meta.env.VITE_TOAST_LIFETIME });
+            })
+            .finally(() => {
+                toast.remove(loadingToast);
+            });
+    }
+
     return {
         getAllPrices,
         prices,
@@ -152,5 +191,9 @@ export const usePrice = () => {
         saving,
         errors,
         handleDeleteItem,
+        handleEditItem,
+        isEditing,
+        editingId,
+        saveEditedPrice,
     }
 }

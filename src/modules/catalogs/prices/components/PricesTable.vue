@@ -14,7 +14,8 @@
             <template #body="slotProps">
                 <ConfirmPopup />
                 <section class="flex gap-8">
-                    <Button severity="info" icon="pi pi-pencil" rounded text raised />
+                    <Button severity="info" icon="pi pi-pencil" @click="handleEditItem(slotProps.data.IdProducto)"
+                        rounded text raised />
                     <Button severity="danger" icon="pi pi-trash" @click="deleteItem($event, slotProps.data.IdProducto)"
                         rounded text raised />
                 </section>
@@ -36,7 +37,7 @@ defineProps<{
     loading: boolean;
     filters: any;
 }>();
-const { handleDialog, dialog, handleDeleteItem: deleteItem } = usePrice();
+const { handleDialog, dialog, handleDeleteItem: deleteItem, handleEditItem } = usePrice();
 
 const searchables = ['Producto', 'PrecioBusqueda'];
 
